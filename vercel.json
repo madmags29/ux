@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm run build --prefix frontend",
+  "outputDirectory": "frontend/dist",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/assets/(.*)",
+      "destination": "/frontend/dist/assets/$1"
+    },
+    {
+      "source": "/logo.png",
+      "destination": "/frontend/dist/logo.png"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/dist/index.html"
+    }
+  ]
+}
