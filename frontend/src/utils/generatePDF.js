@@ -15,19 +15,19 @@ export async function generatePDF(screens, aggregate) {
 
   // ─── Color Palette ───────────────────────────────────────────────────────────
   const C = {
-    bg: [5, 5, 5],
-    surface: [22, 24, 29],
-    surface2: [30, 33, 40],
-    purple: [139, 92, 246],
-    pink: [236, 72, 153],
-    green: [16, 185, 129],
-    blue: [59, 130, 246],
-    yellow: [245, 158, 11],
-    red: [239, 68, 68],
-    white: [255, 255, 255],
-    grey: [156, 163, 175],
-    darkgrey: [75, 85, 99],
-    border: [40, 44, 55],
+    bg: [255, 255, 255],
+    surface: [248, 250, 252],
+    surface2: [241, 245, 249],
+    purple: [99, 102, 241],
+    pink: [219, 39, 119],
+    green: [5, 150, 105],
+    blue: [37, 99, 235],
+    yellow: [217, 119, 6],
+    red: [220, 38, 38],
+    white: [15, 23, 42],
+    grey: [71, 85, 105],
+    darkgrey: [148, 163, 184],
+    border: [226, 232, 240],
   };
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -65,7 +65,7 @@ export async function generatePDF(screens, aggregate) {
     setFill(sc);
     setDraw(sc);
     pdf.circle(x, yy, r, 'F');
-    setFont(r * 1.4, 'bold', C.white);
+    setFont(r * 1.4, 'bold', [255, 255, 255]);
     text(score, x, yy + r * 0.5, { align: 'center' });
   };
 
@@ -94,7 +94,8 @@ export async function generatePDF(screens, aggregate) {
 
   const miniCard = (x, cardW, yy, h, rgb = C.surface) => {
     setFill(rgb);
-    pdf.roundedRect(x, yy, cardW, h, 2, 2, 'F');
+    setDraw(C.border);
+    pdf.roundedRect(x, yy, cardW, h, 2, 2, 'FD');
   };
 
   const bulletList = (items, x, startY, color = C.grey, maxW = contentW - 6) => {
@@ -271,13 +272,13 @@ export async function generatePDF(screens, aggregate) {
     // Top priority
     if (ev?.topPriority) {
       checkY(16);
-      setFill([60, 45, 10]);
+      setFill([254, 243, 199]);
       pdf.roundedRect(marginL, y, contentW, 12, 2, 2, 'F');
       setFill(C.yellow);
       pdf.rect(marginL, y, 2.5, 12, 'F');
       setFont(6.5, 'bold', C.yellow);
       text('TOP PRIORITY', marginL + 5, y + 4.5);
-      setFont(7.5, 'normal', [255, 214, 120]);
+      setFont(7.5, 'normal', [146, 64, 14]);
       const tpLines = pdf.splitTextToSize(ev.topPriority, contentW - 8);
       pdf.text(tpLines, marginL + 5, y + 9);
       y += 16;
@@ -291,16 +292,14 @@ export async function generatePDF(screens, aggregate) {
 
     // Strengths header
     checkY(8);
-    setFill(C.surface);
-    pdf.rect(leftX, y, colW, 7, 'F');
+    rect(leftX, colW, y, 7, C.surface, C.border);
     setFill(C.green);
     pdf.rect(leftX, y, 2.5, 7, 'F');
     setFont(6.5, 'bold', C.green);
     text('✓  STRENGTHS', leftX + 5, y + 5);
 
     // Issues header
-    setFill(C.surface);
-    pdf.rect(rightX, y, colW, 7, 'F');
+    rect(rightX, colW, y, 7, C.surface, C.border);
     setFill(C.red);
     pdf.rect(rightX, y, 2.5, 7, 'F');
     setFont(6.5, 'bold', C.red);
@@ -390,7 +389,7 @@ export async function generatePDF(screens, aggregate) {
         const effortColors = { Low: C.green, Medium: C.yellow, High: C.red };
         setFill(effortColors[item.effort] || C.grey);
         pdf.roundedRect(pageW - marginR - 22, y + 3, 20, 7, 1.5, 1.5, 'F');
-        setFont(6.5, 'bold', C.white);
+        setFont(6.5, 'bold', [255, 255, 255]);
         text(item.effort || '', pageW - marginR - 12, y + 7.5, { align: 'center' });
 
         y += cardH + 4;
