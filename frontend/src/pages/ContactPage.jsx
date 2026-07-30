@@ -20,6 +20,8 @@ export default function ContactPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSending(true);
+    const mailtoLink = `mailto:hello@ratemyux.com?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`;
+    window.open(mailtoLink, '_blank');
     setTimeout(() => {
       setSending(false);
       setSent(true);
@@ -47,7 +49,7 @@ export default function ContactPage() {
               </p>
               <div className="contact-info__items">
                 {[
-                  { icon: '✉️', label: 'Email', value: 'hello@uxexpert.ai' },
+                  { icon: '✉️', label: 'Email', value: 'hello@ratemyux.com' },
                   { icon: '💬', label: 'Response time', value: 'Within 24 hours' },
                   { icon: '🌍', label: 'Location', value: 'Remote-first, Global' },
                 ].map(({ icon, label, value }) => (

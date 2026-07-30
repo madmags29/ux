@@ -27,3 +27,4 @@ backend/screenshots/
 backend/uploads/
 screenshots/
 uploads/
+.vercel
