@@ -347,7 +347,9 @@ function Footer() {
       </div>
       <div className="site-footer__bottom">
         <span>© {new Date().getFullYear()} Rate My UX. All rights reserved.</span>
-        <span>Powered by Vision AI</span>
+        <span>
+          Powered by <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'none', fontWeight: 600 }}>Dev Designs</a>
+        </span>
       </div>
     </footer>
   );

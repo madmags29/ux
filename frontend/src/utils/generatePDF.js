@@ -134,7 +134,7 @@ export async function generatePDF(screens, aggregate) {
   text('Audit Report', marginL, 43);
 
   setFont(9, 'normal', C.grey);
-  text('Powered by Expert AI Vision · Multi-Screen Evaluation', marginL, 55);
+  text('Powered by Dev Designs (devdesigns.net) · Multi-Screen Evaluation', marginL, 55);
 
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   setFont(8, 'normal', C.darkgrey);
@@ -444,7 +444,7 @@ export async function generatePDF(screens, aggregate) {
     setFill(C.border);
     pdf.rect(marginL, pageH - 12, contentW, 0.5, 'F');
     setFont(6.5, 'normal', C.darkgrey);
-    text('Rate My UX Evaluator · Vision AI', marginL, pageH - 5);
+    text('Rate My UX Evaluator · Dev Designs (devdesigns.net)', marginL, pageH - 5);
     text(date, pageW - marginR, pageH - 5, { align: 'right' });
   }
 
