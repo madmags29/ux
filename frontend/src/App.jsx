@@ -129,7 +129,7 @@ function EvaluatorPage() {
   return (
     <div className="container">
       <header className="header">
-        <h1 className="text-gradient">AI UX Expert Evaluator</h1>
+        <h1 className="text-gradient">Rate My UX</h1>
         <p>Evaluates every screen of your prototype with AI Vision — screenshots, scores, and actionable insights.</p>
       </header>
 
@@ -325,10 +325,10 @@ function Footer() {
       <div className="site-footer__inner">
         <div className="site-footer__brand">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <div className="navbar__logo-icon" style={{ overflow: 'hidden', width: '28px', height: '28px' }}>
-              <img src="/logo.png" alt="UX Expert Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="navbar__logo-icon" style={{ overflow: 'hidden', width: '28px', height: '28px', borderRadius: '6px' }}>
+              <img src="/logo.png" alt="Rate My UX Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            <span className="navbar__logo-text" style={{ fontSize: '1.1rem' }}>UX<span className="navbar__logo-accent">Expert</span></span>
+            <span className="navbar__logo-text" style={{ fontSize: '1.1rem' }}>Rate<span className="navbar__logo-accent">MyUX</span></span>
           </div>
           <p>AI-powered UX evaluation for designers, founders, and product teams.</p>
         </div>
@@ -346,8 +346,8 @@ function Footer() {
         </div>
       </div>
       <div className="site-footer__bottom">
-        <span>© {new Date().getFullYear()} UX Expert. All rights reserved.</span>
-        <span>Powered by Expert AI Vision</span>
+        <span>© {new Date().getFullYear()} Rate My UX. All rights reserved.</span>
+        <span>Powered by Vision AI</span>
       </div>
     </footer>
   );

@@ -15,10 +15,10 @@ export default function AboutPage() {
     <div>
       {/* Hero */}
       <section className="page-hero">
-        <div className="page-hero__badge">About UX Expert</div>
+        <div className="page-hero__badge">About Rate My UX</div>
         <h1>Built for Designers, Founders<br />& Product Teams</h1>
         <p>
-          UX Expert is an AI-powered evaluation platform that gives you the same quality
+          Rate My UX is an AI-powered evaluation platform that gives you the same quality
           of feedback as hiring a senior UX consultant — in seconds, not weeks.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>

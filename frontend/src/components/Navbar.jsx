@@ -29,11 +29,11 @@ export default function Navbar() {
         <div className="navbar__inner">
           {/* Logo */}
           <NavLink to="/" className="navbar__logo">
-            <div className="navbar__logo-icon" style={{ overflow: 'hidden' }}>
-              <img src="/logo.png" alt="UX Expert Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="navbar__logo-icon" style={{ overflow: 'hidden', borderRadius: '8px' }}>
+              <img src="/logo.png" alt="Rate My UX Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <span className="navbar__logo-text">
-              UX<span className="navbar__logo-accent">Expert</span>
+              Rate<span className="navbar__logo-accent">MyUX</span>
             </span>
           </NavLink>
 
