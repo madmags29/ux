@@ -6,6 +6,7 @@ import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -137,6 +138,58 @@ const upload = multer({
     const allowed = /\.(png|jpg|jpeg|webp|gif)$/i;
     if (allowed.test(file.originalname)) cb(null, true);
     else cb(new Error('Only image files are allowed'));
+  }
+});
+
+// ─── SMTP Transporter ─────────────────────────────────────────────────────────
+const smtpTransporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'IN10.FASTWEBHOST.COM',
+  port: parseInt(process.env.SMTP_PORT || '465'),
+  secure: true, // SSL
+  auth: {
+    user: process.env.SMTP_USER || 'hello@ratemyux.com',
+    pass: process.env.SMTP_PASS,
+  },
+  authMethod: 'LOGIN',
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+// ─── Contact form endpoint ───────────────────────────────────────────────────
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    await smtpTransporter.sendMail({
+      from: `"Rate My UX Contact" <${process.env.SMTP_USER || 'hello@ratemyux.com'}>`,
+      replyTo: email,
+      to: 'hello@ratemyux.com',
+      subject: `[Contact Form] ${subject}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #6c5ce7;">New Contact Form Submission</h2>
+          <hr style="border: 1px solid #eee;" />
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <hr style="border: 1px solid #eee;" />
+          <h3>Message:</h3>
+          <p style="white-space: pre-wrap;">${message}</p>
+          <hr style="border: 1px solid #eee;" />
+          <p style="color: #999; font-size: 12px;">Sent from Rate My UX Contact Form — ratemyux.com</p>
+        </div>
+      `,
+    });
+
+    res.json({ success: true, message: 'Email sent successfully.' });
+  } catch (error) {
+    console.error('Contact email error:', error);
+    res.status(500).json({ error: 'Failed to send email. Please try again later.' });
   }
 });
 

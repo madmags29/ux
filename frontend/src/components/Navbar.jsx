@@ -29,8 +29,8 @@ export default function Navbar() {
         <div className="navbar__inner">
           {/* Logo */}
           <NavLink to="/" className="navbar__logo">
-            <div className="navbar__logo-icon" style={{ overflow: 'hidden', borderRadius: '8px' }}>
-              <img src="/logo.png" alt="Rate My UX Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="navbar__logo-icon">
+              <span style={{ position: 'relative', zIndex: 1 }}>R</span>
             </div>
             <span className="navbar__logo-text">
               Rate<span className="navbar__logo-accent">MyUX</span>

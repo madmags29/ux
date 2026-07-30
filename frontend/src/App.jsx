@@ -3,13 +3,15 @@ import { Routes, Route, Link } from 'react-router-dom';
 import MultiReport from './components/MultiReport';
 import { generatePDF } from './utils/generatePDF';
 import Navbar from './components/Navbar';
+import ParticleCanvas from './components/ParticleCanvas';
+import AnimatedSection from './components/AnimatedSection';
 import AboutPage from './pages/AboutPage';
 import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
 import './index.css';
 
 function EvaluatorPage() {
-  const [mode, setMode] = useState('url'); // 'url' | 'upload'
+  const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
   const [files, setFiles] = useState([]);
   const [maxScreens, setMaxScreens] = useState(3);
@@ -46,7 +48,7 @@ function EvaluatorPage() {
       setError(
         <span>
           <strong>⚠️ Free Plan Limit Exceeded:</strong> You have uploaded {files.length} screens. The free plan only supports evaluating up to 3 screens. Please{' '}
-          <a href="/plans" style={{ color: 'var(--accent-primary)', textDecoration: 'underline', fontWeight: 600 }}>
+          <a href="/plans" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontWeight: 600 }}>
             purchase a plan
           </a>{' '}
           to evaluate more screens.
@@ -127,195 +129,197 @@ function EvaluatorPage() {
   const hasResults = screens.length > 0 || aggregate;
 
   return (
-    <div className="container">
-      <header className="header">
-        <h1 className="text-gradient">Rate My UX</h1>
-        <p>Evaluates every screen of your prototype with AI Vision — screenshots, scores, and actionable insights.</p>
-      </header>
-
+    <>
+      {/* ─── HERO ─── */}
       {!hasResults && !loading && (
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div className="tabs-container" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--glass-border)', maxWidth: 420, margin: '0 auto 1.5rem auto' }}>
-            <button
-              type="button"
-              onClick={() => setMode('url')}
-              className={`tab-btn ${mode === 'url' ? 'active' : ''}`}
-              style={{
-                flex: 1,
-                padding: '0.6rem 1rem',
-                border: 'none',
-                borderRadius: 'calc(var(--radius-md) - 2px)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                transition: 'all 0.3s ease',
-                background: mode === 'url' ? 'var(--glass-bg)' : 'transparent',
-                color: mode === 'url' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                boxShadow: mode === 'url' ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
-                border: mode === 'url' ? '1px solid var(--glass-border)' : '1px solid transparent'
-              }}
-            >
-              🌐 Evaluate URL / Figma
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('upload')}
-              className={`tab-btn ${mode === 'upload' ? 'active' : ''}`}
-              style={{
-                flex: 1,
-                padding: '0.6rem 1rem',
-                border: 'none',
-                borderRadius: 'calc(var(--radius-md) - 2px)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                transition: 'all 0.3s ease',
-                background: mode === 'upload' ? 'var(--glass-bg)' : 'transparent',
-                color: mode === 'upload' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                boxShadow: mode === 'upload' ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
-                border: mode === 'upload' ? '1px solid var(--glass-border)' : '1px solid transparent'
-              }}
-            >
-              📁 Upload Screenshots
-            </button>
-          </div>
+        <section className="hero">
+          <div className="hero__orb hero__orb--cyan" />
+          <div className="hero__orb hero__orb--violet" />
+          <div className="hero__orb hero__orb--magenta" />
+          <ParticleCanvas />
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {mode === 'url' ? (
-              <>
-                <input type="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://your-prototype-or-website.com or figma.com/proto/..." className="input-field" required />
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', width: '100%' }}>
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>🔍 Evaluate My UX</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div
-                  onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-                    setFiles(prev => [...prev, ...droppedFiles]);
-                  }}
-                  onClick={() => document.getElementById('file-upload-input').click()}
-                  style={{
-                    border: '2px dashed var(--glass-border)',
-                    borderRadius: 'var(--radius-lg)',
-                    padding: '2rem',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    background: 'rgba(255,255,255,0.02)',
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  <input
-                    id="file-upload-input"
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files) {
-                        setFiles(prev => [...prev, ...Array.from(e.target.files)]);
-                      }
+          <div className="hero__content">
+            <div className="hero__badge">
+              <span className="hero__badge-dot" />
+              AI-Powered UX Intelligence
+            </div>
+            <h1 className="hero__title">
+              Evaluate UX with
+              <br />
+              <span className="text-gradient-full">Neural Precision</span>
+            </h1>
+            <p className="hero__subtitle">
+              Upload any prototype or paste a URL — our Vision AI dissects every screen,
+              scores 11 dimensions, and delivers an actionable UX roadmap in seconds.
+            </p>
+
+            {/* Mode Tabs */}
+            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem', background: 'var(--glass-bg)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--glass-border)', maxWidth: 420, margin: '0 auto 1.5rem auto' }}>
+              <button
+                type="button"
+                onClick={() => setMode('url')}
+                className={`tab-btn ${mode === 'url' ? 'active' : ''}`}
+                style={{
+                  flex: 1, padding: '0.6rem 1rem', border: 'none',
+                  borderRadius: 'calc(var(--radius-md) - 2px)', cursor: 'pointer',
+                  fontWeight: 600, fontSize: '0.85rem', transition: 'all 0.3s ease',
+                  background: mode === 'url' ? 'rgba(0, 240, 255, 0.08)' : 'transparent',
+                  color: mode === 'url' ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                }}
+              >
+                🌐 Evaluate URL / Figma
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode('upload')}
+                className={`tab-btn ${mode === 'upload' ? 'active' : ''}`}
+                style={{
+                  flex: 1, padding: '0.6rem 1rem', border: 'none',
+                  borderRadius: 'calc(var(--radius-md) - 2px)', cursor: 'pointer',
+                  fontWeight: 600, fontSize: '0.85rem', transition: 'all 0.3s ease',
+                  background: mode === 'upload' ? 'rgba(0, 240, 255, 0.08)' : 'transparent',
+                  color: mode === 'upload' ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                }}
+              >
+                📁 Upload Screenshots
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: 600, margin: '0 auto' }}>
+              {mode === 'url' ? (
+                <>
+                  <input type="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://your-prototype.com or figma.com/proto/..." className="input-field" required style={{ fontSize: '1rem', padding: '1rem 1.25rem' }} />
+                  <button type="submit" className="btn btn-primary hero__cta-primary" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '0.9rem' }}>
+                    <span className="pulse-ring" />
+                    🔍 Evaluate My UX
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div
+                    onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+                      setFiles(prev => [...prev, ...droppedFiles]);
                     }}
-                    style={{ display: 'none' }}
-                  />
-                  <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📤</div>
-                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.25rem' }}>Drag & drop prototype screenshots here</h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>or click to browse from your device (PNG, JPG, WEBP)</p>
-                </div>
-
-                {files.length > 0 && (
-                  <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-md)', padding: '1rem', border: '1px solid var(--glass-border)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                      <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>Selected Screens ({files.length})</span>
-                      <button type="button" onClick={() => setFiles([])} style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', fontSize: '0.8rem' }}>Clear All</button>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: 200, overflowY: 'auto' }}>
-                      {files.map((file, idx) => (
-                        <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                          <span style={{ fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>🖼 {file.name}</span>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setFiles(prev => prev.filter((_, i) => i !== idx));
-                            }}
-                            style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                    onClick={() => document.getElementById('file-upload-input').click()}
+                    style={{
+                      border: '2px dashed var(--glass-border)',
+                      borderRadius: 'var(--radius-lg)',
+                      padding: '2.5rem',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      background: 'var(--glass-bg)',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <input
+                      id="file-upload-input"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          setFiles(prev => [...prev, ...Array.from(e.target.files)]);
+                        }
+                      }}
+                      style={{ display: 'none' }}
+                    />
+                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📤</div>
+                    <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Drag & drop prototype screenshots here</h3>
+                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.85rem' }}>or click to browse (PNG, JPG, WEBP)</p>
                   </div>
-                )}
 
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={files.length === 0}
-                  style={{ width: '100%', padding: '0.8rem' }}
-                >
-                  🚀 Evaluate My UX
-                </button>
-              </>
-            )}
-          </form>
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem', textAlign: 'center', marginTop: '0.75rem' }}>
-            {mode === 'url' 
-              ? "Navigates your site/Figma, captures every screen, and runs a full AI audit on each one."
-              : "Upload multiple screenshots of your app pages to evaluate the design coherence and individual screens."
-            }
-          </p>
-        </div>
-      )}
+                  {files.length > 0 && (
+                    <div style={{ background: 'var(--glass-bg)', borderRadius: 'var(--radius-md)', padding: '1rem', border: '1px solid var(--glass-border)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                        <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>Selected Screens ({files.length})</span>
+                        <button type="button" onClick={() => setFiles([])} style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', fontSize: '0.8rem' }}>Clear All</button>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: 200, overflowY: 'auto' }}>
+                        {files.map((file, idx) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem', background: 'var(--glass-bg-strong)', borderRadius: '4px', border: '1px solid var(--glass-border)' }}>
+                            <span style={{ fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>🖼 {file.name}</span>
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); setFiles(prev => prev.filter((_, i) => i !== idx)); }}
+                              style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-      {error && (
-        <div style={{ color: 'var(--error)', textAlign: 'center', marginTop: '1rem', padding: '1rem', background: 'rgba(220,38,38,0.07)', borderRadius: 'var(--radius-md)', maxWidth: 700, margin: '1rem auto', border: '1px solid rgba(220,38,38,0.15)' }}>
-          ⚠ {error}
-        </div>
-      )}
-
-      {loading && (
-        <div className="loader-container">
-          {currentPreview ? (
-            <div className="scanner-container">
-              <img src={currentPreview} alt="Scanning..." className="scanner-image" />
-              <div className="scanner-laser"></div>
-              <div className="scanner-overlay"></div>
-            </div>
-          ) : (
-            <div className="spinner"></div>
-          )}
-          <h2>{progress.total > 0 ? `Evaluating Screen ${progress.current} of ${progress.total}` : 'Starting...'}</h2>
-          <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
-          {progress.total > 0 && (
-            <div style={{ width: 300, height: 6, background: 'var(--glass-border)', borderRadius: 3, overflow: 'hidden', marginTop: '1rem' }}>
-              <div style={{ height: '100%', width: `${(progress.current / progress.total) * 100}%`, background: 'var(--accent-gradient)', borderRadius: 3, transition: 'width 0.5s ease' }}></div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {screens.length > 0 && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-            <h2 style={{ fontSize: '1.5rem' }}>{done ? `✅ ${screens.length} Screens Evaluated` : `⏳ Evaluating... (${screens.length} done)`}</h2>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              {done && (
-                <button className="btn" onClick={handleDownload} disabled={pdfLoading} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {pdfLoading ? <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }}></span> Generating PDF...</> : '⬇ Download PDF Report'}
-                </button>
+                  <button type="submit" className="btn btn-primary" disabled={files.length === 0} style={{ width: '100%', justifyContent: 'center', padding: '0.9rem' }}>
+                    🚀 Evaluate My UX
+                  </button>
+                </>
               )}
-              {done && <button className="btn btn-primary" onClick={reset}>+ New Evaluation</button>}
-            </div>
+            </form>
+
+            <p style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem', textAlign: 'center', marginTop: '1rem' }}>
+              {mode === 'url'
+                ? "Navigates your site/Figma, captures every screen, and runs a full AI audit on each one."
+                : "Upload multiple screenshots to evaluate design coherence and individual screens."
+              }
+            </p>
           </div>
-          <MultiReport screens={screens} aggregate={aggregate} loading={loading} />
-        </div>
+        </section>
       )}
-    </div>
+
+      {/* ─── RESULTS AREA (inside container) ─── */}
+      <div className="container">
+        {error && (
+          <div style={{ color: 'var(--error)', textAlign: 'center', marginTop: '1rem', padding: '1rem', background: 'rgba(239,68,68,0.07)', borderRadius: 'var(--radius-md)', maxWidth: 700, margin: '1rem auto', border: '1px solid rgba(239,68,68,0.15)' }}>
+            ⚠ {error}
+          </div>
+        )}
+
+        {loading && (
+          <div className="loader-container">
+            {currentPreview ? (
+              <div className="scanner-container">
+                <img src={currentPreview} alt="Scanning..." className="scanner-image" />
+                <div className="scanner-laser"></div>
+                <div className="scanner-overlay"></div>
+              </div>
+            ) : (
+              <div className="spinner"></div>
+            )}
+            <h2>{progress.total > 0 ? `Evaluating Screen ${progress.current} of ${progress.total}` : 'Starting...'}</h2>
+            <p style={{ color: 'var(--text-secondary)' }}>{status}</p>
+            {progress.total > 0 && (
+              <div style={{ width: 300, height: 6, background: 'var(--glass-border)', borderRadius: 3, overflow: 'hidden', marginTop: '1rem' }}>
+                <div style={{ height: '100%', width: `${(progress.current / progress.total) * 100}%`, background: 'var(--accent-gradient)', borderRadius: 3, transition: 'width 0.5s ease' }}></div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {screens.length > 0 && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <h2 style={{ fontSize: '1.5rem' }}>{done ? `✅ ${screens.length} Screens Evaluated` : `⏳ Evaluating... (${screens.length} done)`}</h2>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                {done && (
+                  <button className="btn" onClick={handleDownload} disabled={pdfLoading} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    {pdfLoading ? <><span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }}></span> Generating PDF...</> : '⬇ Download PDF Report'}
+                  </button>
+                )}
+                {done && <button className="btn btn-primary" onClick={reset}>+ New Evaluation</button>}
+              </div>
+            </div>
+            <MultiReport screens={screens} aggregate={aggregate} loading={loading} />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -325,10 +329,10 @@ function Footer() {
       <div className="site-footer__inner">
         <div className="site-footer__brand">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <div className="navbar__logo-icon" style={{ overflow: 'hidden', width: '28px', height: '28px', borderRadius: '6px' }}>
-              <img src="/logo.png" alt="Rate My UX Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="navbar__logo-icon" style={{ width: '28px', height: '28px', borderRadius: '6px', fontSize: '0.75rem' }}>
+              <span style={{ position: 'relative', zIndex: 1 }}>R</span>
             </div>
-            <span className="navbar__logo-text" style={{ fontSize: '1.1rem' }}>Rate<span className="navbar__logo-accent">MyUX</span></span>
+            <span className="navbar__logo-text" style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>Rate<span className="navbar__logo-accent">MyUX</span></span>
           </div>
           <p>AI-powered UX evaluation for designers, founders, and product teams.</p>
         </div>
@@ -348,7 +352,7 @@ function Footer() {
       <div className="site-footer__bottom">
         <span>© {new Date().getFullYear()} Rate My UX. All rights reserved.</span>
         <span>
-          Powered by <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'none', fontWeight: 600 }}>Dev Designs</a>
+          Powered by <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none', fontWeight: 600 }}>Dev Designs</a>
         </span>
       </div>
     </footer>
@@ -371,5 +375,3 @@ function App() {
 }
 
 export default App;
-
-

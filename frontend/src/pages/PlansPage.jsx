@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import AnimatedSection from '../components/AnimatedSection';
 
 const PLANS = [
   {
@@ -7,7 +8,6 @@ const PLANS = [
     price: 'Free',
     period: '',
     desc: 'Perfect for trying out the AI UX Evaluator on your first prototype.',
-    color: 'var(--text-secondary)',
     badge: null,
     features: [
       '3 evaluations per month',
@@ -25,7 +25,6 @@ const PLANS = [
     price: '$29',
     period: '/month',
     desc: 'For designers and founders who review products regularly and need full depth.',
-    color: 'var(--accent-primary)',
     badge: 'Most Popular',
     features: [
       'Unlimited evaluations',
@@ -47,7 +46,6 @@ const PLANS = [
     price: '$79',
     period: '/month',
     desc: 'For product teams running regular audits across multiple products.',
-    color: 'var(--accent-secondary)',
     badge: null,
     features: [
       'Everything in Pro',
@@ -80,69 +78,73 @@ export default function PlansPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="page-hero">
-        <div className="page-hero__badge">Pricing</div>
-        <h1>Simple, Transparent Pricing</h1>
-        <p>Start for free. Scale as you grow. No hidden fees, no surprises.</p>
+      <AnimatedSection>
+        <section className="page-hero">
+          <div className="page-hero__badge">Pricing</div>
+          <h1>Simple, <span className="text-gradient">Transparent</span> Pricing</h1>
+          <p>Start for free. Scale as you grow. No hidden fees, no surprises.</p>
 
-        {/* Toggle */}
-        <div className="plans-toggle glass-panel">
-          <span className={!annual ? 'plans-toggle__active' : ''} onClick={() => setAnnual(false)}>Monthly</span>
-          <button
-            className={`plans-toggle__switch${annual ? ' plans-toggle__switch--on' : ''}`}
-            onClick={() => setAnnual(!annual)}
-            aria-label="Toggle annual billing"
-          >
-            <span className="plans-toggle__knob" />
-          </button>
-          <span className={annual ? 'plans-toggle__active' : ''} onClick={() => setAnnual(true)}>
-            Annual <span className="plans-toggle__save">Save 30%</span>
-          </span>
-        </div>
-      </section>
+          {/* Toggle */}
+          <div className="plans-toggle glass-panel">
+            <span className={!annual ? 'plans-toggle__active' : ''} onClick={() => setAnnual(false)}>Monthly</span>
+            <button
+              className={`plans-toggle__switch${annual ? ' plans-toggle__switch--on' : ''}`}
+              onClick={() => setAnnual(!annual)}
+              aria-label="Toggle annual billing"
+            >
+              <span className="plans-toggle__knob" />
+            </button>
+            <span className={annual ? 'plans-toggle__active' : ''} onClick={() => setAnnual(true)}>
+              Annual <span className="plans-toggle__save">Save 30%</span>
+            </span>
+          </div>
+        </section>
+      </AnimatedSection>
 
       {/* Plans Grid */}
       <section className="page-section">
         <div className="plans-grid">
-          {PLANS.map((plan) => {
+          {PLANS.map((plan, i) => {
             const price = annual && plan.price !== 'Free'
               ? `$${Math.round(parseInt(plan.price.replace('$', '')) * 0.7)}`
               : plan.price;
 
             return (
-              <div key={plan.name} className={`plan-card glass-panel${plan.primary ? ' plan-card--primary' : ''}`}>
-                {plan.badge && <div className="plan-card__badge">{plan.badge}</div>}
-                <div className="plan-card__header">
-                  <h3 className="plan-card__name">{plan.name}</h3>
-                  <div className="plan-card__price">
-                    <span className="plan-card__amount">{price}</span>
-                    {plan.period && <span className="plan-card__period">{annual ? '/mo, billed annually' : plan.period}</span>}
+              <AnimatedSection key={plan.name} delay={i * 100}>
+                <div className={`plan-card glass-panel${plan.primary ? ' plan-card--primary' : ''}`}>
+                  {plan.badge && <div className="plan-card__badge">{plan.badge}</div>}
+                  <div className="plan-card__header">
+                    <h3 className="plan-card__name">{plan.name}</h3>
+                    <div className="plan-card__price">
+                      <span className="plan-card__amount">{price}</span>
+                      {plan.period && <span className="plan-card__period">{annual ? '/mo, billed annually' : plan.period}</span>}
+                    </div>
+                    <p className="plan-card__desc">{plan.desc}</p>
                   </div>
-                  <p className="plan-card__desc">{plan.desc}</p>
+                  <ul className="plan-card__features">
+                    {plan.features.map((f) => (
+                      <li key={f}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <circle cx="8" cy="8" r="7.5" stroke="url(#ck)" strokeWidth="1"/>
+                          <path d="M5 8l2 2 4-4" stroke="url(#ck)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <defs>
+                            <linearGradient id="ck" x1="0" y1="0" x2="16" y2="16" gradientUnits="userSpaceOnUse">
+                              <stop stopColor="#00f0ff"/><stop offset="1" stopColor="#8b5cf6"/>
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to={plan.ctaTo}
+                    className={`btn plan-card__cta${plan.primary ? ' btn-primary' : ''}`}
+                  >
+                    {plan.cta}
+                  </Link>
                 </div>
-                <ul className="plan-card__features">
-                  {plan.features.map((f) => (
-                    <li key={f}>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <circle cx="8" cy="8" r="7.5" stroke="url(#ck)" strokeWidth="1"/>
-                        <path d="M5 8l2 2 4-4" stroke="url(#ck)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        <defs>
-                          <linearGradient id="ck" x1="0" y1="0" x2="16" y2="16" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#6366f1"/><stop offset="1" stopColor="#a855f7"/>
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={plan.ctaTo}
-                  className={`btn plan-card__cta${plan.primary ? ' btn-primary' : ''}`}
-                >
-                  {plan.cta}
-                </Link>
-              </div>
+              </AnimatedSection>
             );
           })}
         </div>
@@ -150,39 +152,44 @@ export default function PlansPage() {
 
       {/* FAQ */}
       <section className="page-section">
-        <div className="section-header">
-          <h2>Frequently Asked Questions</h2>
-          <p>Everything you need to know before getting started.</p>
-        </div>
+        <AnimatedSection>
+          <div className="section-header">
+            <h2>Frequently Asked <span className="text-gradient">Questions</span></h2>
+            <p>Everything you need to know before getting started.</p>
+          </div>
+        </AnimatedSection>
         <div className="faq-list" style={{ maxWidth: 700, margin: '0 auto' }}>
           {FAQ.map(({ q, a }, i) => (
-            <div
-              key={i}
-              className={`faq-item glass-panel${openFaq === i ? ' faq-item--open' : ''}`}
-              onClick={() => setOpenFaq(openFaq === i ? null : i)}
-            >
-              <div className="faq-item__question">
-                <span>{q}</span>
-                <svg className="faq-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M5 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            <AnimatedSection key={i} delay={i * 60}>
+              <div
+                className={`faq-item glass-panel${openFaq === i ? ' faq-item--open' : ''}`}
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
+                <div className="faq-item__question">
+                  <span>{q}</span>
+                  <svg className="faq-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M5 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                {openFaq === i && <p className="faq-item__answer">{a}</p>}
               </div>
-              {openFaq === i && <p className="faq-item__answer">{a}</p>}
-            </div>
+            </AnimatedSection>
           ))}
         </div>
       </section>
 
       {/* CTA Banner */}
-      <section className="page-section" style={{ paddingBottom: '5rem' }}>
-        <div className="cta-banner glass-panel">
-          <h2>Ready to elevate your product?</h2>
-          <p>Run your first free UX evaluation in under 60 seconds.</p>
-          <Link to="/" className="btn btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2rem' }}>
-            Analyze a Design →
-          </Link>
-        </div>
-      </section>
+      <AnimatedSection>
+        <section className="page-section" style={{ paddingBottom: '5rem' }}>
+          <div className="cta-banner glass-panel">
+            <h2>Ready to elevate your <span className="text-gradient">product</span>?</h2>
+            <p>Run your first free UX evaluation in under 60 seconds.</p>
+            <Link to="/" className="btn btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2rem', position: 'relative' }}>
+              Analyze a Design →
+            </Link>
+          </div>
+        </section>
+      </AnimatedSection>
     </div>
   );
 }
