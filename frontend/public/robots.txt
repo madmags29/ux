@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Sitemaps
+# Sitemaps & LLMs Context
 Sitemap: https://www.ratemyux.com/sitemap.xml
+

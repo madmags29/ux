@@ -1,0 +1,32 @@
+# Rate My UX
+
+> Rate My UX is an AI-powered UX evaluation and design auditing platform. Powered by neural Vision AI models, it analyzes website URLs, mobile screenshots, and Figma prototypes across 11 usability dimensions—delivering Nielsen heuristic audits, WCAG 2.2 accessibility checks, conversion rate optimization insights, and prioritized redesign roadmaps in seconds.
+
+Rate My UX helps product managers, UI/UX designers, developers, and founders instantly discover UX friction, usability defects, visual layout issues, and accessibility bottlenecks before shipping to production.
+
+## Primary Pages
+
+- [Rate My UX Home & AI Evaluator](https://www.ratemyux.com/): Interactive AI-powered UX evaluator tool supporting URL crawling, image drop, Figma prototype review, and instant usability reporting.
+- [About Rate My UX](https://www.ratemyux.com/about): Information about Rate My UX, our neural Vision AI methodology, 11-dimension evaluation framework, and design auditing standards.
+- [Pricing & Subscription Plans](https://www.ratemyux.com/plans): Detailed comparison of Free, Starter, Pro, and Enterprise subscription plans with multi-screen auditing and export features.
+- [Contact & Support](https://www.ratemyux.com/contact): Contact form for support inquiries, custom enterprise design audits, feedback, and sales.
+
+## Key Features & Capabilities
+
+- [Live URL Crawling & Multi-Screen Audit](https://www.ratemyux.com/): Crawls live web applications, captures full-page viewport screenshots, and evaluates user flows across key user journeys.
+- [Figma Prototype & Image Upload](https://www.ratemyux.com/): Drag-and-drop support for PNG, JPG, WebP screenshots and Figma design frames for instant pre-launch usability audits.
+- [11-Dimension Vision AI Analysis](https://www.ratemyux.com/about): Comprehensive scoring engine evaluating layout, typography, contrast, visual hierarchy, mobile touch targets, and CRO friction points.
+- [Nielsen Heuristic Checkups](https://www.ratemyux.com/about): Automated mapping against Jakob Nielsen's 10 Usability Heuristics for interaction design.
+- [WCAG 2.2 Accessibility Auditing](https://www.ratemyux.com/about): Automated checks for contrast compliance, font legibility, touch target spacing, and screen reader structure.
+- [Executive Summary & PDF Export](https://www.ratemyux.com/): Downloadable executive-ready PDF audit reports with action items and redesign recommendations.
+
+## Pricing Tiers
+
+- [Free Tier](https://www.ratemyux.com/plans): $0/month — 3 screen evaluations per month with full 11-dimension scoring and PDF export.
+- [Starter Tier](https://www.ratemyux.com/plans): $29/month — 25 screen evaluations per month, multi-screen journey audits, and priority vision processing.
+- [Pro Tier](https://www.ratemyux.com/plans): $79/month — 100 screen evaluations per month, Figma plugin integration, and white-label PDF reports.
+- [Enterprise Tier](https://www.ratemyux.com/plans): Custom pricing — Unlimited evaluations, dedicated API access, custom UX design review sessions, and SLA guarantees.
+
+## Optional
+
+- [Full LLM Documentation](https://www.ratemyux.com/llms-full.txt): Complete concatenated reference text detailing the 11 evaluation dimensions, Nielsen heuristics breakdown, WCAG standards, and technical audit parameters.

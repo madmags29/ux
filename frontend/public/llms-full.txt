@@ -1,0 +1,84 @@
+# Rate My UX — Full Documentation & AI Context
+
+> Rate My UX is an AI-powered UX evaluation and design auditing platform. Powered by neural Vision AI models, it analyzes website URLs, mobile screenshots, and Figma prototypes across 11 usability dimensions—delivering Nielsen heuristic audits, WCAG 2.2 accessibility checks, conversion rate optimization insights, and prioritized redesign roadmaps in seconds.
+
+---
+
+## 1. Executive Overview
+
+Rate My UX (https://www.ratemyux.com) is built to streamline user experience (UX) research, design critiques, and accessibility audits. By combining full-page Puppeteer headless browser rendering with multimodal AI vision models (OpenAI GPT-4o / Vision AI), Rate My UX evaluates visual design, interaction patterns, accessibility standards, and conversion funnels faster and more objectively than manual heuristic reviews.
+
+---
+
+## 2. The 11 Usability Evaluation Dimensions
+
+Rate My UX evaluates digital product screens across 11 distinct dimensions, scoring each on a 0-10 scale and generating targeted recommendations:
+
+1. **First Impression & Visual Impact**: Instant clarity, aesthetic appeal, brand trustworthiness, visual hierarchy, and visual noise evaluation.
+2. **UI Design & Layout Architecture**: Grid alignment, whitespace management, color palette harmony, visual hierarchy, and typography scale.
+3. **UX & Interaction Flow**: Navigation clarity, mental model alignment, cognitive load, user friction, and clarity of next steps.
+4. **Accessibility & Inclusive Design (WCAG 2.2)**: Text-to-background contrast ratios, min 44x44px touch targets, font legibility, focus state visibility, and screen reader friendliness.
+5. **Content Strategy & UX Writing**: Headline impact, microcopy clarity, messaging hierarchy, value proposition strength, and call-to-action (CTA) wording.
+6. **Mobile Responsiveness & Touch Ergonomics**: Thumb-zone accessibility, mobile layout scaling, responsive tap targets, and handheld usability.
+7. **Conversion Rate Optimization (CRO)**: CTA prominent placement, trust badges, friction elimination, value proposition clarity, and visual urgency.
+8. **Jakob Nielsen's 10 Usability Heuristics**: Direct assessment against Nielsen's classic design principles.
+9. **Industry Benchmark Comparison**: Scoring relative to modern top-tier SaaS, eCommerce, and web app design benchmarks.
+10. **Prioritized Redesign Roadmap**: Categorized matrix of High Impact (Quick Wins), Medium Impact (Key Enhancements), and Low Impact (Polish) recommendations.
+11. **AI Redesign & Wireframe Suggestions**: Architectural recommendations for visual component rearrangement, layout fixes, and UI improvements.
+
+---
+
+## 3. Jakob Nielsen's 10 Usability Heuristics Coverage
+
+Rate My UX checks designs against all 10 Nielsen Heuristics:
+1. **Visibility of system status**: Clear feedback and state indication.
+2. **Match between system and real world**: Natural language and familiar visual metaphors.
+3. **User control and freedom**: Clear undo, cancel, exit, and back paths.
+4. **Consistency and standards**: Uniform terminology, UI controls, and visual patterns.
+5. **Error prevention**: Design mechanisms preventing slip-ups and accidental actions.
+6. **Recognition rather than recall**: Minimizing memory load by making objects, options, and actions visible.
+7. **Flexibility and efficiency of use**: Accelerators for power users while maintaining simplicity for novices.
+8. **Aesthetic and minimalist design**: Eliminating clutter and irrelevant visual noise.
+9. **Help users recognize, diagnose, and recover from errors**: Clear, constructive, plain-language error messages.
+10. **Help and documentation**: Easy-to-search, contextual help when needed.
+
+---
+
+## 4. Primary Site Pages & Resources
+
+- **Home & AI Evaluator Tool**: `https://www.ratemyux.com/`
+  - Purpose: Live web page evaluation, image drag-and-drop, and real-time SSE stream auditing.
+- **About Rate My UX**: `https://www.ratemyux.com/about`
+  - Purpose: Platform background, AI vision methodology, 11-dimension evaluation framework breakdown.
+- **Plans & Pricing**: `https://www.ratemyux.com/plans`
+  - Purpose: Detailed breakdown of Free ($0/mo), Starter ($29/mo), Pro ($79/mo), and Enterprise plans.
+- **Contact & Support**: `https://www.ratemyux.com/contact`
+  - Purpose: User feedback, enterprise sales, bug reporting, and contact options.
+
+---
+
+## 5. Subscription Tiers & Features
+
+| Tier | Price | Monthly Screens | Key Included Features |
+| --- | --- | --- | --- |
+| **Free** | $0/mo | 3 screens | Full 11-dimension scoring, Nielsen checks, PDF export |
+| **Starter** | $29/mo | 25 screens | Priority processing, multi-screen user journey flow analysis |
+| **Pro** | $79/mo | 100 screens | White-label PDF export, Figma plugin access, team sharing |
+| **Enterprise** | Custom | Unlimited | Dedicated API, custom prompt guidelines, SLA, human review |
+
+---
+
+## 6. Technical Stack & API Overview
+
+- **Frontend**: React (Vite), React Router DOM, Custom CSS design system with CSS variables, html2pdf.js client rendering.
+- **Backend API**: Node.js, Express, Puppeteer headless browser integration, OpenAI GPT-4o Vision API.
+- **Evaluation Endpoint**: `POST /api/evaluate` (Supports multipart/form-data for image uploads or JSON payload with target URL and screen depth).
+
+---
+
+## 7. Metadata & Contact Information
+
+- **Brand**: Rate My UX
+- **Website**: https://www.ratemyux.com
+- **Publisher**: Dev Designs (https://devdesigns.net)
+- **Primary Keywords**: AI UX Audit, Usability Testing AI, Nielsen Heuristics Checker, WCAG Accessibility Audit, Figma Prototype Review, Conversion Rate Optimization.
