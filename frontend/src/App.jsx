@@ -314,7 +314,7 @@ function EvaluatorPage() {
 
         {screens.length > 0 && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
               <h2 style={{ fontSize: '1.5rem' }}>{done ? `✅ ${screens.length} Screens Evaluated` : `⏳ Evaluating... (${screens.length} done)`}</h2>
               <div style={{ display: 'flex', gap: '1rem' }}>
                 {done && (
@@ -325,6 +325,50 @@ function EvaluatorPage() {
                 {done && <button className="btn btn-primary" onClick={reset}>+ New Evaluation</button>}
               </div>
             </div>
+
+            {/* Professional UX Fixes CTA Banner */}
+            {done && (
+              <div
+                className="glass-panel"
+                style={{
+                  marginBottom: '2.5rem',
+                  padding: '1.75rem 2rem',
+                  background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(139, 92, 246, 0.08))',
+                  border: '1.5px solid rgba(0, 240, 255, 0.3)',
+                  borderRadius: 'var(--radius-lg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  boxShadow: '0 8px 32px rgba(0, 240, 255, 0.12)'
+                }}
+              >
+                <div style={{ flex: '1 1 380px' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', background: 'rgba(0, 240, 255, 0.15)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '0.5rem' }}>
+                    ✨ Flat-Rate UX Optimization
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0.35rem', fontFamily: 'var(--font-heading)' }}>
+                    Want Us to Redesign & Fix These UX Issues For You?
+                  </h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                    Don't let usability flaws cost you customers. Our senior design team can fix all identified issues with a transparent, minimal fee.
+                  </p>
+                </div>
+                <Link
+                  to="/contact"
+                  className="btn btn-primary"
+                  style={{
+                    padding: '0.85rem 1.75rem',
+                    fontSize: '0.95rem',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  💬 Get UX Help Now →
+                </Link>
+              </div>
+            )}
+
             <MultiReport screens={screens} aggregate={aggregate} loading={loading} />
           </div>
         )}
