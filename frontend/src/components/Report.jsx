@@ -51,16 +51,16 @@ const Report = ({ data }) => {
     <div className="report-container">
 
       {/* Executive Summary */}
-      <div className="executive-summary">
-        <h2>Executive Summary</h2>
-        <div className="overall-score text-gradient">{executiveSummary.overallScore}<span style={{fontSize:'2rem'}}>/100</span></div>
-        <div className="verdict" style={{ color: verdictColor }}>{executiveSummary.finalVerdict}</div>
+      <div className="executive-summary glass-panel" style={{ textAlign: 'center', padding: '2.5rem 2rem', marginBottom: '2rem' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Executive Summary</h2>
         {productUnderstanding && (
-          <p style={{ marginTop: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500, marginBottom: '0.75rem', textAlign: 'center' }}>
             {productUnderstanding.productName} · {productUnderstanding.productCategory} · {productUnderstanding.targetAudience}
           </p>
         )}
-        <p style={{ marginTop: '1.5rem', color: 'var(--text-secondary)', maxWidth: '800px', margin: '1.5rem auto 0', fontStyle: 'italic', lineHeight: 1.8 }}>
+        <div className="overall-score text-gradient" style={{ textAlign: 'center', margin: '0.5rem auto' }}>{executiveSummary.overallScore}<span style={{fontSize:'2.2rem'}}>/100</span></div>
+        <div className="verdict" style={{ color: verdictColor, textAlign: 'center', fontWeight: 700, fontSize: '1.3rem', marginTop: '0.5rem' }}>{executiveSummary.finalVerdict}</div>
+        <p style={{ marginTop: '1.5rem', color: 'var(--text-secondary)', maxWidth: '800px', margin: '1.5rem auto 0', fontStyle: 'italic', lineHeight: 1.8, textAlign: 'center' }}>
           "{executiveSummary.seniorDesignerAdvice}"
         </p>
 

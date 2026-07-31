@@ -212,15 +212,15 @@ const AggregatePanel = ({ aggregate }) => {
 
   return (
     <div style={{ marginTop: '3rem' }}>
-      <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Overall Report</h2>
+      <h2 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', textAlign: 'center' }}>Overall Report</h2>
 
-      <div className="executive-summary" style={{ marginBottom: '2rem' }}>
-        <h3 style={{ marginBottom: '0.5rem', fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+      <div className="executive-summary glass-panel" style={{ marginBottom: '2rem', textAlign: 'center', padding: '2.5rem 2rem' }}>
+        <h3 style={{ marginBottom: '0.75rem', fontFamily: "var(--font-body)", fontWeight: 500, fontSize: '1.05rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
           {aggregate.productName} · {aggregate.productCategory}
         </h3>
-        <div className="overall-score text-gradient">{aggregate.overallScore}<span style={{ fontSize: '2rem' }}>/100</span></div>
-        <div className="verdict" style={{ color: verdictColor }}>{aggregate.finalVerdict}</div>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '1rem auto', fontSize: '0.9rem' }}>
+        <div className="overall-score text-gradient" style={{ textAlign: 'center', margin: '0.5rem auto' }}>{aggregate.overallScore}<span style={{ fontSize: '2.2rem' }}>/100</span></div>
+        <div className="verdict" style={{ color: verdictColor, textAlign: 'center', fontWeight: 700, fontSize: '1.3rem', marginTop: '0.5rem' }}>{aggregate.finalVerdict}</div>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '1.25rem auto 0', fontSize: '0.95rem', textAlign: 'center', lineHeight: 1.7 }}>
           {aggregate.coreValueProposition}
         </p>
 

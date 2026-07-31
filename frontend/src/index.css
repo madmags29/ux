@@ -1266,6 +1266,25 @@ textarea.input-field {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+.executive-summary {
+  text-align: center;
+}
+.overall-score {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  margin: 0.5rem auto;
+}
+.verdict {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    TABS (Evaluator page mode toggle)
    ═══════════════════════════════════════════════════════════════ */
