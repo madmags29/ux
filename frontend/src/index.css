@@ -522,7 +522,7 @@ a:hover {
 .btn-primary {
   background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
   border: none;
-  color: #050515;
+  color: #ffffff !important;
   font-weight: 700;
   position: relative;
   overflow: hidden;
@@ -540,7 +540,7 @@ a:hover {
   transform: translateY(-2px);
   background: linear-gradient(135deg, #33f3ff 0%, #a855f7 100%) !important;
   box-shadow: 0 0 35px rgba(0, 240, 255, 0.6), 0 0 20px rgba(139, 92, 246, 0.4) !important;
-  color: #000000 !important;
+  color: #ffffff !important;
   border: none;
 }
 .btn-primary:disabled {
@@ -548,6 +548,17 @@ a:hover {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+[data-theme="light"] .btn-primary {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%) !important;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35) !important;
+}
+[data-theme="light"] .btn-primary:hover {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%) !important;
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.5) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════
