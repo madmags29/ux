@@ -38,6 +38,7 @@
 
   --border: rgba(255, 255, 255, 0.06);
   --border-glow: rgba(0, 240, 255, 0.3);
+  --nav-scrolled-bg: rgba(10, 10, 26, 0.88);
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -77,6 +78,7 @@
 
   --border: rgba(99, 102, 241, 0.15);
   --border-glow: rgba(37, 99, 235, 0.3);
+  --nav-scrolled-bg: rgba(244, 247, 254, 0.92);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -276,11 +278,12 @@ a:hover {
   border-bottom: 1px solid transparent;
 }
 .navbar--scrolled {
-  background: rgba(10, 10, 26, 0.85);
+  background: var(--nav-scrolled-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
   padding: 0.5rem 2rem;
+  box-shadow: var(--glass-shadow);
 }
 .navbar__inner {
   max-width: 1200px;
