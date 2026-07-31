@@ -8,6 +8,7 @@ import AnimatedSection from './components/AnimatedSection';
 import AboutPage from './pages/AboutPage';
 import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
+import AdminPage from './pages/AdminPage';
 import Logo from './components/Logo';
 import './index.css';
 
@@ -398,6 +399,7 @@ function Footer() {
             <p className="site-footer__heading">Company</p>
             <Link to="/about">About</Link>
             <Link to="/contact">Contact</Link>
+            <Link to="/admin" style={{ opacity: 0.6 }}>Admin</Link>
           </div>
         </div>
       </div>
@@ -420,6 +422,7 @@ function App() {
         <Route path="/about" element={<div className="container"><AboutPage /></div>} />
         <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
         <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
+        <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
       </Routes>
       <Footer />
     </>

@@ -20,9 +20,32 @@ app.use(express.json());
 // Serve screenshots statically
 const screenshotsDir = path.resolve('screenshots');
 const uploadsDir = path.resolve('uploads');
+const dataDir = path.resolve('data');
 if (!fs.existsSync(screenshotsDir)) fs.mkdirSync(screenshotsDir, { recursive: true });
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 app.use('/screenshots', express.static(screenshotsDir));
+
+// ─── Data Storage Helpers ───────────────────────────────────────────────────
+const EVALUATIONS_FILE = path.join(dataDir, 'evaluations.json');
+const CONTACTS_FILE = path.join(dataDir, 'contacts.json');
+
+const loadJSON = (filepath) => {
+  try {
+    if (!fs.existsSync(filepath)) return [];
+    return JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  } catch (err) {
+    return [];
+  }
+};
+
+const saveJSON = (filepath, data) => {
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`Failed to save ${filepath}:`, err);
+  }
+};
 
 // ─── Prompts ──────────────────────────────────────────────────────────────────
 const PER_SCREEN_PROMPT = `
@@ -165,6 +188,19 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
+    // Save to contacts.json
+    const contactRecord = {
+      id: 'contact_' + Date.now(),
+      timestamp: new Date().toISOString(),
+      name,
+      email,
+      subject,
+      message,
+    };
+    const contacts = loadJSON(CONTACTS_FILE);
+    contacts.unshift(contactRecord);
+    saveJSON(CONTACTS_FILE, contacts);
+
     await smtpTransporter.sendMail({
       from: `"Rate My UX Contact" <${process.env.SMTP_USER || 'hello@ratemyux.com'}>`,
       replyTo: email,
@@ -189,7 +225,21 @@ app.post('/api/contact', async (req, res) => {
     res.json({ success: true, message: 'Email sent successfully.' });
   } catch (error) {
     console.error('Contact email error:', error);
-    res.status(500).json({ error: 'Failed to send email. Please try again later.' });
+    // If SMTP fails, still save inquiry so admin can view it!
+    const contactRecord = {
+      id: 'contact_' + Date.now(),
+      timestamp: new Date().toISOString(),
+      name: req.body?.name || 'Anonymous',
+      email: req.body?.email || 'Unknown',
+      subject: req.body?.subject || 'Contact Inquiry',
+      message: req.body?.message || '',
+    };
+    const contacts = loadJSON(CONTACTS_FILE);
+    if (!contacts.some(c => c.id === contactRecord.id)) {
+      contacts.unshift(contactRecord);
+      saveJSON(CONTACTS_FILE, contacts);
+    }
+    res.json({ success: true, message: 'Inquiry received and saved.' });
   }
 });
 
@@ -374,6 +424,7 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
     }
 
     // ── Aggregate ───────────────────────────────────────────────────────────
+    let finalAggregate = null;
     if (screensData.length > 0) {
       send('status', { message: 'Generating aggregate report...' });
       const summaryInput = screensData.map(s => `Screen ${s.index} - "${s.title}":\n${JSON.stringify(s.evaluation, null, 2)}`).join('\n\n---\n\n');
@@ -386,7 +437,30 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
         response_format: { type: 'json_object' },
         max_tokens: 2000
       });
-      send('aggregate', { aggregate: JSON.parse(aggResponse.choices[0].message.content) });
+      finalAggregate = JSON.parse(aggResponse.choices[0].message.content);
+      send('aggregate', { aggregate: finalAggregate });
+    }
+
+    // Persist evaluation record to evaluations.json
+    try {
+      const evalRecord = {
+        id: 'eval_' + Date.now(),
+        timestamp: new Date().toISOString(),
+        targetUrl: url || 'Uploaded Screenshots',
+        mode: url ? 'url' : 'upload',
+        screenCount: screensData.length,
+        overallScore: finalAggregate?.overallScore || (screensData[0]?.evaluation?.overallScore || 0),
+        finalVerdict: finalAggregate?.finalVerdict || 'Good',
+        productName: finalAggregate?.productName || 'Evaluated Product',
+        productCategory: finalAggregate?.productCategory || 'General Web App',
+        screens: screensData,
+        aggregate: finalAggregate,
+      };
+      const evaluations = loadJSON(EVALUATIONS_FILE);
+      evaluations.unshift(evalRecord);
+      saveJSON(EVALUATIONS_FILE, evaluations);
+    } catch (saveErr) {
+      console.error('Failed to persist evaluation record:', saveErr);
     }
 
     setTimeout(() => cleanup(), 300000);
@@ -400,6 +474,51 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
     send('error', { message: error.message || 'Evaluation failed.' });
     res.end();
   }
+});
+
+// ─── Admin Endpoints ────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+
+const authAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  const customHeader = req.headers['x-admin-token'];
+  if (token === 'admin-authenticated-token' || customHeader === 'admin-authenticated-token') {
+    return next();
+  }
+  return res.status(401).json({ error: 'Unauthorized: Invalid Admin Token' });
+};
+
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body;
+  if (password === ADMIN_PASSWORD) {
+    return res.json({ success: true, token: 'admin-authenticated-token' });
+  }
+  return res.status(401).json({ error: 'Incorrect admin password' });
+});
+
+app.get('/api/admin/evaluations', authAdmin, (req, res) => {
+  const evaluations = loadJSON(EVALUATIONS_FILE);
+  res.json({ success: true, count: evaluations.length, evaluations });
+});
+
+app.get('/api/admin/contacts', authAdmin, (req, res) => {
+  const contacts = loadJSON(CONTACTS_FILE);
+  res.json({ success: true, count: contacts.length, contacts });
+});
+
+app.delete('/api/admin/evaluations/:id', authAdmin, (req, res) => {
+  let evaluations = loadJSON(EVALUATIONS_FILE);
+  evaluations = evaluations.filter(e => e.id !== req.params.id);
+  saveJSON(EVALUATIONS_FILE, evaluations);
+  res.json({ success: true, message: 'Evaluation deleted' });
+});
+
+app.delete('/api/admin/contacts/:id', authAdmin, (req, res) => {
+  let contacts = loadJSON(CONTACTS_FILE);
+  contacts = contacts.filter(c => c.id !== req.params.id);
+  saveJSON(CONTACTS_FILE, contacts);
+  res.json({ success: true, message: 'Contact deleted' });
 });
 
 app.listen(port, () => {
