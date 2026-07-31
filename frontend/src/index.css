@@ -412,48 +412,51 @@ a:hover {
   font-size: 0.9rem;
   font-weight: 600;
   font-family: var(--font-body);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   white-space: nowrap;
 }
 .btn:hover {
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-strong);
+  border-color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.12);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.25), 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: var(--accent-cyan);
 }
 
 .btn-primary {
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
   border: none;
-  color: #0a0a1a;
+  color: #050515;
   font-weight: 700;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);
 }
 .btn-primary::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.15) 50%, transparent 80%);
+  background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.2) 50%, transparent 80%);
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3), 0 4px 15px rgba(139, 92, 246, 0.2);
-  color: #0a0a1a;
+  background: linear-gradient(135deg, #33f3ff 0%, #a855f7 100%) !important;
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.6), 0 0 20px rgba(139, 92, 246, 0.4) !important;
+  color: #000000 !important;
   border: none;
 }
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1290,12 +1293,18 @@ textarea.input-field {
    ═══════════════════════════════════════════════════════════════ */
 .tab-btn {
   font-family: var(--font-body) !important;
+  transition: all 0.3s ease !important;
+}
+.tab-btn:hover {
+  color: var(--accent-cyan) !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
 }
 .tab-btn.active {
-  background: rgba(0, 240, 255, 0.08) !important;
+  background: rgba(0, 240, 255, 0.15) !important;
   color: var(--accent-cyan) !important;
-  border-color: rgba(0, 240, 255, 0.15) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  border-color: rgba(0, 240, 255, 0.35) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════
