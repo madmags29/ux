@@ -640,6 +640,41 @@ a:hover {
   background: rgba(0, 240, 255, 0.02);
 }
 
+/* ─── Search Field Highlight ─── */
+.search-field-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.search-field-icon {
+  position: absolute;
+  left: 1.25rem;
+  font-size: 1.2rem;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+}
+.input-field-highlight {
+  padding: 1rem 1.25rem 1rem 3.2rem !important;
+  font-size: 1rem !important;
+  border: 1.5px solid rgba(0, 240, 255, 0.4) !important;
+  background: rgba(0, 240, 255, 0.04) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.18), inset 0 0 15px rgba(0, 240, 255, 0.04) !important;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+[data-theme="light"] .input-field-highlight {
+  border: 1.5px solid rgba(37, 99, 235, 0.4) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.15) !important;
+}
+.input-field-highlight:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.25), 0 0 40px rgba(0, 240, 255, 0.4) !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+}
+
 select.input-field {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%239898b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");

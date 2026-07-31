@@ -189,7 +189,17 @@ function EvaluatorPage() {
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: 600, margin: '0 auto' }}>
               {mode === 'url' ? (
                 <>
-                  <input type="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://your-prototype.com or figma.com/proto/..." className="input-field" required style={{ fontSize: '1rem', padding: '1rem 1.25rem' }} />
+                  <div className="search-field-wrapper">
+                    <span className="search-field-icon">🌐</span>
+                    <input
+                      type="url"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder="https://your-prototype.com or figma.com/proto/..."
+                      className="input-field input-field-highlight"
+                      required
+                    />
+                  </div>
                   <button type="submit" className="btn btn-primary hero__cta-primary" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '0.9rem' }}>
                     <span className="pulse-ring" />
                     🔍 Evaluate My UX
