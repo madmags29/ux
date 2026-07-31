@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import Logo from './Logo';
 
 const NAV_LINKS = [
   { to: '/', label: 'Evaluator' },
@@ -40,13 +41,8 @@ export default function Navbar() {
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
         <div className="navbar__inner">
           {/* Logo */}
-          <NavLink to="/" className="navbar__logo">
-            <div className="navbar__logo-icon">
-              <span style={{ position: 'relative', zIndex: 1 }}>R</span>
-            </div>
-            <span className="navbar__logo-text">
-              Rate<span className="navbar__logo-accent">MyUX</span>
-            </span>
+          <NavLink to="/" style={{ textDecoration: 'none' }}>
+            <Logo size="medium" animated={true} />
           </NavLink>
 
           {/* Desktop Links */}

@@ -8,6 +8,7 @@ import AnimatedSection from './components/AnimatedSection';
 import AboutPage from './pages/AboutPage';
 import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
+import Logo from './components/Logo';
 import './index.css';
 
 function EvaluatorPage() {
@@ -382,12 +383,9 @@ function Footer() {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <div className="site-footer__brand">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <div className="navbar__logo-icon" style={{ width: '28px', height: '28px', borderRadius: '6px', fontSize: '0.75rem' }}>
-              <span style={{ position: 'relative', zIndex: 1 }}>R</span>
-            </div>
-            <span className="navbar__logo-text" style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>Rate<span className="navbar__logo-accent">MyUX</span></span>
-          </div>
+          <Link to="/" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '0.5rem' }}>
+            <Logo size="small" animated={true} />
+          </Link>
           <p>AI-powered UX evaluation for designers, founders, and product teams.</p>
         </div>
         <div className="site-footer__links">
