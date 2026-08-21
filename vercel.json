@@ -1,12 +1,35 @@
 {
   "functions": {
+    "api/*.js": {
+      "maxDuration": 60
+    },
     "api/**/*.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth/[...slug]"
+    },
+    {
+      "source": "/api/admin/:path*",
+      "destination": "/api/admin/[...slug]"
+    },
+    {
+      "source": "/api/evaluate",
+      "destination": "/api/evaluate"
+    },
+    {
+      "source": "/api/contact",
+      "destination": "/api/contact"
+    },
+    {
+      "source": "/api",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
