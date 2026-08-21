@@ -5,8 +5,8 @@
     }
   },
   "routes": [
-    { "src": "/api/auth/(.*)", "dest": "/api/auth.js" },
-    { "src": "/api/admin/(.*)", "dest": "/api/admin.js" },
+    { "src": "/api/auth/(.*)", "dest": "/api/auth" },
+    { "src": "/api/admin/(.*)", "dest": "/api/admin" },
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
   ]
