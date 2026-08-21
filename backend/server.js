@@ -204,7 +204,7 @@ const smtpTransporter = nodemailer.createTransport({
 });
 
 // ─── Contact form endpoint ───────────────────────────────────────────────────
-app.post('/api/contact', async (req, res) => {
+app.post(['/api/contact', '/contact'], async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
@@ -286,7 +286,7 @@ app.get('/', (req, res) => {
 });
 
 // ─── Main evaluate endpoint ───────────────────────────────────────────────────
-app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
+app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req, res) => {
   const { url, maxScreens = 6 } = req.body;
   const uploadedFiles = req.files || [];
   let browser;
@@ -546,7 +546,7 @@ const authAdmin = (req, res, next) => {
   return res.status(401).json({ error: 'Unauthorized: Invalid Admin Token' });
 };
 
-app.post('/api/admin/login', (req, res) => {
+app.post(['/api/admin/login', '/admin/login'], (req, res) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
     return res.json({ success: true, token: 'admin-authenticated-token' });
@@ -554,7 +554,7 @@ app.post('/api/admin/login', (req, res) => {
   return res.status(401).json({ error: 'Incorrect admin password' });
 });
 
-app.get('/api/admin/evaluations', authAdmin, async (req, res) => {
+app.get(['/api/admin/evaluations', '/admin/evaluations'], authAdmin, async (req, res) => {
   try {
     const db = await connectDB();
     if (db) {
@@ -568,7 +568,7 @@ app.get('/api/admin/evaluations', authAdmin, async (req, res) => {
   res.json({ success: true, count: evaluations.length, evaluations });
 });
 
-app.get('/api/admin/contacts', authAdmin, async (req, res) => {
+app.get(['/api/admin/contacts', '/admin/contacts'], authAdmin, async (req, res) => {
   try {
     const db = await connectDB();
     if (db) {
@@ -582,7 +582,7 @@ app.get('/api/admin/contacts', authAdmin, async (req, res) => {
   res.json({ success: true, count: contacts.length, contacts });
 });
 
-app.delete('/api/admin/evaluations/:id', authAdmin, async (req, res) => {
+app.delete(['/api/admin/evaluations/:id', '/admin/evaluations/:id'], authAdmin, async (req, res) => {
   try {
     const db = await connectDB();
     if (db) {
@@ -597,7 +597,7 @@ app.delete('/api/admin/evaluations/:id', authAdmin, async (req, res) => {
   res.json({ success: true, message: 'Evaluation deleted' });
 });
 
-app.delete('/api/admin/contacts/:id', authAdmin, async (req, res) => {
+app.delete(['/api/admin/contacts/:id', '/admin/contacts/:id'], authAdmin, async (req, res) => {
   try {
     const db = await connectDB();
     if (db) {
