@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const getOpenAI = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use(cors());
 app.use(express.json());
@@ -134,7 +134,7 @@ const toBase64 = (filepath) => Buffer.from(fs.readFileSync(filepath)).toString('
 async function evaluateScreen(base64Image, retries = 2) {
   for (let i = 0; i <= retries; i++) {
     try {
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: 'gpt-4o',
         messages: [
           { role: 'system', content: PER_SCREEN_PROMPT },
@@ -461,7 +461,7 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
     if (screensData.length > 0) {
       send('status', { message: 'Generating aggregate report...' });
       const summaryInput = screensData.map(s => `Screen ${s.index} - "${s.title}":\n${JSON.stringify(s.evaluation, null, 2)}`).join('\n\n---\n\n');
-      const aggResponse = await openai.chat.completions.create({
+      const aggResponse = await getOpenAI().chat.completions.create({
         model: 'gpt-4o',
         messages: [
           { role: 'system', content: AGGREGATE_PROMPT },
