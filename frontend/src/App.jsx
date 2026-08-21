@@ -81,7 +81,7 @@ function EvaluatorPage() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || '';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://www.ratemyux.com';
       const response = await fetch(`${API_URL}/api/evaluate`, {
         method: 'POST',
         body: formData,

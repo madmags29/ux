@@ -13,7 +13,7 @@ export default function AdminPage() {
   const [search, setSearch] = useState('');
   const [inspectItem, setInspectItem] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || '';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://www.ratemyux.com';
 
   const handleLogin = async (e) => {
     e.preventDefault();
