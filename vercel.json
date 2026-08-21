@@ -3,6 +3,10 @@
     "api/*.js": {
       "maxDuration": 60,
       "memory": 1024
+    },
+    "frontend/api/*.js": {
+      "maxDuration": 60,
+      "memory": 1024
     }
   },
   "rewrites": [
