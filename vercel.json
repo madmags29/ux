@@ -4,18 +4,10 @@
       "maxDuration": 60
     }
   },
-  "rewrites": [
-    {
-      "source": "/api/auth/:path*",
-      "destination": "/api/auth"
-    },
-    {
-      "source": "/api/admin/:path*",
-      "destination": "/api/admin"
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
-    }
+  "routes": [
+    { "src": "/api/auth/(.*)", "dest": "/api/auth.js" },
+    { "src": "/api/admin/(.*)", "dest": "/api/admin.js" },
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
