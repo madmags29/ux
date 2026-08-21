@@ -2,17 +2,16 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 60
-    },
-    "api/**/*.js": {
-      "maxDuration": 60
     }
   },
   "rewrites": [
-    { "source": "/api/auth/:path*", "destination": "/api/auth" },
-    { "source": "/api/admin/:path*", "destination": "/api/admin" },
-    { "source": "/api/evaluate", "destination": "/api/evaluate" },
-    { "source": "/api/contact", "destination": "/api/contact" },
-    { "source": "/api", "destination": "/api/index" },
+    { "source": "/api/auth/(.*)", "destination": "/api/auth.js" },
+    { "source": "/api/auth", "destination": "/api/auth.js" },
+    { "source": "/api/admin/(.*)", "destination": "/api/admin.js" },
+    { "source": "/api/admin", "destination": "/api/admin.js" },
+    { "source": "/api/evaluate", "destination": "/api/evaluate.js" },
+    { "source": "/api/contact", "destination": "/api/contact.js" },
+    { "source": "/api", "destination": "/api/index.js" },
     { "source": "/:path*", "destination": "/index.html" }
   ]
 }
