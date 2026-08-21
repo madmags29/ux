@@ -405,7 +405,6 @@ function Footer() {
             <p className="site-footer__heading">Company</p>
             <Link to="/about">About</Link>
             <Link to="/contact">Contact</Link>
-            <Link to="/admin" style={{ opacity: 0.6 }}>Admin</Link>
           </div>
         </div>
       </div>
