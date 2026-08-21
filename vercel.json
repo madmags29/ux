@@ -8,29 +8,11 @@
     }
   },
   "rewrites": [
-    {
-      "source": "/api/auth/:path*",
-      "destination": "/api/auth/[...slug]"
-    },
-    {
-      "source": "/api/admin/:path*",
-      "destination": "/api/admin/[...slug]"
-    },
-    {
-      "source": "/api/evaluate",
-      "destination": "/api/evaluate"
-    },
-    {
-      "source": "/api/contact",
-      "destination": "/api/contact"
-    },
-    {
-      "source": "/api",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
-    }
+    { "source": "/api/auth/:match*", "destination": "/api/auth/:match*" },
+    { "source": "/api/admin/:match*", "destination": "/api/admin/:match*" },
+    { "source": "/api/evaluate", "destination": "/api/evaluate" },
+    { "source": "/api/contact", "destination": "/api/contact" },
+    { "source": "/api", "destination": "/api/index" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
