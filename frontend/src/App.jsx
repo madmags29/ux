@@ -81,7 +81,8 @@ function EvaluatorPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/evaluate', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/api/evaluate`, {
         method: 'POST',
         body: formData,
         signal: abortRef.current?.signal
