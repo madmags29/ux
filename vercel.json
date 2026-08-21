@@ -1,19 +1,14 @@
 {
   "functions": {
-    "api/*.js": {
-      "maxDuration": 60
-    },
-    "api/**/*.js": {
-      "maxDuration": 60
-    },
-    "frontend/api/*.js": {
-      "maxDuration": 60
-    },
-    "frontend/api/**/*.js": {
+    "api/index.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"

@@ -7,15 +7,19 @@ import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
 import os from 'os';
-import { connectDB } from './db.js';
-import Evaluation from './models/Evaluation.js';
-import Contact from './models/Contact.js';
-import User from './models/User.js';
+import { connectDB } from './_db.js';
+import Evaluation from './_models/Evaluation.js';
+import Contact from './_models/Contact.js';
+import User from './_models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { OAuth2Client } from 'google-auth-library';
 
-dotenv.config();
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -243,11 +247,6 @@ app.post(['/api/auth/login', '/auth/login'], async (req, res) => {
   }
 });
 
-const getGoogleClient = () => {
-  const clientId = process.env.GOOGLE_CLIENT_ID || '';
-  return new OAuth2Client(clientId);
-};
-
 app.post(['/api/auth/google', '/auth/google'], async (req, res) => {
   try {
     const { credential, googleId, email, name, avatar } = req.body;
@@ -282,7 +281,6 @@ app.post(['/api/auth/google', '/auth/google'], async (req, res) => {
     if (!cleanEmail) {
       return res.status(400).json({ error: 'Google authentication payload missing email.' });
     }
-
 
     let user = await findUserByEmail(cleanEmail);
     if (!user) {

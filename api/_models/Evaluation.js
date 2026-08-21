@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const EvaluationSchema = new mongoose.Schema(
   {
     id: { type: String, required: true, unique: true },
+    userId: { type: String, default: null, index: true },
     timestamp: { type: String, required: true },
     targetUrl: { type: String, default: '' },
     mode: { type: String, default: 'url' },
