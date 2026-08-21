@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
+import os from 'os';
 import { connectDB } from './db.js';
 import Evaluation from './models/Evaluation.js';
 import Contact from './models/Contact.js';
@@ -20,10 +21,12 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.use(cors());
 app.use(express.json());
 
-// Serve screenshots statically
-const screenshotsDir = path.resolve('screenshots');
-const uploadsDir = path.resolve('uploads');
-const dataDir = path.resolve('data');
+// Serve screenshots statically (using temp directory on Vercel serverless)
+const isVercel = Boolean(process.env.VERCEL);
+const screenshotsDir = isVercel ? path.join(os.tmpdir(), 'screenshots') : path.resolve('screenshots');
+const uploadsDir = isVercel ? path.join(os.tmpdir(), 'uploads') : path.resolve('uploads');
+const dataDir = isVercel ? path.join(os.tmpdir(), 'data') : path.resolve('data');
+
 if (!fs.existsSync(screenshotsDir)) fs.mkdirSync(screenshotsDir, { recursive: true });
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
