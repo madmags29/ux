@@ -11,11 +11,11 @@ export default defineConfig({
         enabled: true
       },
       manifest: {
-        name: 'AI UX Expert Evaluator',
-        short_name: 'UX Expert',
-        description: 'Automated UX audit and evaluation tool using AI',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        name: 'Rate My UX — AI UX Evaluator',
+        short_name: 'Rate My UX',
+        description: 'AI-powered UX evaluation tool. Audit websites, Figma prototypes, and mobile apps for usability, accessibility & conversion issues.',
+        theme_color: '#0a0a1a',
+        background_color: '#0a0a1a',
         display: 'standalone',
         icons: [
           {

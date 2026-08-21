@@ -10,8 +10,16 @@ import os from 'os';
 import { connectDB } from './db.js';
 import Evaluation from './models/Evaluation.js';
 import Contact from './models/Contact.js';
+import User from './models/User.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { OAuth2Client } from 'google-auth-library';
 
-dotenv.config();
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -38,6 +46,359 @@ if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 app.use('/screenshots', express.static(screenshotsDir));
 
+// ─── Data Storage Helpers ───────────────────────────────────────────────────
+const EVALUATIONS_FILE = path.join(dataDir, 'evaluations.json');
+const CONTACTS_FILE = path.join(dataDir, 'contacts.json');
+const USERS_FILE = path.join(dataDir, 'users.json');
+
+const loadJSON = (filepath) => {
+  try {
+    if (!fs.existsSync(filepath)) return [];
+    return JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  } catch (err) {
+    return [];
+  }
+};
+
+const saveJSON = (filepath, data) => {
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`Failed to save ${filepath}:`, err);
+  }
+};
+
+const findUserByEmail = async (email) => {
+  const cleanEmail = email.trim().toLowerCase();
+  try {
+    const db = await connectDB();
+    if (db) {
+      const u = await User.findOne({ email: cleanEmail }).lean();
+      if (u) return u;
+    }
+  } catch (e) {
+    console.warn('MongoDB User find error, using local fallback:', e.message);
+  }
+  const users = loadJSON(USERS_FILE);
+  return users.find(u => u.email === cleanEmail) || null;
+};
+
+const findUserById = async (id) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const u = await User.findOne({ id }).select('-password').lean();
+      if (u) return u;
+    }
+  } catch (e) {
+    console.warn('MongoDB User findById error, using local fallback:', e.message);
+  }
+  const users = loadJSON(USERS_FILE);
+  const u = users.find(user => user.id === id);
+  if (!u) return null;
+  const { password, ...userWithoutPass } = u;
+  return userWithoutPass;
+};
+
+const saveUserRecord = async (userRecord) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const existing = await User.findOne({ email: userRecord.email });
+      if (existing) {
+        Object.assign(existing, userRecord);
+        await existing.save();
+      } else {
+        await User.create(userRecord);
+      }
+    }
+  } catch (e) {
+    console.warn('MongoDB User save error, using local fallback:', e.message);
+  }
+  const users = loadJSON(USERS_FILE);
+  const existingIdx = users.findIndex(u => u.email === userRecord.email || u.id === userRecord.id);
+  if (existingIdx >= 0) {
+    users[existingIdx] = { ...users[existingIdx], ...userRecord };
+  } else {
+    users.unshift(userRecord);
+  }
+  saveJSON(USERS_FILE, users);
+  return userRecord;
+};
+
+const JWT_SECRET = process.env.JWT_SECRET || 'rate-my-ux-jwt-secret-key-2026';
+
+const getUserIdFromReq = (req) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    return decoded.id || null;
+  } catch (err) {
+    return null;
+  }
+};
+
+const authUser = (req, res, next) => {
+  const userId = getUserIdFromReq(req);
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized: Please log in' });
+  }
+  req.userId = userId;
+  next();
+};
+
+// -------------------------------------------------------------
+// USER AUTHENTICATION & USER DASHBOARD ENDPOINTS
+// -------------------------------------------------------------
+app.post(['/api/auth/register', '/auth/register'], async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    if (!email || !password || !name) {
+      return res.status(400).json({ error: 'Name, email, and password are required.' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const existingUser = await findUserByEmail(cleanEmail);
+    if (existingUser) {
+      return res.status(400).json({ error: 'An account with this email already exists.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+
+    const newUserRecord = {
+      id: userId,
+      name: name.trim(),
+      email: cleanEmail,
+      password: hashedPassword,
+      avatar: '',
+      provider: 'email',
+      createdAt: new Date().toISOString(),
+    };
+
+    await saveUserRecord(newUserRecord);
+
+    const token = jwt.sign(
+      { id: newUserRecord.id, email: newUserRecord.email, name: newUserRecord.name },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    return res.status(201).json({
+      success: true,
+      token,
+      user: {
+        id: newUserRecord.id,
+        name: newUserRecord.name,
+        email: newUserRecord.email,
+        avatar: newUserRecord.avatar,
+        provider: newUserRecord.provider,
+      },
+    });
+  } catch (err) {
+    console.error('Registration Error:', err);
+    return res.status(500).json({ error: 'Server error during registration' });
+  }
+});
+
+app.post(['/api/auth/login', '/auth/login'], async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await findUserByEmail(cleanEmail);
+    if (!user || !user.password) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        provider: user.provider,
+      },
+    });
+  } catch (err) {
+    console.error('Login Error:', err);
+    return res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+app.post(['/api/auth/google', '/auth/google'], async (req, res) => {
+  try {
+    const { credential, googleId, email, name, avatar } = req.body;
+    let cleanEmail = email ? email.trim().toLowerCase() : '';
+    let displayName = name || '';
+    let userAvatar = avatar || '';
+    let gId = googleId || '';
+
+    if (credential) {
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      if (!clientId) {
+        return res.status(500).json({ error: 'Google OAuth not configured on server.' });
+      }
+      try {
+        const client = new OAuth2Client(clientId);
+        const ticket = await client.verifyIdToken({
+          idToken: credential,
+          audience: clientId,
+        });
+        const payload = ticket.getPayload();
+        cleanEmail = payload.email.toLowerCase();
+        displayName = payload.name || cleanEmail.split('@')[0];
+        userAvatar = payload.picture || '';
+        gId = payload.sub;
+        console.log('[Google Auth] Token verified for:', cleanEmail);
+      } catch (verifyErr) {
+        console.error('[Google Auth] Token verification failed:', verifyErr.message);
+        return res.status(401).json({ error: 'Google token verification failed: ' + verifyErr.message });
+      }
+    }
+
+    if (!cleanEmail) {
+      return res.status(400).json({ error: 'Google authentication payload missing email.' });
+    }
+
+    let user = await findUserByEmail(cleanEmail);
+    if (!user) {
+      const userId = 'usr_g_' + Date.now();
+      user = {
+        id: userId,
+        name: displayName || cleanEmail.split('@')[0],
+        email: cleanEmail,
+        googleId: gId,
+        avatar: userAvatar,
+        provider: 'google',
+        createdAt: new Date().toISOString(),
+      };
+      await saveUserRecord(user);
+    } else {
+      user.googleId = gId || user.googleId;
+      user.avatar = userAvatar || user.avatar;
+      user.provider = user.provider || 'google';
+      await saveUserRecord(user);
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        provider: user.provider,
+      },
+    });
+  } catch (err) {
+    console.error('Google Auth Error:', err);
+    return res.status(500).json({ error: 'Server error during Google login' });
+  }
+});
+
+app.get(['/api/auth/me', '/auth/me'], authUser, async (req, res) => {
+  try {
+    const user = await findUserById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    let evalCount = 0;
+    try {
+      const db = await connectDB();
+      if (db) {
+        evalCount = await Evaluation.countDocuments({ userId: user.id });
+      } else {
+        const evaluations = loadJSON(EVALUATIONS_FILE);
+        evalCount = evaluations.filter(e => e.userId === user.id).length;
+      }
+    } catch {
+      const evaluations = loadJSON(EVALUATIONS_FILE);
+      evalCount = evaluations.filter(e => e.userId === user.id).length;
+    }
+
+    return res.json({
+      success: true,
+      user: {
+        ...user,
+        evalCount,
+      },
+    });
+  } catch (err) {
+    console.error('Fetch Profile Error:', err);
+    return res.status(500).json({ error: 'Server error fetching user profile' });
+  }
+});
+
+app.post(['/api/auth/change-password', '/auth/change-password'], authUser, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters long.' });
+    }
+
+    const user = await findUserById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await saveUserRecord(user);
+
+    return res.json({ success: true, message: 'Password updated successfully!' });
+  } catch (err) {
+    console.error('Change Password Error:', err);
+    return res.status(500).json({ error: 'Server error updating password' });
+  }
+});
+
+app.get(['/api/user/evaluations', '/user/evaluations'], authUser, async (req, res) => {
+  try {
+    try {
+      const db = await connectDB();
+      if (db) {
+        const evaluations = await Evaluation.find({ userId: req.userId }).sort({ createdAt: -1 }).lean();
+        return res.json({ success: true, count: evaluations.length, evaluations });
+      }
+    } catch {}
+    const evaluations = loadJSON(EVALUATIONS_FILE);
+    const userEvals = evaluations.filter(e => e.userId === req.userId);
+    return res.json({ success: true, count: userEvals.length, evaluations: userEvals });
+  } catch (err) {
+    console.error('User Evaluations Error:', err);
+    return res.status(500).json({ error: 'Server error fetching user evaluations' });
+  }
+});
+
 // Helper for browser launch (supporting local Dev & Vercel serverless)
 const launchBrowser = async () => {
   if (process.env.VERCEL) {
@@ -55,27 +416,6 @@ const launchBrowser = async () => {
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
   });
-};
-
-// ─── Data Storage Helpers ───────────────────────────────────────────────────
-const EVALUATIONS_FILE = path.join(dataDir, 'evaluations.json');
-const CONTACTS_FILE = path.join(dataDir, 'contacts.json');
-
-const loadJSON = (filepath) => {
-  try {
-    if (!fs.existsSync(filepath)) return [];
-    return JSON.parse(fs.readFileSync(filepath, 'utf8'));
-  } catch (err) {
-    return [];
-  }
-};
-
-const saveJSON = (filepath, data) => {
-  try {
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
-  } catch (err) {
-    console.error(`Failed to save ${filepath}:`, err);
-  }
 };
 
 // ─── Prompts ──────────────────────────────────────────────────────────────────
@@ -483,8 +823,10 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
 
     // Persist evaluation record (MongoDB with JSON fallback)
     try {
+      const currentUserId = getUserIdFromReq(req);
       const evalRecord = {
         id: 'eval_' + Date.now(),
+        userId: currentUserId,
         timestamp: new Date().toISOString(),
         targetUrl: url || 'Uploaded Screenshots',
         mode: url ? 'url' : 'upload',
@@ -617,6 +959,52 @@ app.delete(['/api/admin/contacts/:id', '/admin/contacts/:id'], authAdmin, async 
   contacts = contacts.filter(c => c.id !== req.params.id);
   saveJSON(CONTACTS_FILE, contacts);
   res.json({ success: true, message: 'Contact deleted' });
+});
+
+app.get(['/api/admin/users', '/admin/users'], authAdmin, async (req, res) => {
+  try {
+    let usersList = [];
+    try {
+      const db = await connectDB();
+      if (db) {
+        usersList = await User.find().select('-password').sort({ createdAt: -1 }).lean();
+      }
+    } catch (err) {
+      console.warn('MongoDB users fetch error:', err);
+    }
+    if (!usersList || usersList.length === 0) {
+      usersList = loadJSON(USERS_FILE).map(({ password, ...u }) => u);
+    }
+    const evaluations = loadJSON(EVALUATIONS_FILE);
+    const usersWithCounts = usersList.map((u) => {
+      const evalCount = evaluations.filter(e => e.userId === u.id).length;
+      return { ...u, evalCount };
+    });
+    return res.json({ success: true, count: usersWithCounts.length, users: usersWithCounts });
+  } catch (err) {
+    console.error('Admin users error:', err);
+    const usersList = loadJSON(USERS_FILE).map(({ password, ...u }) => u);
+    return res.json({ success: true, count: usersList.length, users: usersList });
+  }
+});
+
+app.delete(['/api/admin/users/:id', '/admin/users/:id'], authAdmin, async (req, res) => {
+  try {
+    try {
+      const db = await connectDB();
+      if (db) {
+        await User.deleteOne({ id: req.params.id });
+      }
+    } catch (err) {
+      console.error('MongoDB user delete error:', err);
+    }
+    let users = loadJSON(USERS_FILE);
+    users = users.filter(u => u.id !== req.params.id);
+    saveJSON(USERS_FILE, users);
+    res.json({ success: true, message: 'User deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
 });
 
 if (!process.env.VERCEL) {

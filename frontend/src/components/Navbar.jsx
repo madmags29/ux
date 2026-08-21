@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Logo from './Logo';
+import { useAuth } from '../context/AuthContext';
+import AuthModal from './AuthModal';
 
-const NAV_LINKS = [
+const BASE_NAV_LINKS = [
   { to: '/', label: 'Evaluator' },
   { to: '/about', label: 'About' },
   { to: '/plans', label: 'Plans' },
@@ -10,12 +12,14 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'dark';
-  });
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState('login');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -37,6 +41,10 @@ export default function Navbar() {
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const navLinks = user
+    ? [...BASE_NAV_LINKS, { to: '/dashboard', label: 'My Dashboard' }]
+    : BASE_NAV_LINKS;
+
   return (
     <>
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
@@ -48,7 +56,7 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="navbar__links">
-            {NAV_LINKS.map(({ to, label }) => (
+            {navLinks.map(({ to, label }) => (
               <NavLink
                 key={to}
                 to={to}
@@ -62,7 +70,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA & Theme Toggle */}
+          {/* CTA, Theme Toggle & User Auth */}
           <div className="navbar__cta">
             <button
               onClick={toggleTheme}
@@ -87,9 +95,57 @@ export default function Navbar() {
               {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
             </button>
 
-            <NavLink to="/plans" className="btn btn-primary navbar__cta-btn">
-              Get Started
-            </NavLink>
+            {user ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <NavLink
+                  to="/dashboard"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    textDecoration: 'none',
+                    color: 'var(--text-primary)',
+                    background: 'var(--glass-bg)',
+                    padding: '0.35rem 0.75rem',
+                    borderRadius: '20px',
+                    border: '1px solid var(--glass-border)',
+                  }}
+                >
+                  <img
+                    src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6c5ce7&color=fff`}
+                    alt={user.name}
+                    style={{ width: '26px', height: '26px', borderRadius: '50%' }}
+                  />
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{user.name.split(' ')[0]}</span>
+                </NavLink>
+
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className="btn btn-secondary navbar__cta-btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem' }}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  onClick={() => { setAuthModalTab('login'); setAuthModalOpen(true); }}
+                  className="btn btn-secondary navbar__cta-btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem' }}
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => { setAuthModalTab('register'); setAuthModalOpen(true); }}
+                  className="btn btn-primary navbar__cta-btn"
+                  style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem' }}
+                >
+                  Register
+                </button>
+              </div>
+            )}
+
             {/* Hamburger */}
             <button
               className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
@@ -103,7 +159,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         <div className={`navbar__mobile${menuOpen ? ' navbar__mobile--open' : ''}`}>
-          {NAV_LINKS.map(({ to, label }) => (
+          {navLinks.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
@@ -130,14 +186,34 @@ export default function Navbar() {
                 fontSize: '0.85rem'
               }}
             >
-              {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+              {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
             </button>
-            <NavLink to="/plans" className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
-              Get Started
-            </NavLink>
+            {user ? (
+              <button
+                onClick={() => { logout(); navigate('/'); }}
+                className="btn btn-secondary"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => { setAuthModalTab('login'); setAuthModalOpen(true); }}
+                className="btn btn-primary"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </nav>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialTab={authModalTab}
+      />
       <div className="navbar__spacer" />
     </>
   );

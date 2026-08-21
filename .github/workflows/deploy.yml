@@ -21,25 +21,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: Install Root & Frontend Dependencies
-        run: |
-          npm install
-          cd frontend && npm install
+      - name: Install Root Dependencies
+        run: npm install
+
+      - name: Install Frontend Dependencies
+        run: cd frontend && npm install
 
       - name: Run ESLint
-        run: |
-          cd frontend && npm run lint
+        run: cd frontend && npm run lint
 
       - name: Run Frontend Build
-        run: |
-          cd frontend && npm run build
+        run: cd frontend && npm run build
+        env:
+          VITE_API_URL: https://www.ratemyux.com
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
-        if: github.ref == 'refs/heads/main' && env.VERCEL_TOKEN != ''
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        if: github.ref == 'refs/heads/main'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}

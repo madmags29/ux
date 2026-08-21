@@ -8,11 +8,16 @@ import AboutPage from './pages/AboutPage';
 import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
+import DashboardPage from './pages/DashboardPage';
+import AuthModal from './components/AuthModal';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
 import SEO from './components/SEO';
 import './index.css';
 
+
 function EvaluatorPage() {
+  const { token, user } = useAuth();
   const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
   const [files, setFiles] = useState([]);
@@ -26,6 +31,9 @@ function EvaluatorPage() {
   const [error, setError] = useState(null);
   const [done, setDone] = useState(false);
   const [currentPreview, setCurrentPreview] = useState(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const [authGateReason, setAuthGateReason] = useState('evaluate');
+  const [pendingSubmit, setPendingSubmit] = useState(false);
   const abortRef = useRef(null);
 
   const reset = () => {
@@ -39,26 +47,11 @@ function EvaluatorPage() {
     setError(null);
     setDone(false);
     setCurrentPreview(null);
+    setPendingSubmit(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (mode === 'url' && !url) return;
-    if (mode === 'upload' && files.length === 0) return;
-
-    if (mode === 'upload' && files.length > 3) {
-      setError(
-        <span>
-          <strong>⚠️ Free Plan Limit Exceeded:</strong> You have uploaded {files.length} screens. The free plan only supports evaluating up to 3 screens. Please{' '}
-          <a href="/plans" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontWeight: 600 }}>
-            purchase a plan
-          </a>{' '}
-          to evaluate more screens.
-        </span>
-      );
-      return;
-    }
-
+  const runEvaluation = async (authToken) => {
+    const tkn = authToken || token;
     reset();
     setLoading(true);
     abortRef.current = new AbortController();
@@ -74,17 +67,16 @@ function EvaluatorPage() {
       formData.append('url', url);
       formData.append('maxScreens', maxScreens);
     } else {
-      files.forEach(file => {
-        formData.append('images', file);
-      });
+      files.forEach(file => formData.append('images', file));
     }
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://www.ratemyux.com';
       const response = await fetch(`${API_URL}/api/evaluate`, {
         method: 'POST',
+        headers: tkn ? { Authorization: `Bearer ${tkn}` } : {},
         body: formData,
-        signal: abortRef.current?.signal
+        signal: abortRef.current?.signal,
       });
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -107,6 +99,45 @@ function EvaluatorPage() {
     }
   };
 
+  // Called when user successfully signs in via the auth gate
+  const handleAuthSuccess = () => {
+    setShowAuthGate(false);
+    if (pendingSubmit) {
+      setPendingSubmit(false);
+      // Small delay to let token state update in context
+      setTimeout(() => runEvaluation(), 300);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (mode === 'url' && !url) return;
+    if (mode === 'upload' && files.length === 0) return;
+
+    if (mode === 'upload' && files.length > 3) {
+      setError(
+        <span>
+          <strong>⚠️ Free Plan Limit Exceeded:</strong> You have uploaded {files.length} screens. The free plan only supports evaluating up to 3 screens. Please{' '}
+          <a href="/plans" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontWeight: 600 }}>
+            purchase a plan
+          </a>{' '}
+          to evaluate more screens.
+        </span>
+      );
+      return;
+    }
+
+    // Require login before evaluating
+    if (!token) {
+      setPendingSubmit(true);
+      setAuthGateReason('evaluate');
+      setShowAuthGate(true);
+      return;
+    }
+
+    runEvaluation();
+  };
+
   const handleEvent = (event) => {
     switch (event.type) {
       case 'status': setStatus(event.message); break;
@@ -123,6 +154,12 @@ function EvaluatorPage() {
 
   const handleDownload = async () => {
     if (!aggregate && screens.length === 0) return;
+    if (!token) {
+      setPendingSubmit(false);
+      setAuthGateReason('download');
+      setShowAuthGate(true);
+      return;
+    }
     setPdfLoading(true);
     try { await generatePDF(screens, aggregate); }
     catch (err) { alert('PDF generation failed: ' + err.message); }
@@ -138,6 +175,17 @@ function EvaluatorPage() {
         description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly."
         canonicalPath="/"
       />
+
+      {/* Auth Gate */}
+      {showAuthGate && (
+        <AuthModal
+          isOpen={true}
+          onClose={() => { setShowAuthGate(false); setPendingSubmit(false); }}
+          onSuccess={handleAuthSuccess}
+          gateReason={authGateReason}
+        />
+      )}
+
       {/* ─── HERO ─── */}
       {!hasResults && !loading && (
         <section className="hero">
@@ -283,15 +331,15 @@ function EvaluatorPage() {
 
             <p style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem', textAlign: 'center', marginTop: '1rem' }}>
               {mode === 'url'
-                ? "Navigates your site/Figma, captures every screen, and runs a full AI audit on each one."
-                : "Upload multiple screenshots to evaluate design coherence and individual screens."
+                ? 'Navigates your site/Figma, captures every screen, and runs a full AI audit on each one.'
+                : 'Upload multiple screenshots to evaluate design coherence and individual screens.'
               }
             </p>
           </div>
         </section>
       )}
 
-      {/* ─── RESULTS AREA (inside container) ─── */}
+      {/* ─── RESULTS AREA ─── */}
       <div className="container">
         {error && (
           <div style={{ color: 'var(--error)', textAlign: 'center', marginTop: '1rem', padding: '1rem', background: 'rgba(239,68,68,0.07)', borderRadius: 'var(--radius-md)', maxWidth: 700, margin: '1rem auto', border: '1px solid rgba(239,68,68,0.15)' }}>
@@ -334,6 +382,44 @@ function EvaluatorPage() {
               </div>
             </div>
 
+            {/* ── Save Report Banner for guests ── */}
+            {done && !user && (
+              <div
+                style={{
+                  marginBottom: '2rem',
+                  padding: '1.25rem 1.75rem',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'linear-gradient(135deg, rgba(108,92,231,0.15), rgba(168,85,247,0.1))',
+                  border: '1.5px solid rgba(108,92,231,0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '1rem',
+                  boxShadow: '0 4px 24px rgba(108,92,231,0.15)',
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#a855f7', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                    💾 Report not saved
+                  </div>
+                  <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    Create a free account to save, revisit & download this report
+                  </h3>
+                  <p style={{ margin: '0.25rem 0 0', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                    Sign in with Google in one click — history, PDF exports & more.
+                  </p>
+                </div>
+                <button
+                  onClick={() => { setAuthGateReason('download'); setShowAuthGate(true); }}
+                  className="btn btn-primary"
+                  style={{ whiteSpace: 'nowrap', padding: '0.75rem 1.5rem' }}
+                >
+                  🚀 Save My Report
+                </button>
+              </div>
+            )}
+
             {/* Professional UX Fixes CTA Banner */}
             {done && (
               <div
@@ -341,36 +427,32 @@ function EvaluatorPage() {
                 style={{
                   marginBottom: '2.5rem',
                   padding: '1.75rem 2rem',
-                  background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(139, 92, 246, 0.08))',
-                  border: '1.5px solid rgba(0, 240, 255, 0.3)',
+                  background: 'linear-gradient(135deg, rgba(0,240,255,0.08), rgba(139,92,246,0.08))',
+                  border: '1.5px solid rgba(0,240,255,0.3)',
                   borderRadius: 'var(--radius-lg)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
                   gap: '1.5rem',
-                  boxShadow: '0 8px 32px rgba(0, 240, 255, 0.12)'
+                  boxShadow: '0 8px 32px rgba(0,240,255,0.12)',
                 }}
               >
                 <div style={{ flex: '1 1 380px' }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', background: 'rgba(0, 240, 255, 0.15)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '0.5rem' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', background: 'rgba(0,240,255,0.15)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '0.5rem' }}>
                     ✨ Flat-Rate UX Optimization
                   </div>
                   <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0.35rem', fontFamily: 'var(--font-heading)' }}>
                     Want Us to Redesign & Fix These UX Issues For You?
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                    Don't let usability flaws cost you customers. Our senior design team can fix all identified issues with a transparent, minimal fee.
+                    Don&apos;t let usability flaws cost you customers. Our senior design team can fix all identified issues with a transparent, minimal fee.
                   </p>
                 </div>
                 <Link
                   to="/contact"
                   className="btn btn-primary"
-                  style={{
-                    padding: '0.85rem 1.75rem',
-                    fontSize: '0.95rem',
-                    whiteSpace: 'nowrap'
-                  }}
+                  style={{ padding: '0.85rem 1.75rem', fontSize: '0.95rem', whiteSpace: 'nowrap' }}
                 >
                   💬 Get UX Help Now →
                 </Link>
@@ -420,7 +502,7 @@ function Footer() {
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <main id="main-content">
         <Routes>
@@ -428,11 +510,12 @@ function App() {
           <Route path="/about" element={<div className="container"><AboutPage /></div>} />
           <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
           <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
         </Routes>
       </main>
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
 

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "usr_g_1787306785460",
+    "name": "Test User",
+    "email": "test@gmail.com",
+    "googleId": "",
+    "avatar": "",
+    "provider": "google",
+    "createdAt": "2026-08-21T10:06:25.460Z"
+  },
+  {
+    "id": "usr_g_1787303632728",
+    "name": "Gmail User",
+    "email": "gmailuser@gmail.com",
+    "googleId": "g_123456",
+    "avatar": "https://ui-avatars.com/api/?name=Gmail+User",
+    "provider": "google",
+    "createdAt": "2026-08-21T09:13:52.728Z"
+  },
+  {
+    "id": "usr_1787303627215_tszwl",
+    "name": "Alex Morgan",
+    "email": "alex@example.com",
+    "password": "$2b$10$1jNK7Qy5Lks.lUQxmnwqSeeaOehZun6mEvViB9L724KsI2z0AQ9KW",
+    "avatar": "",
+    "provider": "email",
+    "createdAt": "2026-08-21T09:13:47.215Z"
+  }
+]
