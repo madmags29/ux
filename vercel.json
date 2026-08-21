@@ -3,11 +3,21 @@
     "api/*.js": {
       "maxDuration": 60
     },
+    "api/**/*.js": {
+      "maxDuration": 60
+    },
     "frontend/api/*.js": {
+      "maxDuration": 60
+    },
+    "frontend/api/**/*.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
+    {
+      "source": "/api/admin/:path*",
+      "destination": "/api/admin"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"

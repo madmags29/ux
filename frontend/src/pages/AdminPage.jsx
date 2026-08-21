@@ -24,8 +24,13 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Login failed');
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error(`Server returned HTTP ${res.status}`);
+      }
+      if (!res.ok) throw new Error(data.error || `Login failed (HTTP ${res.status})`);
       localStorage.setItem('adminToken', data.token);
       setToken(data.token);
       setPassword('');
@@ -51,8 +56,10 @@ export default function AdminPage() {
           fetch(`${API_URL}/api/admin/evaluations`, { headers: { Authorization: `Bearer ${token}` } }),
           fetch(`${API_URL}/api/admin/contacts`, { headers: { Authorization: `Bearer ${token}` } }),
         ]);
-        const evalData = await evalRes.json();
-        const contactData = await contactRes.json();
+        let evalData = {};
+        let contactData = {};
+        try { evalData = await evalRes.json(); } catch {}
+        try { contactData = await contactRes.json(); } catch {}
 
         if (isMounted) {
           if (evalRes.ok) setEvaluations(evalData.evaluations || []);
