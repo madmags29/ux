@@ -128,24 +128,30 @@ const saveUserRecord = async (userRecord) => {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'rate-my-ux-jwt-secret-key-2026';
 
-const getUserIdFromReq = (req) => {
+const getUserFromReq = (req) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return null;
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    return decoded.id || null;
+    return decoded || null;
   } catch (err) {
     return null;
   }
 };
 
+const getUserIdFromReq = (req) => {
+  const u = getUserFromReq(req);
+  return u ? u.id : null;
+};
+
 const authUser = (req, res, next) => {
-  const userId = getUserIdFromReq(req);
-  if (!userId) {
+  const user = getUserFromReq(req);
+  if (!user || !user.id) {
     return res.status(401).json({ error: 'Unauthorized: Please log in' });
   }
-  req.userId = userId;
+  req.userId = user.id;
+  req.userEmail = user.email ? user.email.toLowerCase().trim() : null;
   next();
 };
 
@@ -383,15 +389,22 @@ app.post(['/api/auth/change-password', '/auth/change-password'], authUser, async
 
 app.get(['/api/user/evaluations', '/user/evaluations'], authUser, async (req, res) => {
   try {
+    const queryConditions = [{ userId: req.userId }];
+    if (req.userEmail) {
+      queryConditions.push({ userEmail: req.userEmail });
+    }
+
     try {
       const db = await connectDB();
       if (db) {
-        const evaluations = await Evaluation.find({ userId: req.userId }).sort({ createdAt: -1 }).lean();
+        const evaluations = await Evaluation.find({ $or: queryConditions }).sort({ createdAt: -1, timestamp: -1 }).lean();
         return res.json({ success: true, count: evaluations.length, evaluations });
       }
-    } catch {}
+    } catch (e) {
+      console.warn('MongoDB evaluation find error, using local fallback:', e.message);
+    }
     const evaluations = loadJSON(EVALUATIONS_FILE);
-    const userEvals = evaluations.filter(e => e.userId === req.userId);
+    const userEvals = evaluations.filter(e => e.userId === req.userId || (req.userEmail && e.userEmail === req.userEmail));
     return res.json({ success: true, count: userEvals.length, evaluations: userEvals });
   } catch (err) {
     console.error('User Evaluations Error:', err);
@@ -823,10 +836,11 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
 
     // Persist evaluation record (MongoDB with JSON fallback)
     try {
-      const currentUserId = getUserIdFromReq(req);
+      const userPayload = getUserFromReq(req);
       const evalRecord = {
         id: 'eval_' + Date.now(),
-        userId: currentUserId,
+        userId: userPayload ? userPayload.id : null,
+        userEmail: userPayload && userPayload.email ? userPayload.email.toLowerCase().trim() : null,
         timestamp: new Date().toISOString(),
         targetUrl: url || 'Uploaded Screenshots',
         mode: url ? 'url' : 'upload',
@@ -850,8 +864,11 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
     } catch (saveErr) {
       console.error('Failed to persist evaluation record:', saveErr);
       try {
+        const userPayload = getUserFromReq(req);
         const evalRecord = {
           id: 'eval_' + Date.now(),
+          userId: userPayload ? userPayload.id : null,
+          userEmail: userPayload && userPayload.email ? userPayload.email.toLowerCase().trim() : null,
           timestamp: new Date().toISOString(),
           targetUrl: url || 'Uploaded Screenshots',
           mode: url ? 'url' : 'upload',

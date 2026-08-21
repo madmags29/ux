@@ -14,7 +14,7 @@ export default function AdminPage() {
   const [search, setSearch] = useState('');
   const [inspectItem, setInspectItem] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || '';
 
   const handleLogin = async (e) => {
     e.preventDefault();

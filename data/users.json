@@ -4,9 +4,14 @@
     "name": "Majid",
     "email": "majidmak@gmail.com",
     "password": "$2b$10$RrhmeVMHcdEATJUqpHqsIuIUPbH554lKfiEZ/5Olsni6fc7pi8m76",
-    "avatar": "",
+    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIMK-noXV1KG9b5UA7FYOIPOYP6VBmCbafDDOEhvWSey8DVc-k-=s96-c",
     "provider": "email",
-    "createdAt": "2026-08-21T11:04:46.450Z"
+    "createdAt": "2026-08-21T11:04:46.450Z",
+    "_id": "6a8830ceba0e06a9da63ff03",
+    "googleId": "111864415825177265042",
+    "role": "user",
+    "updatedAt": "2026-08-21T11:04:46.450Z",
+    "__v": 0
   },
   {
     "id": "usr_g_1787306785460",

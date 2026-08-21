@@ -36,9 +36,7 @@ function EvaluatorPage() {
   const [pendingSubmit, setPendingSubmit] = useState(false);
   const abortRef = useRef(null);
 
-  const reset = () => {
-    setUrl('');
-    setFiles([]);
+  const resetEvaluationState = () => {
     setLoading(false);
     setStatus('');
     setProgress({ current: 0, total: 0 });
@@ -50,9 +48,15 @@ function EvaluatorPage() {
     setPendingSubmit(false);
   };
 
+  const reset = () => {
+    setUrl('');
+    setFiles([]);
+    resetEvaluationState();
+  };
+
   const runEvaluation = async (authToken) => {
     const tkn = authToken || token;
-    reset();
+    resetEvaluationState();
     setLoading(true);
     abortRef.current = new AbortController();
 
@@ -71,7 +75,7 @@ function EvaluatorPage() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'https://www.ratemyux.com';
+      const API_URL = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${API_URL}/api/evaluate`, {
         method: 'POST',
         headers: tkn ? { Authorization: `Bearer ${tkn}` } : {},

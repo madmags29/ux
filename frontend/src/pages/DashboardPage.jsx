@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 import MultiReport from '../components/MultiReport';
 import { generatePDF } from '../utils/generatePDF';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function DashboardPage() {
   const { user, token, logout, changePassword } = useAuth();
