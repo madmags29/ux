@@ -36,11 +36,13 @@ jobs:
         run: cd frontend && npm run build
         env:
           VITE_API_URL: ''
-          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID || '419653061982-iql4t191jtbgdr52trch1415jg9vigmh.apps.googleusercontent.com' }}
+          VITE_GOOGLE_CLIENT_ID: 419653061982-iql4t191jtbgdr52trch1415jg9vigmh.apps.googleusercontent.com
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
-        if: github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
+        if: github.ref == 'refs/heads/main' && env.VERCEL_TOKEN != ''
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
