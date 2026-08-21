@@ -1,4 +1,4 @@
-import app from '../_lib/server.js';
+import app from './_lib/server.js';
 
 export default function handler(req, res) {
   if (!req.url.startsWith('/api/auth')) {
