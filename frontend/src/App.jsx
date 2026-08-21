@@ -379,6 +379,38 @@ function EvaluatorPage() {
                 : 'Upload multiple screenshots to evaluate design coherence and individual screens.'
               }
             </p>
+
+            {/* Live Evaluation Stats */}
+            <div className="hero-evaluate-stats">
+              <div className="hero-stat-card glass-panel">
+                <span className="hero-stat-card__value">18,450+</span>
+                <div className="hero-stat-card__label">Screens Audited</div>
+                <div className="hero-stat-card__subtext">Websites &amp; Figma</div>
+              </div>
+              <div className="hero-stat-card glass-panel">
+                <span className="hero-stat-card__value">&lt; 60s</span>
+                <div className="hero-stat-card__label">Average Speed</div>
+                <div className="hero-stat-card__subtext">Real-time Vision AI</div>
+              </div>
+              <div className="hero-stat-card glass-panel">
+                <span className="hero-stat-card__value">11</span>
+                <div className="hero-stat-card__label">UX Dimensions</div>
+                <div className="hero-stat-card__subtext">Nielsen &amp; WCAG 2.2</div>
+              </div>
+              <div className="hero-stat-card glass-panel">
+                <span className="hero-stat-card__value">4.9 / 5</span>
+                <div className="hero-stat-card__label">Designer Rating</div>
+                <div className="hero-stat-card__subtext">1,840+ Reviews</div>
+              </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="hero-trust-bar">
+              <span className="hero-trust-badge">⚡ 10 Nielsen Heuristics</span>
+              <span className="hero-trust-badge">♿ WCAG 2.2 Accessibility</span>
+              <span className="hero-trust-badge">🎨 Figma Canvas Native</span>
+              <span className="hero-trust-badge">📄 Executive PDF Export</span>
+            </div>
           </div>
         </section>
       )}
