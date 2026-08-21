@@ -414,18 +414,43 @@ app.get(['/api/user/evaluations', '/user/evaluations'], authUser, async (req, re
 
 // Helper for browser launch (supporting local Dev & Vercel serverless)
 const launchBrowser = async () => {
+  const puppeteerCore = (await import('puppeteer-core')).default;
   if (process.env.VERCEL) {
     const chromium = (await import('@sparticuz/chromium')).default;
-    const puppeteerCore = (await import('puppeteer-core')).default;
     return await puppeteerCore.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+      defaultViewport: chromium.defaultViewport || { width: 1440, height: 900 },
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
   }
-  const puppeteer = (await import('puppeteer')).default;
-  return await puppeteer.launch({
+
+  // Local environments (macOS, Linux, Windows)
+  const possiblePaths = [
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+  ];
+  let executablePath = null;
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      executablePath = p;
+      break;
+    }
+  }
+  if (!executablePath) {
+    try {
+      const chromium = (await import('@sparticuz/chromium')).default;
+      executablePath = await chromium.executablePath();
+    } catch {}
+  }
+  return await puppeteerCore.launch({
+    executablePath,
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
   });
@@ -705,56 +730,84 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
     // ── PATH B: Figma URL ────────────────────────────────────────────────────
     else if (isFigmaUrl(url)) {
       const isProto = /figma\.com\/proto\//.test(url);
-      send('status', { message: `Figma ${isProto ? 'prototype' : 'design'} detected — launching browser...` });
+      send('status', { message: `Figma ${isProto ? 'prototype' : 'design'} detected — extracting frame...` });
       send('total', { total: 1 });
       send('progress', { current: 1, total: 1, screenName: 'Figma Design', url });
 
-      browser = await launchBrowser();
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1440, height: 900 });
+      let screenshotResult = null;
+      let figmaTitle = 'Figma Design';
 
-      // Set a realistic user agent
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-
-      let screenshotResult;
+      // Strategy 1: Fast, High-Fidelity direct Figma oEmbed extraction
       try {
-        if (isProto) {
-          send('status', { message: 'Loading Figma prototype (this takes ~10s)...' });
-          await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 50000 });
-          await new Promise(r => setTimeout(r, 10000)); // Figma needs time to render the canvas
-        } else {
-          // For file/design links, use the embed URL which is more accessible
-          const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
-          send('status', { message: 'Loading Figma design embed (this takes ~8s)...' });
-          await page.goto(embedUrl, { waitUntil: 'domcontentloaded', timeout: 50000 });
-          await new Promise(r => setTimeout(r, 8000));
-        }
-
-        const filename = `figma-${Date.now()}.png`;
-        const filepath = path.join(screenshotsDir, filename);
-        await page.screenshot({ path: filepath, fullPage: false });
-        const base64 = toBase64(filepath);
-        screenshotResult = { filepath, filename, base64, url };
-        filePaths.push(filepath);
-        send('screenshot_preview', { screenshotBase64: `data:image/png;base64,${base64}` });
-      } catch (figmaErr) {
-        await browser.close(); browser = null;
-        send('error', {
-          message: `❌ Figma link failed to load: ${figmaErr.message}\n\n` +
-            `✅ Fix options:\n` +
-            `1. Make sure "Anyone with the link" can view the prototype in Figma share settings.\n` +
-            `2. Export your Figma frames as PNG images and use the "Upload Images" tab — this gives more accurate results.\n` +
-            `3. If it's a Figma file link, try sharing the prototype link (figma.com/proto/...) instead.`
+        send('status', { message: 'Fetching Figma design metadata & frame...' });
+        const oembedApiUrl = `https://www.figma.com/api/oembed?url=${encodeURIComponent(url)}`;
+        const oembedRes = await fetch(oembedApiUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'application/json'
+          }
         });
-        return res.end();
+        if (oembedRes.ok) {
+          const oembedData = await oembedRes.json();
+          if (oembedData.title) figmaTitle = oembedData.title;
+          if (oembedData.thumbnail_url) {
+            send('status', { message: `Extracting high-resolution frame: "${figmaTitle}"...` });
+            const imgRes = await fetch(oembedData.thumbnail_url);
+            if (imgRes.ok) {
+              const arrayBuffer = await imgRes.arrayBuffer();
+              const imgBuffer = Buffer.from(arrayBuffer);
+              const filename = `figma-${Date.now()}.png`;
+              const filepath = path.join(screenshotsDir, filename);
+              try { fs.writeFileSync(filepath, imgBuffer); } catch {}
+              const base64 = imgBuffer.toString('base64');
+              screenshotResult = { filepath, filename, base64, url };
+              filePaths.push(filepath);
+              send('screenshot_preview', { screenshotBase64: `data:image/png;base64,${base64}` });
+            }
+          }
+        }
+      } catch (oembedErr) {
+        console.warn('Figma oEmbed extraction failed, trying browser render:', oembedErr.message);
       }
 
-      await browser.close(); browser = null;
+      // Strategy 2: Headless Browser Fallback
+      if (!screenshotResult) {
+        try {
+          send('status', { message: 'Rendering Figma design canvas via browser...' });
+          browser = await launchBrowser();
+          const page = await browser.newPage();
+          await page.setViewport({ width: 1440, height: 900 });
+          await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-      send('status', { message: 'Analyzing Figma design with AI...' });
+          const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+          await page.goto(embedUrl, { waitUntil: 'domcontentloaded', timeout: 50000 });
+          await new Promise(r => setTimeout(r, 8000));
+
+          const filename = `figma-${Date.now()}.png`;
+          const filepath = path.join(screenshotsDir, filename);
+          await page.screenshot({ path: filepath, fullPage: false });
+          const base64 = toBase64(filepath);
+          screenshotResult = { filepath, filename, base64, url };
+          filePaths.push(filepath);
+          send('screenshot_preview', { screenshotBase64: `data:image/png;base64,${base64}` });
+        } catch (figmaErr) {
+          if (browser) { try { await browser.close(); } catch {} browser = null; }
+          send('error', {
+            message: `❌ Unable to access Figma design: ${figmaErr.message}\n\n` +
+              `✅ Easy Fixes:\n` +
+              `1. In Figma, click "Share" (top right) and ensure "Anyone with the link" is set to "Can view".\n` +
+              `2. Or export your Figma frames (PNG/JPG) and drag-and-drop them into the "Upload Images" tab for an instant high-res audit.`
+          });
+          return res.end();
+        } finally {
+          if (browser) { try { await browser.close(); } catch {} browser = null; }
+        }
+      }
+
+      send('status', { message: `Analyzing "${figmaTitle}" with Vision AI...` });
       const evaluation = await evaluateScreen(screenshotResult.base64);
       const screenData = {
-        index: 1, url, title: 'Figma Design',
+        index: 1, url, title: figmaTitle,
         screenshotUrl: `http://localhost:${port}/screenshots/${screenshotResult.filename}`,
         screenshotBase64: `data:image/png;base64,${screenshotResult.base64}`,
         evaluation,
