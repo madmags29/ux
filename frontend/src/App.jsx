@@ -9,6 +9,7 @@ import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import DashboardPage from './pages/DashboardPage';
+import ProfilePage from './pages/ProfilePage';
 import AuthModal from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
@@ -515,6 +516,7 @@ function App() {
           <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
           <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
         </Routes>
       </main>

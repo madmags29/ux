@@ -42,7 +42,11 @@ export default function Navbar() {
   };
 
   const navLinks = user
-    ? [...BASE_NAV_LINKS, { to: '/dashboard', label: 'My Dashboard' }]
+    ? [
+        ...BASE_NAV_LINKS,
+        { to: '/dashboard', label: 'Dashboard' },
+        { to: '/profile', label: 'Profile' },
+      ]
     : BASE_NAV_LINKS;
 
   return (
@@ -98,7 +102,8 @@ export default function Navbar() {
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <NavLink
-                  to="/dashboard"
+                  to="/profile"
+                  title="My Profile & Security"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
