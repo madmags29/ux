@@ -2,11 +2,15 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 60
+    },
+    "api/**/*.js": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
-    { "source": "/api/auth/:path*", "destination": "/api/auth" },
-    { "source": "/api/admin/:path*", "destination": "/api/admin" },
-    { "source": "/((?!api(?:/|$)).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ]
 }
