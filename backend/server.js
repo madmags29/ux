@@ -7,6 +7,9 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
+import { connectDB } from './db.js';
+import Evaluation from './models/Evaluation.js';
+import Contact from './models/Contact.js';
 
 dotenv.config();
 
@@ -206,7 +209,7 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    // Save to contacts.json
+    // Save contact record (MongoDB with JSON fallback)
     const contactRecord = {
       id: 'contact_' + Date.now(),
       timestamp: new Date().toISOString(),
@@ -215,9 +218,22 @@ app.post('/api/contact', async (req, res) => {
       subject,
       message,
     };
-    const contacts = loadJSON(CONTACTS_FILE);
-    contacts.unshift(contactRecord);
-    saveJSON(CONTACTS_FILE, contacts);
+
+    try {
+      const db = await connectDB();
+      if (db) {
+        await Contact.create(contactRecord);
+      } else {
+        const contacts = loadJSON(CONTACTS_FILE);
+        contacts.unshift(contactRecord);
+        saveJSON(CONTACTS_FILE, contacts);
+      }
+    } catch (dbErr) {
+      console.error('Failed to save contact to DB:', dbErr);
+      const contacts = loadJSON(CONTACTS_FILE);
+      contacts.unshift(contactRecord);
+      saveJSON(CONTACTS_FILE, contacts);
+    }
 
     await smtpTransporter.sendMail({
       from: `"Rate My UX Contact" <${process.env.SMTP_USER || 'hello@ratemyux.com'}>`,
@@ -455,7 +471,7 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
       send('aggregate', { aggregate: finalAggregate });
     }
 
-    // Persist evaluation record to evaluations.json
+    // Persist evaluation record (MongoDB with JSON fallback)
     try {
       const evalRecord = {
         id: 'eval_' + Date.now(),
@@ -470,11 +486,35 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
         screens: screensData,
         aggregate: finalAggregate,
       };
-      const evaluations = loadJSON(EVALUATIONS_FILE);
-      evaluations.unshift(evalRecord);
-      saveJSON(EVALUATIONS_FILE, evaluations);
+
+      const db = await connectDB();
+      if (db) {
+        await Evaluation.create(evalRecord);
+      } else {
+        const evaluations = loadJSON(EVALUATIONS_FILE);
+        evaluations.unshift(evalRecord);
+        saveJSON(EVALUATIONS_FILE, evaluations);
+      }
     } catch (saveErr) {
       console.error('Failed to persist evaluation record:', saveErr);
+      try {
+        const evalRecord = {
+          id: 'eval_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          targetUrl: url || 'Uploaded Screenshots',
+          mode: url ? 'url' : 'upload',
+          screenCount: screensData.length,
+          overallScore: finalAggregate?.overallScore || (screensData[0]?.evaluation?.overallScore || 0),
+          finalVerdict: finalAggregate?.finalVerdict || 'Good',
+          productName: finalAggregate?.productName || 'Evaluated Product',
+          productCategory: finalAggregate?.productCategory || 'General Web App',
+          screens: screensData,
+          aggregate: finalAggregate,
+        };
+        const evaluations = loadJSON(EVALUATIONS_FILE);
+        evaluations.unshift(evalRecord);
+        saveJSON(EVALUATIONS_FILE, evaluations);
+      } catch {}
     }
 
     setTimeout(() => cleanup(), 300000);
@@ -511,24 +551,58 @@ app.post('/api/admin/login', (req, res) => {
   return res.status(401).json({ error: 'Incorrect admin password' });
 });
 
-app.get('/api/admin/evaluations', authAdmin, (req, res) => {
+app.get('/api/admin/evaluations', authAdmin, async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const evaluations = await Evaluation.find().sort({ createdAt: -1 }).lean();
+      return res.json({ success: true, count: evaluations.length, evaluations });
+    }
+  } catch (err) {
+    console.error('MongoDB evaluations fetch error:', err);
+  }
   const evaluations = loadJSON(EVALUATIONS_FILE);
   res.json({ success: true, count: evaluations.length, evaluations });
 });
 
-app.get('/api/admin/contacts', authAdmin, (req, res) => {
+app.get('/api/admin/contacts', authAdmin, async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      const contacts = await Contact.find().sort({ createdAt: -1 }).lean();
+      return res.json({ success: true, count: contacts.length, contacts });
+    }
+  } catch (err) {
+    console.error('MongoDB contacts fetch error:', err);
+  }
   const contacts = loadJSON(CONTACTS_FILE);
   res.json({ success: true, count: contacts.length, contacts });
 });
 
-app.delete('/api/admin/evaluations/:id', authAdmin, (req, res) => {
+app.delete('/api/admin/evaluations/:id', authAdmin, async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      await Evaluation.deleteOne({ id: req.params.id });
+    }
+  } catch (err) {
+    console.error('MongoDB evaluation delete error:', err);
+  }
   let evaluations = loadJSON(EVALUATIONS_FILE);
   evaluations = evaluations.filter(e => e.id !== req.params.id);
   saveJSON(EVALUATIONS_FILE, evaluations);
   res.json({ success: true, message: 'Evaluation deleted' });
 });
 
-app.delete('/api/admin/contacts/:id', authAdmin, (req, res) => {
+app.delete('/api/admin/contacts/:id', authAdmin, async (req, res) => {
+  try {
+    const db = await connectDB();
+    if (db) {
+      await Contact.deleteOne({ id: req.params.id });
+    }
+  } catch (err) {
+    console.error('MongoDB contact delete error:', err);
+  }
   let contacts = loadJSON(CONTACTS_FILE);
   contacts = contacts.filter(c => c.id !== req.params.id);
   saveJSON(CONTACTS_FILE, contacts);
