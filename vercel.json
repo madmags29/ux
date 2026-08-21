@@ -8,8 +8,8 @@
     }
   },
   "rewrites": [
-    { "source": "/api/auth/:match*", "destination": "/api/auth/:match*" },
-    { "source": "/api/admin/:match*", "destination": "/api/admin/:match*" },
+    { "source": "/api/auth/:path*", "destination": "/api/auth" },
+    { "source": "/api/admin/:path*", "destination": "/api/admin" },
     { "source": "/api/evaluate", "destination": "/api/evaluate" },
     { "source": "/api/contact", "destination": "/api/contact" },
     { "source": "/api", "destination": "/api/index" },
