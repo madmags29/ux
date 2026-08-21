@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
  * Generate a multi-page PDF report from the evaluation data.
  * Uses jsPDF directly (no html2canvas) for crisp vector text rendering.
  */
-export async function generatePDF(screens, aggregate) {
+export async function generatePDF(screens = [], aggregate = null) {
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageW = 210;
   const pageH = 297;
@@ -46,12 +46,6 @@ export async function generatePDF(screens, aggregate) {
   };
 
   const text = (str, x, yy, opts = {}) => pdf.text(String(str), x, yy, opts);
-
-  const wrappedText = (str, x, yy, maxW, lineH = 4.5) => {
-    const lines = pdf.splitTextToSize(String(str || ''), maxW);
-    pdf.text(lines, x, yy);
-    return lines.length * lineH;
-  };
 
   const scoreColor = (s) => {
     if (s >= 80 || s >= 8) return C.green;
@@ -254,7 +248,7 @@ export async function generatePDF(screens, aggregate) {
         });
 
         y += imgH + 6;
-      } catch (e) {
+      } catch {
         y += 4;
       }
     }
@@ -451,5 +445,3 @@ export async function generatePDF(screens, aggregate) {
   const productName = (aggregate?.productName || 'ux-report').toLowerCase().replace(/\s+/g, '-');
   pdf.save(`ux-audit-${productName}-${Date.now()}.pdf`);
 }
-
-const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });

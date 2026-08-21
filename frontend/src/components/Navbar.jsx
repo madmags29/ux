@@ -29,8 +29,9 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [location]);
+    const timer = setTimeout(() => setMenuOpen(false), 0);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));

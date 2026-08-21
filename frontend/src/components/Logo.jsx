@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Logo({ size = 'medium', animated = true }) {
   const iconSize = size === 'large' ? 42 : size === 'small' ? 26 : 34;
   const fontSize = size === 'large' ? '1.5rem' : size === 'small' ? '1rem' : '1.25rem';

@@ -41,29 +41,33 @@ export default function AdminPage() {
     setContacts([]);
   };
 
-  const fetchData = async () => {
-    if (!token) return;
-    setLoading(true);
-    try {
-      const [evalRes, contactRes] = await Promise.all([
-        fetch(`${API_URL}/api/admin/evaluations`, { headers: { Authorization: `Bearer ${token}` } }),
-        fetch(`${API_URL}/api/admin/contacts`, { headers: { Authorization: `Bearer ${token}` } }),
-      ]);
-      const evalData = await evalRes.json();
-      const contactData = await contactRes.json();
-
-      if (evalRes.ok) setEvaluations(evalData.evaluations || []);
-      if (contactRes.ok) setContacts(contactData.contacts || []);
-    } catch (err) {
-      console.error('Failed to fetch admin data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (token) fetchData();
-  }, [token]);
+    if (!token) return;
+    let isMounted = true;
+    const loadAdminData = async () => {
+      setLoading(true);
+      try {
+        const [evalRes, contactRes] = await Promise.all([
+          fetch(`${API_URL}/api/admin/evaluations`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API_URL}/api/admin/contacts`, { headers: { Authorization: `Bearer ${token}` } }),
+        ]);
+        const evalData = await evalRes.json();
+        const contactData = await contactRes.json();
+
+        if (isMounted) {
+          if (evalRes.ok) setEvaluations(evalData.evaluations || []);
+          if (contactRes.ok) setContacts(contactData.contacts || []);
+        }
+      } catch (err) {
+        console.error('Failed to fetch admin data:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadAdminData();
+    return () => { isMounted = false; };
+  }, [token, API_URL]);
 
   const deleteEval = async (id) => {
     if (!confirm('Are you sure you want to delete this evaluation record?')) return;
@@ -75,7 +79,7 @@ export default function AdminPage() {
       setEvaluations(prev => prev.filter(e => e.id !== id));
       if (inspectItem?.id === id) setInspectItem(null);
     } catch (err) {
-      alert('Delete failed');
+      alert('Delete failed: ' + (err.message || 'Error'));
     }
   };
 
@@ -88,7 +92,7 @@ export default function AdminPage() {
       });
       setContacts(prev => prev.filter(c => c.id !== id));
     } catch (err) {
-      alert('Delete failed');
+      alert('Delete failed: ' + (err.message || 'Error'));
     }
   };
 
@@ -157,7 +161,7 @@ export default function AdminPage() {
             <h1 style={{ fontSize: '2rem' }}>Control Center & Analytics</h1>
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <button onClick={fetchData} className="btn" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
+            <button onClick={() => setToken(prev => prev)} className="btn" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
               🔄 Refresh
             </button>
             <button onClick={handleLogout} className="btn" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', color: 'var(--error)' }}>

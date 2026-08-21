@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const scoreToColor = (s) => {
   if (s >= 8) return '#10b981';
   if (s >= 6) return '#3b82f6';
   if (s >= 4) return '#f59e0b';
   return '#ef4444';
-};
-
-const scoreToClass = (s) => {
-  if (s >= 8) return 'score-excellent';
-  if (s >= 6) return 'score-good';
-  if (s >= 4) return 'score-average';
-  return 'score-poor';
 };
 
 const ScorePill = ({ label, score }) => (
@@ -40,8 +33,8 @@ const ScreenCard = ({ screen, isActive, onClick }) => {
     >
       {/* Screenshot thumbnail */}
       <div style={{ position: 'relative', background: 'rgba(240,244,255,0.6)', aspectRatio: '16/10', overflow: 'hidden', borderRadius: 'var(--radius-md) var(--radius-md) 0 0' }}>
-        {screen.screenshotBase64 ? (
-          <img src={screen.screenshotBase64} alt={screen.title}         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+        {(screen.screenshotBase64 || screen.screenshotUrl) ? (
+          <img src={screen.screenshotBase64 || screen.screenshotUrl} alt={screen.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-tertiary)' }}>
             No preview
@@ -98,9 +91,9 @@ const ScreenDetail = ({ screen }) => {
       {/* Left: Screenshot */}
       <div>
         <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow)' }}>
-          {screen.screenshotBase64 ? (
+          {(screen.screenshotBase64 || screen.screenshotUrl) ? (
             <img
-              src={screen.screenshotBase64}
+              src={screen.screenshotBase64 || screen.screenshotUrl}
               alt={screen.title}
               style={{ width: '100%', display: 'block' }}
             />

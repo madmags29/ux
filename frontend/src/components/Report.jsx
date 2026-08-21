@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ScoreCircle = ({ score }) => {
   let colorClass = 'score-average';
   if (score >= 8) colorClass = 'score-excellent';

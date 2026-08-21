@@ -7,7 +7,7 @@ const UX_SCIENCE_NODES = [
   'λ_01', '0101', '∫_UX', '98.4%', '[Contrast AAA]'
 ];
 
-export default function ParticleCanvas({ theme = 'dark' }) {
+export default function ParticleCanvas() {
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: -1000, y: -1000, active: false });
   const animRef = useRef(null);
@@ -30,8 +30,6 @@ export default function ParticleCanvas({ theme = 'dark' }) {
     };
     resize();
     window.addEventListener('resize', resize);
-
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
 
     class Particle {
       constructor() {

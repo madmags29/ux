@@ -4,7 +4,6 @@ import MultiReport from './components/MultiReport';
 import { generatePDF } from './utils/generatePDF';
 import Navbar from './components/Navbar';
 import ParticleCanvas from './components/ParticleCanvas';
-import AnimatedSection from './components/AnimatedSection';
 import AboutPage from './pages/AboutPage';
 import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
@@ -17,7 +16,7 @@ function EvaluatorPage() {
   const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
   const [files, setFiles] = useState([]);
-  const [maxScreens, setMaxScreens] = useState(3);
+  const [maxScreens] = useState(3);
   const [loading, setLoading] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [status, setStatus] = useState('');
@@ -98,7 +97,7 @@ function EvaluatorPage() {
         buffer = lines.pop();
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue;
-          try { handleEvent(JSON.parse(line.slice(6))); } catch {}
+          try { handleEvent(JSON.parse(line.slice(6))); } catch { /* ignore chunk split errors */ }
         }
       }
     } catch (err) {
