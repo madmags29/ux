@@ -1,20 +1,20 @@
 {
   "functions": {
-    "api/index.js": {
+    "api/*.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth"
     },
     {
-      "source": "/api",
-      "destination": "/api"
+      "source": "/api/admin/:path*",
+      "destination": "/api/admin"
     },
     {
-      "source": "/((?!api).*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]
