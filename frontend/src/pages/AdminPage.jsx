@@ -28,7 +28,7 @@ export default function AdminPage() {
       try {
         data = await res.json();
       } catch (jsonErr) {
-        throw new Error(`Server returned HTTP ${res.status}`);
+        throw new Error(`Server returned HTTP ${res.status}`, { cause: jsonErr });
       }
       if (!res.ok) throw new Error(data.error || `Login failed (HTTP ${res.status})`);
       localStorage.setItem('adminToken', data.token);
@@ -58,8 +58,8 @@ export default function AdminPage() {
         ]);
         let evalData = {};
         let contactData = {};
-        try { evalData = await evalRes.json(); } catch {}
-        try { contactData = await contactRes.json(); } catch {}
+        try { evalData = await evalRes.json(); } catch (err) { console.warn('Invalid eval JSON response:', err); }
+        try { contactData = await contactRes.json(); } catch (err) { console.warn('Invalid contact JSON response:', err); }
 
         if (isMounted) {
           if (evalRes.ok) setEvaluations(evalData.evaluations || []);
