@@ -55,16 +55,19 @@ function EvaluatorPage() {
     resetEvaluationState();
   };
 
-  const runEvaluation = async (authToken) => {
+  const [showLimitModal, setShowLimitModal] = useState(false);
+
+  const runEvaluation = async (authToken, overrideFiles = null) => {
     const tkn = authToken || token;
+    const activeFiles = overrideFiles || files;
     resetEvaluationState();
     setLoading(true);
     abortRef.current = new AbortController();
 
-    if (mode === 'upload' && files.length > 0) {
+    if (mode === 'upload' && activeFiles.length > 0) {
       const reader = new FileReader();
       reader.onload = (event) => setCurrentPreview(event.target.result);
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(activeFiles[0]);
     }
 
     const formData = new FormData();
@@ -72,7 +75,7 @@ function EvaluatorPage() {
       formData.append('url', url);
       formData.append('maxScreens', maxScreens);
     } else {
-      files.forEach(file => formData.append('images', file));
+      activeFiles.forEach(file => formData.append('images', file));
     }
 
     try {
@@ -114,21 +117,27 @@ function EvaluatorPage() {
     }
   };
 
+  const handleProceedWithThree = () => {
+    const sliced = files.slice(0, 3);
+    setFiles(sliced);
+    setShowLimitModal(false);
+    if (!token) {
+      setPendingSubmit(true);
+      setAuthGateReason('evaluate');
+      setShowAuthGate(true);
+      return;
+    }
+    setTimeout(() => runEvaluation(token, sliced), 100);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (mode === 'url' && !url) return;
     if (mode === 'upload' && files.length === 0) return;
 
+    // If upload has more than 3 files on Free Plan, prompt user with the Multi-Screen limit modal
     if (mode === 'upload' && files.length > 3) {
-      setError(
-        <span>
-          <strong>⚠️ Free Plan Limit Exceeded:</strong> You have uploaded {files.length} screens. The free plan only supports evaluating up to 3 screens. Please{' '}
-          <a href="/plans" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontWeight: 600 }}>
-            purchase a plan
-          </a>{' '}
-          to evaluate more screens.
-        </span>
-      );
+      setShowLimitModal(true);
       return;
     }
 
@@ -189,6 +198,51 @@ function EvaluatorPage() {
           onSuccess={handleAuthSuccess}
           gateReason={authGateReason}
         />
+      )}
+
+      {/* ─── MULTI-SCREEN PLAN LIMIT MODAL (When > 3 screens submitted) ─── */}
+      {showLimitModal && (
+        <div className="auth-gate-modal-backdrop" onClick={() => setShowLimitModal(false)}>
+          <div className="auth-gate-modal glass-panel" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 490, textAlign: 'center', padding: '2rem' }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>⚡</div>
+            <div className="hero__badge" style={{ margin: '0 auto 1rem auto', display: 'inline-flex' }}>
+              Free Plan Limit: 3 Screens
+            </div>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+              Multi-Screen Audit Detected
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.55, marginBottom: '1.5rem' }}>
+              You selected <strong style={{ color: 'var(--accent-cyan)' }}>{files.length} screens</strong>. Under the Free Plan, you can audit the top <strong style={{ color: '#fff' }}>3 screens</strong> with complete 11-dimension scoring and Nielsen checks.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleProceedWithThree}
+                style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', fontSize: '0.95rem' }}
+              >
+                ⚡ Evaluate First 3 Screens (Free)
+              </button>
+
+              <a
+                href="/plans"
+                className="btn btn-secondary"
+                style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', color: 'var(--accent-cyan)', fontSize: '0.95rem' }}
+              >
+                🚀 Upgrade to Pro for All {files.length} Screens
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setShowLimitModal(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.4rem' }}
+              >
+                Cancel &amp; Select Different Files
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ─── HERO ─── */}
