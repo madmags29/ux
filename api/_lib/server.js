@@ -697,11 +697,23 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
       return res.end();
     }
 
+    const userPayload = getUserFromReq(req);
+    const userPlan = userPayload?.plan || 'free';
+    const planMaxScreens = userPlan === 'team' ? 50 : userPlan === 'pro' ? 10 : 3;
+
+    // Enforce uploaded image count against user plan
+    if (uploadedFiles.length > planMaxScreens) {
+      send('error', {
+        message: `⚠️ Free Plan Limit Exceeded: You provided ${uploadedFiles.length} screens. The Free Plan allows up to ${planMaxScreens} screens per evaluation. Please select up to ${planMaxScreens} screens or upgrade to Pro.`
+      });
+      return res.end();
+    }
+
     const screensData = [];
 
     // ── PATH A: Uploaded images ─────────────────────────────────────────────
     if (uploadedFiles.length > 0) {
-      send('status', { message: `Processing ${uploadedFiles.length} uploaded image(s)...` });
+      send('status', { message: `Processing ${uploadedFiles.length} uploaded image(s) (Free Plan limit: ${planMaxScreens})...` });
       send('total', { total: uploadedFiles.length });
 
       for (let i = 0; i < uploadedFiles.length; i++) {
@@ -840,8 +852,14 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
         }, []);
       }, baseUrl);
 
-      const screensToVisit = [{ href: url, text: pageTitle || 'Home' }, ...links.filter(l => l.href !== url)].slice(0, parseInt(maxScreens));
-      send('status', { message: `Found ${screensToVisit.length} screen(s). Evaluating...` });
+      const requestedMax = Math.min(parseInt(maxScreens) || planMaxScreens, planMaxScreens);
+      const allDiscovered = [{ href: url, text: pageTitle || 'Home' }, ...links.filter(l => l.href !== url)];
+      const screensToVisit = allDiscovered.slice(0, requestedMax);
+      if (allDiscovered.length > planMaxScreens && userPlan === 'free') {
+        send('status', { message: `ℹ️ Discovered ${allDiscovered.length} pages. Free Tier evaluates the top ${planMaxScreens} screens (Upgrade to Pro for up to 10).` });
+      } else {
+        send('status', { message: `Found ${screensToVisit.length} screen(s). Evaluating...` });
+      }
       send('total', { total: screensToVisit.length });
 
       for (let i = 0; i < screensToVisit.length; i++) {
