@@ -1,5 +1,14 @@
 [
   {
+    "id": "usr_1787310286450_9s964",
+    "name": "Majid",
+    "email": "majidmak@gmail.com",
+    "password": "$2b$10$RrhmeVMHcdEATJUqpHqsIuIUPbH554lKfiEZ/5Olsni6fc7pi8m76",
+    "avatar": "",
+    "provider": "email",
+    "createdAt": "2026-08-21T11:04:46.450Z"
+  },
+  {
     "id": "usr_g_1787306785460",
     "name": "Test User",
     "email": "test@gmail.com",
