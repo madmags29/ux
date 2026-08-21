@@ -19,6 +19,10 @@ const getOpenAI = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log(`[Express Request] ${req.method} ${req.url}`);
+  next();
+});
 
 // Serve screenshots statically (using temp directory on Vercel serverless)
 const isVercel = Boolean(process.env.VERCEL);
