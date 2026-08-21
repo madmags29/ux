@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
+import SEO from '../components/SEO';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -42,6 +43,12 @@ export default function ContactPage() {
 
   return (
     <div>
+      <SEO
+        title="Contact Us & Support | Rate My UX — Get Expert Design Assistance"
+        description="Contact Rate My UX for custom UX design audits, enterprise team plans, prototype evaluation assistance, and technical support. We respond within 24 hours."
+        canonicalPath="/contact"
+        keywords="Contact Rate My UX, Custom UX Design Audit, Enterprise UX Evaluation, Rate My UX Support"
+      />
       {/* Hero */}
       <AnimatedSection>
         <section className="page-hero">

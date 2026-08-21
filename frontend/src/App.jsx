@@ -10,6 +10,7 @@ import PlansPage from './pages/PlansPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import Logo from './components/Logo';
+import SEO from './components/SEO';
 import './index.css';
 
 function EvaluatorPage() {
@@ -132,6 +133,11 @@ function EvaluatorPage() {
 
   return (
     <>
+      <SEO
+        title="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool"
+        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly."
+        canonicalPath="/"
+      />
       {/* ─── HERO ─── */}
       {!hasResults && !loading && (
         <section className="hero">
@@ -417,13 +423,15 @@ function App() {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<EvaluatorPage />} />
-        <Route path="/about" element={<div className="container"><AboutPage /></div>} />
-        <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
-        <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
-        <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
-      </Routes>
+      <main id="main-content">
+        <Routes>
+          <Route path="/" element={<EvaluatorPage />} />
+          <Route path="/about" element={<div className="container"><AboutPage /></div>} />
+          <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
+          <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
+          <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
+        </Routes>
+      </main>
       <Footer />
     </>
   );

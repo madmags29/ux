@@ -11,9 +11,9 @@
   <title>Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool</title>
   <meta name="title" content="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool" />
   <meta name="description"
-    content="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly." />
+    content="Rate My UX is an AI-powered UX evaluation platform that audits websites, mobile apps, and Figma prototypes using Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly." />
   <meta name="keywords"
-    content="Rate My UX, UX Audit Tool, AI UX Evaluation, Usability Testing AI, Figma Prototype Audit, Design Critique AI, Heuristic Evaluation Tool, Accessibility Audit, Conversion Rate Optimization, UX Score Checker" />
+    content="Rate My UX, UX Audit Tool, AI UX Evaluation, Usability Testing AI, Figma Prototype Audit, Design Critique AI, Heuristic Evaluation Tool, Accessibility Audit, Conversion Rate Optimization, UX Score Checker, Jakob Nielsen Heuristics, WCAG 2.2 Accessibility" />
   <meta name="author" content="Rate My UX" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://www.ratemyux.com/" />
@@ -38,6 +38,9 @@
     content="Audit your website or Figma prototype with neural Vision AI. Instant 11-dimension usability scores, Nielsen heuristics checks, and prioritized design roadmaps." />
   <meta name="twitter:image" content="https://www.ratemyux.com/og-image.png" />
 
+  <!-- ─── LLM & AI Context Links ─── -->
+  <link rel="author" type="text/plain" href="/llms.txt" />
+
   <!-- ─── Verification & Tracking ─── -->
   <meta name="google-site-verification" content="gdVyD8jprt7S-0GGZW7BxWFMvy8vni6IgoKoses7kao" />
   <!-- Google tag (gtag.js) -->
@@ -50,7 +53,7 @@
     gtag('config', 'G-0DJCMS4G8D');
   </script>
 
-  <!-- ─── Structured Data (JSON-LD) for SEO / GEO / AEO ─── -->
+  <!-- ─── Rich Structured Data (JSON-LD) for SEO / GEO / AEO ─── -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -59,18 +62,48 @@
           "@type": "SoftwareApplication",
           "@id": "https://www.ratemyux.com/#software",
           "name": "Rate My UX",
-          "operatingSystem": "All Web Browsers",
+          "url": "https://www.ratemyux.com",
+          "operatingSystem": "All Web Browsers, macOS, Windows, Linux, iOS, Android",
           "applicationCategory": "DesignApplication",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          },
-          "description": "AI-powered UX evaluation tool that analyzes website screenshots, live URLs, and Figma prototypes using Vision AI models to generate Nielsen heuristic audits, accessibility checks, and prioritized usability roadmaps.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "name": "Starter Plan",
+              "description": "Free 3 evaluations per month with full 11-dimension scores and PDF exports."
+            },
+            {
+              "@type": "Offer",
+              "price": "29",
+              "priceCurrency": "USD",
+              "name": "Pro Plan",
+              "description": "Unlimited evaluations, up to 10 screens, prioritized roadmap with effort scores, and AI redesign suggestions."
+            },
+            {
+              "@type": "Offer",
+              "price": "79",
+              "priceCurrency": "USD",
+              "name": "Team Plan",
+              "description": "Team collaboration, up to 5 members, white-label PDF reports, and custom criteria."
+            }
+          ],
+          "description": "AI-powered UX evaluation platform that analyzes website URLs, mobile screenshots, and Figma prototypes using Vision AI models to generate Nielsen heuristic audits, accessibility checks, and prioritized usability roadmaps.",
+          "featureList": [
+            "11-Dimension Vision AI Usability Analysis",
+            "Jakob Nielsen's 10 Usability Heuristics Audit",
+            "WCAG 2.2 Accessibility & Contrast Verification",
+            "Conversion Rate Optimization (CRO) Friction Analysis",
+            "Figma Prototype & Live Web Page Crawling",
+            "Executive PDF Audit Report Generator",
+            "Prioritized Effort vs Impact Redesign Roadmap"
+          ],
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "ratingCount": "1280"
+            "ratingCount": "1280",
+            "bestRating": "5",
+            "worstRating": "1"
           }
         },
         {
@@ -78,19 +111,74 @@
           "@id": "https://www.ratemyux.com/#organization",
           "name": "Rate My UX",
           "url": "https://www.ratemyux.com",
-          "logo": "https://www.ratemyux.com/logo.png",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.ratemyux.com/logo.png"
+          },
           "sameAs": [
             "https://devdesigns.net"
-          ]
+          ],
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "Dev Designs",
+            "url": "https://devdesigns.net"
+          }
         },
         {
           "@type": "WebSite",
           "@id": "https://www.ratemyux.com/#website",
           "url": "https://www.ratemyux.com",
           "name": "Rate My UX",
+          "description": "AI-Powered UX Evaluation & Design Auditing Tool",
           "publisher": {
             "@id": "https://www.ratemyux.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.ratemyux.com/?url={search_term_string}",
+            "query-input": "required name=search_term_string"
           }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://www.ratemyux.com/#service",
+          "name": "AI UX Design Evaluation and Accessibility Audit Service",
+          "serviceType": "UX Auditing, Design Critique & Usability Evaluation",
+          "provider": {
+            "@id": "https://www.ratemyux.com/#organization"
+          },
+          "areaServed": "Worldwide",
+          "description": "Automated AI-driven UX audits for SaaS websites, eCommerce platforms, mobile apps, and Figma prototypes evaluating usability, accessibility, and conversion funnels."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://www.ratemyux.com/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://www.ratemyux.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About",
+              "item": "https://www.ratemyux.com/about"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Pricing",
+              "item": "https://www.ratemyux.com/plans"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Contact",
+              "item": "https://www.ratemyux.com/contact"
+            }
+          ]
         },
         {
           "@type": "FAQPage",
@@ -117,7 +205,23 @@
               "name": "Is Rate My UX free to use?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes! Rate My UX offers a free tier that allows up to 3 evaluations per month with full 11-dimension scores, Nielsen heuristic checks, and downloadable PDF reports."
+                "text": "Yes! Rate My UX offers a free tier that allows up to 3 screen evaluations per month with full 11-dimension scores, Nielsen heuristic checks, and downloadable PDF reports."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the 11 evaluation dimensions analyzed by Rate My UX?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rate My UX scores designs across 11 dimensions: 1) First Impression & Visual Impact, 2) UI Design & Layout Architecture, 3) UX & Interaction Flow, 4) Accessibility & Inclusive Design (WCAG 2.2), 5) Content Strategy & Microcopy, 6) Mobile Ergonomics, 7) Conversion Rate Optimization (CRO), 8) Jakob Nielsen's 10 Usability Heuristics, 9) Industry Benchmarks, 10) Prioritized Redesign Roadmap, and 11) AI Wireframe Suggestions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can Rate My UX generate downloadable executive PDF reports?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Rate My UX includes an automated executive PDF report generator that formats screen audits, Nielsen scores, and prioritized roadmap items into dark-mode presentation PDFs suitable for stakeholders, clients, and dev teams."
               }
             }
           ]

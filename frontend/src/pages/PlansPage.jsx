@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
+import SEO from '../components/SEO';
 
 const PLANS = [
   {
@@ -77,6 +78,12 @@ export default function PlansPage() {
 
   return (
     <div>
+      <SEO
+        title="Pricing & Plans | Rate My UX — Free, Pro & Team Subscription Tiers"
+        description="Choose the right Rate My UX subscription plan for your product. Free tier includes 3 screen audits monthly. Pro plan offers unlimited audits with effort vs impact roadmaps."
+        canonicalPath="/plans"
+        keywords="Rate My UX Pricing, AI UX Evaluation Cost, Pro UX Audit Plan, Free Usability Audit Tool, Enterprise UX Review"
+      />
       {/* Hero */}
       <AnimatedSection>
         <section className="page-hero">

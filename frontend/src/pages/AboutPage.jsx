@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
+import SEO from '../components/SEO';
 
 export default function AboutPage() {
   const features = [
@@ -13,6 +14,12 @@ export default function AboutPage() {
 
   return (
     <div>
+      <SEO
+        title="About Rate My UX | Neural AI Vision Methodology & UX Standards"
+        description="Learn how Rate My UX uses neural Vision AI models, Nielsen's 10 Usability Heuristics, and WCAG 2.2 accessibility standards to deliver automated UX evaluations for web apps and Figma prototypes."
+        canonicalPath="/about"
+        keywords="About Rate My UX, AI UX Methodology, Nielsen Heuristic Audit, WCAG 2.2 Accessibility Check, AI Design Critique Framework"
+      />
       {/* Hero */}
       <AnimatedSection>
         <section className="page-hero">
