@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
-import puppeteer from 'puppeteer';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -44,6 +43,7 @@ const launchBrowser = async () => {
       headless: chromium.headless,
     });
   }
+  const puppeteer = (await import('puppeteer')).default;
   return await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
