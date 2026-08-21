@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const DEFAULT_TITLE = 'Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool';
-const DEFAULT_DESC = 'Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly.';
-const DEFAULT_KEYWORDS = 'Rate My UX, UX Audit Tool, AI UX Evaluation, Usability Testing AI, Figma Prototype Audit, Design Critique AI, Heuristic Evaluation Tool, Accessibility Audit, Conversion Rate Optimization, UX Score Checker';
+const DEFAULT_TITLE = 'Rate My UX | Free AI-Powered UX Evaluation & Design Auditing Tool';
+const DEFAULT_DESC = 'Rate My UX is an industry-leading AI UX evaluator that audits websites, Figma prototypes, and mobile apps using Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG 2.2 accessibility reports, and prioritized design roadmaps.';
+const DEFAULT_KEYWORDS = 'Rate My UX, AI UX Audit, UX Evaluation Tool, Usability Testing AI, Figma Prototype UX Review, AI Design Critique, Jakob Nielsen 10 Heuristics, WCAG 2.2 Accessibility Checker, Conversion Rate Optimization CRO, UX Score Calculator';
 const BASE_URL = 'https://www.ratemyux.com';
 const DEFAULT_OG_IMAGE = 'https://www.ratemyux.com/og-image.png';
 
@@ -14,6 +14,7 @@ export default function SEO({
   canonicalPath = '',
   ogType = 'website',
   ogImage = DEFAULT_OG_IMAGE,
+  schema = null,
 }) {
   const location = useLocation();
   const currentPath = canonicalPath || location.pathname;
@@ -64,7 +65,21 @@ export default function SEO({
     updateMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', canonicalUrl);
     updateMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage);
 
-  }, [title, description, keywords, canonicalUrl, ogType, ogImage]);
+    // 5. Dynamic Page-Specific Structured Data (JSON-LD)
+    let scriptTag = document.getElementById('dynamic-page-schema');
+    if (schema) {
+      if (!scriptTag) {
+        scriptTag = document.createElement('script');
+        scriptTag.id = 'dynamic-page-schema';
+        scriptTag.type = 'application/ld+json';
+        document.head.appendChild(scriptTag);
+      }
+      scriptTag.textContent = JSON.stringify(schema);
+    } else if (scriptTag) {
+      scriptTag.remove();
+    }
+
+  }, [title, description, keywords, canonicalUrl, ogType, ogImage, schema]);
 
   return null;
 }

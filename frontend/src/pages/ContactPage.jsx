@@ -3,6 +3,21 @@ import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import SEO from '../components/SEO';
 
+const CONTACT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': 'https://www.ratemyux.com/contact#webpage',
+  url: 'https://www.ratemyux.com/contact',
+  name: 'Contact Rate My UX Support & Consultation',
+  description: 'Get in touch with the Rate My UX design team for assistance, custom UX audits, and enterprise team inquiries.',
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Rate My UX',
+    email: 'hello@ratemyux.com',
+    url: 'https://www.ratemyux.com'
+  }
+};
+
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [sending, setSending] = useState(false);
@@ -48,6 +63,7 @@ export default function ContactPage() {
         description="Contact Rate My UX for custom UX design audits, enterprise team plans, prototype evaluation assistance, and technical support. We respond within 24 hours."
         canonicalPath="/contact"
         keywords="Contact Rate My UX, Custom UX Design Audit, Enterprise UX Evaluation, Rate My UX Support"
+        schema={CONTACT_SCHEMA}
       />
       {/* Hero */}
       <AnimatedSection>

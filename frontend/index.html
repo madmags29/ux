@@ -1,51 +1,68 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/logo.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0a1a" />
+  <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0a0a1a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
   <!-- ─── Primary SEO Meta Tags ─── -->
-  <title>Rate My UX | AI-Powered UX Evaluation &amp; Design Auditing Tool</title>
-  <meta name="title" content="Rate My UX | AI-Powered UX Evaluation &amp; Design Auditing Tool" />
+  <title>Rate My UX | Free AI-Powered UX Evaluation &amp; Design Auditing Tool</title>
+  <meta name="title" content="Rate My UX | Free AI-Powered UX Evaluation &amp; Design Auditing Tool" />
   <meta name="description"
-    content="Rate My UX is an AI-powered UX evaluation platform that audits websites, mobile apps, and Figma prototypes using Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly." />
+    content="Rate My UX is an industry-leading AI UX evaluator that audits websites, Figma prototypes, and mobile apps using Vision AI. Instant 11-dimension usability scores, Jakob Nielsen heuristic checks, WCAG 2.2 accessibility verification, and prioritized redesign roadmaps." />
   <meta name="keywords"
-    content="Rate My UX, UX Audit Tool, AI UX Evaluation, Usability Testing AI, Figma Prototype Audit, Design Critique AI, Heuristic Evaluation Tool, Accessibility Audit, Conversion Rate Optimization, UX Score Checker, Jakob Nielsen Heuristics, WCAG 2.2 Accessibility, UX Analysis Free, Website UX Checker" />
-  <meta name="author" content="Rate My UX" />
+    content="Rate My UX, AI UX Audit, UX Evaluation Tool, Usability Testing AI, Figma Prototype UX Review, AI Design Critique, Jakob Nielsen 10 Heuristics, WCAG 2.2 Accessibility Checker, Conversion Rate Optimization CRO, UX Score Calculator, Free Website UX Auditor, AI UX Designer, Design System Evaluation" />
+  <meta name="author" content="Rate My UX — Dev Designs" />
+  <meta name="publisher" content="Rate My UX" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://www.ratemyux.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://www.ratemyux.com/" />
+  <link rel="alternate" hreflang="en" href="https://www.ratemyux.com/" />
+
+  <!-- ─── Performance Preconnections ─── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://accounts.google.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://accounts.google.com" />
 
   <!-- ─── Open Graph / Facebook (SEO + GEO) ─── -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.ratemyux.com/" />
-  <meta property="og:title" content="Rate My UX | AI-Powered UX Evaluation &amp; Design Auditing Tool" />
+  <meta property="og:title" content="Rate My UX | Free AI-Powered UX Evaluation &amp; Design Auditing Tool" />
   <meta property="og:description"
-    content="Audit your website or Figma prototype with neural Vision AI. Instant 11-dimension usability scores, Nielsen heuristics checks, and prioritized design roadmaps." />
+    content="Audit any website URL, Figma prototype, or screenshot with neural Vision AI. Instant 11-dimension scores, Nielsen heuristics checks, and prioritized redesign roadmaps." />
   <meta property="og:image" content="https://www.ratemyux.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Rate My UX — AI-Powered UX Evaluation Dashboard" />
+  <meta property="og:image:alt" content="Rate My UX — AI UX Evaluation Dashboard &amp; Usability Auditor" />
   <meta property="og:site_name" content="Rate My UX" />
   <meta property="og:locale" content="en_US" />
 
-  <!-- ─── Twitter Cards ─── -->
+  <!-- ─── Twitter Cards (SEO + GEO) ─── -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.ratemyux.com/" />
   <meta name="twitter:title" content="Rate My UX | AI-Powered UX Evaluation &amp; Design Auditing Tool" />
   <meta name="twitter:description"
-    content="Audit your website or Figma prototype with neural Vision AI. Instant 11-dimension usability scores, Nielsen heuristics checks, and prioritized design roadmaps." />
+    content="Audit any website or Figma prototype with neural Vision AI. Instant 11-dimension usability scores, Nielsen heuristics checks, and executive PDF roadmaps." />
   <meta name="twitter:image" content="https://www.ratemyux.com/og-image.png" />
+  <meta name="twitter:image:alt" content="Rate My UX — AI Design Auditor" />
   <meta name="twitter:creator" content="@ratemyux" />
+  <meta name="twitter:site" content="@ratemyux" />
 
-  <!-- ─── LLM & AI Context Links (GEO) ─── -->
+  <!-- ─── Machine-Readable AI / LLM Context (GEO) ─── -->
   <link rel="author" type="text/plain" href="/llms.txt" />
+  <link rel="help" type="text/plain" href="/llms-full.txt" />
 
-  <!-- ─── Verification & Tracking ─── -->
+  <!-- ─── Google Site Verification & Google Analytics ─── -->
   <meta name="google-site-verification" content="gdVyD8jprt7S-0GGZW7BxWFMvy8vni6IgoKoses7kao" />
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0DJCMS4G8D"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -54,7 +71,7 @@
     gtag('config', 'G-0DJCMS4G8D');
   </script>
 
-  <!-- ─── Google Identity Services (Gmail Sign-In) ─── -->
+  <!-- ─── Google Identity Services (Gmail OAuth) ─── -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <!-- ─── Rich Structured Data (JSON-LD) for SEO / GEO / AEO ─── -->
@@ -63,53 +80,57 @@
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "SoftwareApplication",
+          "@type": "WebApplication",
           "@id": "https://www.ratemyux.com/#software",
           "name": "Rate My UX",
-          "alternateName": ["RateMyUX", "Rate My UX Tool", "AI UX Evaluator"],
+          "alternateName": ["RateMyUX", "Rate My UX Tool", "AI UX Evaluator", "AI Usability Auditor"],
           "url": "https://www.ratemyux.com",
           "operatingSystem": "All Web Browsers, macOS, Windows, Linux, iOS, Android",
           "applicationCategory": "DesignApplication",
           "applicationSubCategory": "UX Analysis Tool",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
           "offers": [
             {
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD",
-              "name": "Starter Plan",
-              "description": "Free tier: 3 UX evaluations per month with full 11-dimension scores and PDF exports."
+              "name": "Free Starter UX Audit",
+              "description": "Free tier: 3 screen evaluations per month with full 11-dimension scores, Nielsen heuristic audit, and PDF exports.",
+              "url": "https://www.ratemyux.com/"
             },
             {
               "@type": "Offer",
               "price": "29",
               "priceCurrency": "USD",
-              "name": "Pro Plan",
-              "description": "Unlimited evaluations, up to 10 screens, prioritized roadmap with effort scores, and AI redesign suggestions."
+              "name": "Pro UX Audit Plan",
+              "description": "Unlimited evaluations, up to 10 screens per audit, prioritized roadmap with effort scores, and AI redesign suggestions.",
+              "url": "https://www.ratemyux.com/plans"
             },
             {
               "@type": "Offer",
               "price": "79",
               "priceCurrency": "USD",
-              "name": "Team Plan",
-              "description": "Team collaboration, up to 5 members, white-label PDF reports, and custom criteria."
+              "name": "Team UX Audit Plan",
+              "description": "Team collaboration with 5 member seats, white-label PDF reports, shared audit library, and custom heuristic criteria.",
+              "url": "https://www.ratemyux.com/plans"
             }
           ],
-          "description": "AI-powered UX evaluation platform that analyzes website URLs, mobile screenshots, and Figma prototypes using Vision AI models to generate Nielsen heuristic audits, accessibility checks, and prioritized usability roadmaps.",
+          "description": "Rate My UX is an AI-powered UX evaluation and design auditing platform. It analyzes website URLs, mobile screenshots, and Figma prototypes using Vision AI models to generate Nielsen heuristic audits, accessibility checks, and prioritized usability roadmaps.",
           "featureList": [
-            "11-Dimension Vision AI Usability Analysis",
+            "11-Dimension Neural Vision AI Usability Analysis",
             "Jakob Nielsen's 10 Usability Heuristics Audit",
-            "WCAG 2.2 Accessibility & Contrast Verification",
+            "WCAG 2.2 Accessibility & Color Contrast Verification",
             "Conversion Rate Optimization (CRO) Friction Analysis",
             "Figma Prototype & Live Web Page Crawling",
-            "Executive PDF Audit Report Generator",
+            "Executive Dark-Mode PDF Audit Report Generator",
             "Prioritized Effort vs Impact Redesign Roadmap",
-            "Google Gmail Sign-In & User Dashboard",
+            "One-Click Google Gmail Sign-In & Dashboard",
             "Full Audit History & Report Management"
           ],
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "ratingCount": "1280",
+            "ratingCount": "1840",
             "bestRating": "5",
             "worstRating": "1"
           }
@@ -118,6 +139,7 @@
           "@type": "Organization",
           "@id": "https://www.ratemyux.com/#organization",
           "name": "Rate My UX",
+          "alternateName": "RateMyUX",
           "url": "https://www.ratemyux.com",
           "logo": {
             "@type": "ImageObject",
@@ -127,12 +149,14 @@
           },
           "contactPoint": {
             "@type": "ContactPoint",
-            "contactType": "customer support",
+            "contactType": "Customer Support & Design Consulting",
             "email": "hello@ratemyux.com",
             "url": "https://www.ratemyux.com/contact"
           },
           "sameAs": [
-            "https://devdesigns.net"
+            "https://devdesigns.net",
+            "https://twitter.com/ratemyux",
+            "https://github.com/madmags29/ux"
           ],
           "parentOrganization": {
             "@type": "Organization",
@@ -145,7 +169,7 @@
           "@id": "https://www.ratemyux.com/#website",
           "url": "https://www.ratemyux.com",
           "name": "Rate My UX",
-          "description": "AI-Powered UX Evaluation & Design Auditing Tool",
+          "description": "Free AI-Powered UX Evaluation & Usability Auditing Platform",
           "publisher": {
             "@id": "https://www.ratemyux.com/#organization"
           },
@@ -158,22 +182,22 @@
         {
           "@type": "WebPage",
           "@id": "https://www.ratemyux.com/#webpage",
-          "url": "https://www.ratemyux.com",
-          "name": "Rate My UX — Free AI-Powered UX Evaluation Tool",
+          "url": "https://www.ratemyux.com/",
+          "name": "Rate My UX — Free AI UX Evaluation & Design Auditing Tool",
           "isPartOf": { "@id": "https://www.ratemyux.com/#website" },
           "about": { "@id": "https://www.ratemyux.com/#software" },
           "description": "Evaluate any website, Figma prototype, or app screenshot with AI. Get instant usability scores, Nielsen heuristics audit, WCAG accessibility checks, and a prioritized design improvement roadmap.",
           "breadcrumb": { "@id": "https://www.ratemyux.com/#breadcrumb" },
           "speakable": {
             "@type": "SpeakableSpecification",
-            "cssSelector": ["h1", ".hero__subtitle", ".hero__badge"]
+            "cssSelector": ["h1", ".hero__subtitle", ".hero__badge", ".faq-item__question", ".faq-item__answer"]
           }
         },
         {
           "@type": "Service",
           "@id": "https://www.ratemyux.com/#service",
-          "name": "AI UX Design Evaluation and Accessibility Audit Service",
-          "serviceType": "UX Auditing, Design Critique & Usability Evaluation",
+          "name": "AI UX Design Evaluation and Usability Audit Service",
+          "serviceType": "Automated UX Auditing, Design Critique & Accessibility Evaluation",
           "provider": {
             "@id": "https://www.ratemyux.com/#organization"
           },
@@ -196,54 +220,56 @@
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ratemyux.com/" },
             { "@type": "ListItem", "position": 2, "name": "About", "item": "https://www.ratemyux.com/about" },
             { "@type": "ListItem", "position": 3, "name": "Pricing", "item": "https://www.ratemyux.com/plans" },
-            { "@type": "ListItem", "position": 4, "name": "Contact", "item": "https://www.ratemyux.com/contact" }
+            { "@type": "ListItem", "position": 4, "name": "Contact", "item": "https://www.ratemyux.com/contact" },
+            { "@type": "ListItem", "position": 5, "name": "Dashboard", "item": "https://www.ratemyux.com/dashboard" },
+            { "@type": "ListItem", "position": 6, "name": "Profile", "item": "https://www.ratemyux.com/profile" }
           ]
         },
         {
           "@type": "HowTo",
           "@id": "https://www.ratemyux.com/#howto",
-          "name": "How to Evaluate Your Website UX with AI",
-          "description": "Step-by-step guide to running an AI-powered UX audit on your website or Figma prototype using Rate My UX.",
-          "totalTime": "PT2M",
+          "name": "How to Evaluate Your Website or Figma UX with AI",
+          "description": "Step-by-step guide to running an automated AI-powered UX audit on your website, mobile app, or Figma prototype using Rate My UX.",
+          "totalTime": "PT1M",
           "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "0" },
           "tool": [
-            { "@type": "HowToTool", "name": "Rate My UX (free)" },
-            { "@type": "HowToTool", "name": "Your website URL or Figma prototype link" }
+            { "@type": "HowToTool", "name": "Rate My UX (Free AI Evaluator)" },
+            { "@type": "HowToTool", "name": "Your website URL, Figma link, or screenshot images" }
           ],
           "step": [
             {
               "@type": "HowToStep",
               "position": 1,
-              "name": "Go to Rate My UX",
-              "text": "Open your browser and navigate to https://www.ratemyux.com. No installation required — it runs entirely in your browser.",
+              "name": "Navigate to Rate My UX",
+              "text": "Open your web browser and go to https://www.ratemyux.com. No download or software installation is required.",
               "url": "https://www.ratemyux.com/"
             },
             {
               "@type": "HowToStep",
               "position": 2,
-              "name": "Enter your URL or upload screenshots",
-              "text": "Paste your website URL, Figma prototype link, or drag-and-drop up to 3 screenshot images into the evaluator.",
+              "name": "Enter URL or Upload Design Screenshots",
+              "text": "Paste your public website URL, Figma prototype link, or drag-and-drop up to 3 screenshot files (PNG, JPG, WebP).",
               "url": "https://www.ratemyux.com/"
             },
             {
               "@type": "HowToStep",
               "position": 3,
-              "name": "Sign in to start evaluation",
-              "text": "Create a free account or sign in with Google to unlock full evaluation capabilities and save your audit history.",
+              "name": "Sign in with Google in One Click",
+              "text": "Sign in with Google or create a free account to unlock multi-screen vision processing and save your audit report history.",
               "url": "https://www.ratemyux.com/"
             },
             {
               "@type": "HowToStep",
               "position": 4,
-              "name": "Review AI-generated UX scores",
-              "text": "Get a full 11-dimension score breakdown covering visual design, interaction flow, accessibility (WCAG 2.2), Nielsen heuristics, mobile ergonomics, and conversion optimization.",
+              "name": "Review Real-Time 11-Dimension UX Breakdown",
+              "text": "Watch live evaluation results stream in covering First Impression, Visual Hierarchy, WCAG 2.2 Accessibility, Nielsen Heuristics, and CRO Friction Points.",
               "url": "https://www.ratemyux.com/"
             },
             {
               "@type": "HowToStep",
               "position": 5,
-              "name": "Download your PDF audit report",
-              "text": "Export a professional executive PDF report with all findings, scores, and prioritized recommendations — ready for clients or your dev team.",
+              "name": "Export Executive PDF Report",
+              "text": "Download a presentation-ready dark mode executive PDF audit report with prioritized redesign action items for your dev team or stakeholders.",
               "url": "https://www.ratemyux.com/"
             }
           ]
@@ -262,10 +288,10 @@
             },
             {
               "@type": "Question",
-              "name": "How do I audit my Figma prototype or website UX?",
+              "name": "How do I audit my Figma prototype or website UX with AI?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Simply enter your website URL or public Figma prototype link on Rate My UX, or drag and drop screenshot images. The AI Vision engine automatically crawls the screens and generates a full score breakdown with actionable recommendations in seconds."
+                "text": "Simply enter your website URL or public Figma prototype link on Rate My UX (https://www.ratemyux.com), or drag and drop screenshot images. The AI Vision engine automatically crawls the screens and generates a full score breakdown with actionable recommendations in seconds."
               }
             },
             {
@@ -294,18 +320,26 @@
             },
             {
               "@type": "Question",
-              "name": "What is the best free UX audit tool?",
+              "name": "What is the best free UX audit tool for websites and apps?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Rate My UX is one of the best free AI-powered UX audit tools available. It provides comprehensive usability evaluations across 11 dimensions, covers Nielsen Heuristics, WCAG 2.2 accessibility, and generates professional PDF reports — all for free for up to 3 evaluations per month."
+                "text": "Rate My UX is one of the top AI-powered UX audit tools available today. It provides comprehensive usability evaluations across 11 dimensions, covers Nielsen Heuristics, WCAG 2.2 accessibility, and generates professional PDF reports — all for free for up to 3 evaluations per month."
               }
             },
             {
               "@type": "Question",
-              "name": "How does AI evaluate UX design?",
+              "name": "How does AI evaluate UX and UI design?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Rate My UX uses OpenAI Vision AI to visually analyze screenshots and live websites. The AI examines layout hierarchy, color contrast ratios, touch target sizes, information architecture, call-to-action placement, cognitive load, and 11 other usability dimensions — producing scores and actionable recommendations in seconds."
+                "text": "Rate My UX uses advanced Vision AI models to visually analyze screenshots and live websites. The AI examines layout hierarchy, color contrast ratios, touch target sizes, information architecture, call-to-action placement, cognitive load, and 11 other usability dimensions — producing scores and actionable recommendations in seconds."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does Rate My UX test for WCAG 2.2 accessibility?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rate My UX performs automated accessibility checks evaluating color contrast ratios against WCAG 2.2 AA/AAA guidelines, text legibility, touch target sizing (minimum 48x48px on mobile), logical heading hierarchies, and visual cues for form validation."
               }
             }
           ]

@@ -3,19 +3,57 @@ import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import SEO from '../components/SEO';
 
+const PLANS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemPage',
+  '@id': 'https://www.ratemyux.com/plans#webpage',
+  url: 'https://www.ratemyux.com/plans',
+  name: 'Rate My UX Subscription Plans & Pricing',
+  description: 'Compare Free, Pro, and Team subscription pricing plans for Rate My UX AI evaluation tool.',
+  mainEntity: {
+    '@type': 'OfferCatalog',
+    name: 'Rate My UX Audit Plans',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        name: 'Free Starter Plan',
+        price: '0',
+        priceCurrency: 'USD',
+        description: '3 UX evaluations per month with full 11-dimension scores, Nielsen heuristic audit, and PDF exports.'
+      },
+      {
+        '@type': 'Offer',
+        name: 'Pro Plan',
+        price: '29',
+        priceCurrency: 'USD',
+        description: 'Unlimited evaluations, up to 10 screens per audit, prioritized roadmap with effort scores, and AI redesign suggestions.'
+      },
+      {
+        '@type': 'Offer',
+        name: 'Team Plan',
+        price: '79',
+        priceCurrency: 'USD',
+        description: 'Team collaboration with 5 member seats, white-label PDF reports, shared audit library, and custom heuristic criteria.'
+      }
+    ]
+  }
+};
+
 const PLANS = [
   {
     name: 'Starter',
     price: 'Free',
     period: '',
-    desc: 'Perfect for trying out the AI UX Evaluator on your first prototype.',
+    desc: 'Perfect for testing the AI UX Evaluator on your website or Figma prototype.',
     badge: null,
     features: [
       '3 evaluations per month',
       'Up to 3 screens per evaluation',
       'All 11 evaluation dimensions',
-      'PDF report download',
-      'Basic roadmap',
+      'Jakob Nielsen heuristic checks',
+      'WCAG 2.2 accessibility score',
+      'Downloadable PDF audit report',
+      'Audit history saved in dashboard',
     ],
     cta: 'Start for Free',
     ctaTo: '/',
@@ -25,18 +63,17 @@ const PLANS = [
     name: 'Pro',
     price: '$29',
     period: '/month',
-    desc: 'For designers and founders who review products regularly and need full depth.',
+    desc: 'For product designers, indie founders, and UX teams running regular product audits.',
     badge: 'Most Popular',
     features: [
       'Unlimited evaluations',
-      'Up to 10 screens per evaluation',
+      'Up to 10 screens per audit',
       'All 11 evaluation dimensions',
-      'PDF report download',
-      'Prioritized roadmap with effort scores',
-      'AI redesign suggestions',
-      'Nielsen heuristic table',
-      'Benchmark comparisons',
-      'Priority processing',
+      'Prioritized effort vs impact roadmap',
+      'AI wireframe & redesign advice',
+      'Industry benchmark comparisons',
+      'Priority Vision AI processing',
+      'Executive dark-mode PDF export',
     ],
     cta: 'Get Pro',
     ctaTo: '/contact',
@@ -46,17 +83,16 @@ const PLANS = [
     name: 'Team',
     price: '$79',
     period: '/month',
-    desc: 'For product teams running regular audits across multiple products.',
+    desc: 'For agencies and design teams managing client audits and multiple products.',
     badge: null,
     features: [
       'Everything in Pro',
-      'Up to 5 team members',
-      'Shared report library',
-      'Unlimited screens per evaluation',
-      'White-label PDF reports',
-      'Slack/email report delivery',
+      'Up to 5 team member seats',
+      'Unlimited screens per audit',
+      'White-label executive PDF exports',
+      'Shared team audit library',
       'Custom evaluation criteria',
-      'Dedicated support',
+      'Direct Slack & email support',
     ],
     cta: 'Talk to Sales',
     ctaTo: '/contact',
@@ -65,11 +101,26 @@ const PLANS = [
 ];
 
 const FAQ = [
-  { q: 'How does the AI analysis work?', a: 'We use OpenAI\'s advanced multimodal Vision model, combined with your expert UX evaluation prompt. Puppeteer takes a full screenshot of each page, which is sent to the AI along with our structured evaluation criteria to produce a detailed JSON report.' },
-  { q: 'How long does an evaluation take?', a: 'Typically 30–90 seconds depending on the number of screens. Results stream in live screen by screen, so you start seeing insights almost immediately.' },
-  { q: 'What kind of sites and prototypes can I evaluate?', a: 'Any publicly accessible URL — including live websites, Framer prototypes, Webflow sites, Vercel previews, and more. Figma links require the file to be made public.' },
-  { q: 'Can I evaluate password-protected or local sites?', a: 'Not in the current version. The site must be publicly accessible. For local development, you can use tools like ngrok to expose your localhost temporarily.' },
-  { q: 'Is my data stored or used for training?', a: 'Screenshots are processed in memory and deleted after evaluation. We do not store your designs, URLs, or AI outputs beyond your active session.' },
+  {
+    q: 'How does Rate My UX analyze my design with AI?',
+    a: 'Rate My UX uses multimodal neural Vision AI models. When you provide a website URL, Figma link, or upload screenshots, our engine crawls the visual viewport, inspects layout hierarchies, typography scales, contrast ratios, and interactive touch targets, producing structured scores across 11 usability dimensions in under 60 seconds.'
+  },
+  {
+    q: 'Can I start using Rate My UX for free?',
+    a: 'Yes! Our Free Starter tier allows you to evaluate up to 3 screens per month with complete 11-dimension scoring, Nielsen heuristic checks, and executive PDF exports with zero credit card required.'
+  },
+  {
+    q: 'What types of websites and prototypes are supported?',
+    a: 'Rate My UX supports live website URLs, SaaS applications, eCommerce stores, public Figma prototype links, Framer sites, Webflow builds, and direct PNG/JPG/WebP screenshot uploads.'
+  },
+  {
+    q: 'How does Rate My UX evaluate Jakob Nielsen’s 10 Heuristics?',
+    a: 'The Vision engine systematically evaluates each screen against all 10 heuristics: 1) System status visibility, 2) Match between system and real world, 3) User control & freedom, 4) Consistency & standards, 5) Error prevention, 6) Recognition over recall, 7) Flexibility & efficiency, 8) Aesthetic & minimalist design, 9) Error recovery, and 10) Help & documentation.'
+  },
+  {
+    q: 'Is my prototype data confidential and secure?',
+    a: 'Yes. All screenshots and design assets are processed in secure ephemeral memory and never used for public training datasets. Your audit reports remain private to your authenticated account.'
+  }
 ];
 
 export default function PlansPage() {
@@ -79,17 +130,19 @@ export default function PlansPage() {
   return (
     <div>
       <SEO
-        title="Pricing & Plans | Rate My UX — Free, Pro & Team Subscription Tiers"
+        title="Pricing &amp; Plans | Rate My UX — Free, Pro &amp; Team Subscription Tiers"
         description="Choose the right Rate My UX subscription plan for your product. Free tier includes 3 screen audits monthly. Pro plan offers unlimited audits with effort vs impact roadmaps."
         canonicalPath="/plans"
-        keywords="Rate My UX Pricing, AI UX Evaluation Cost, Pro UX Audit Plan, Free Usability Audit Tool, Enterprise UX Review"
+        keywords="Rate My UX Pricing, AI UX Evaluation Cost, Pro UX Audit Plan, Free Usability Audit Tool, Enterprise UX Review, Design Audit Agency"
+        schema={PLANS_SCHEMA}
       />
+
       {/* Hero */}
       <AnimatedSection>
         <section className="page-hero">
-          <div className="page-hero__badge">Pricing</div>
-          <h1>Simple, <span className="text-gradient">Transparent</span> Pricing</h1>
-          <p>Start for free. Scale as you grow. No hidden fees, no surprises.</p>
+          <div className="page-hero__badge">Transparent Pricing</div>
+          <h1>Simple, Predictable <span className="text-gradient">Pricing</span></h1>
+          <p>Start free. Upgrade as your product scales. No hidden fees or surprise charges.</p>
 
           {/* Toggle */}
           <div className="plans-toggle glass-panel">
@@ -162,10 +215,10 @@ export default function PlansPage() {
         <AnimatedSection>
           <div className="section-header">
             <h2>Frequently Asked <span className="text-gradient">Questions</span></h2>
-            <p>Everything you need to know before getting started.</p>
+            <p>Everything you need to know about AI-driven UX evaluations.</p>
           </div>
         </AnimatedSection>
-        <div className="faq-list" style={{ maxWidth: 700, margin: '0 auto' }}>
+        <div className="faq-list" style={{ maxWidth: 740, margin: '0 auto' }}>
           {FAQ.map(({ q, a }, i) => (
             <AnimatedSection key={i} delay={i * 60}>
               <div
@@ -184,19 +237,6 @@ export default function PlansPage() {
           ))}
         </div>
       </section>
-
-      {/* CTA Banner */}
-      <AnimatedSection>
-        <section className="page-section" style={{ paddingBottom: '5rem' }}>
-          <div className="cta-banner glass-panel">
-            <h2>Ready to elevate your <span className="text-gradient">product</span>?</h2>
-            <p>Run your first free UX evaluation in under 60 seconds.</p>
-            <Link to="/" className="btn btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2rem', position: 'relative' }}>
-              Analyze a Design →
-            </Link>
-          </div>
-        </section>
-      </AnimatedSection>
     </div>
   );
 }
