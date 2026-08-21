@@ -316,25 +316,6 @@ function EvaluatorPage() {
                     />
                   </div>
 
-                  <div style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--text-secondary)',
-                    background: 'rgba(0, 240, 255, 0.03)',
-                    border: '1px solid rgba(0, 240, 255, 0.15)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '0.65rem 0.85rem',
-                    textAlign: 'left',
-                    display: 'flex',
-                    gap: '0.6rem',
-                    alignItems: 'flex-start',
-                    lineHeight: 1.45
-                  }}>
-                    <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>💡</span>
-                    <div>
-                      <strong style={{ color: 'var(--accent-cyan)' }}>Free Plan Limits &amp; Figma Multi-Screens:</strong> The free tier audits up to <strong>3 screens</strong> per evaluation. For Figma URLs with multiple artboards/screens, the evaluator audits the specific linked frame (or primary frame). To evaluate more screens simultaneously, upload individual screenshots or <a href="/plans" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontWeight: 600 }}>upgrade to Pro</a>.
-                    </div>
-                  </div>
-
                   <button type="submit" className="btn btn-primary hero__cta-primary" style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '0.9rem' }}>
                     <span className="pulse-ring" />
                     🔍 Evaluate My UX
@@ -375,26 +356,7 @@ function EvaluatorPage() {
                     />
                     <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📤</div>
                     <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Drag &amp; drop prototype screenshots here</h3>
-                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.85rem' }}>or click to browse (PNG, JPG, WEBP — up to 3 screens on Free Plan)</p>
-                  </div>
-
-                  <div style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--text-secondary)',
-                    background: 'rgba(0, 240, 255, 0.03)',
-                    border: '1px solid rgba(0, 240, 255, 0.15)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '0.65rem 0.85rem',
-                    textAlign: 'left',
-                    display: 'flex',
-                    gap: '0.6rem',
-                    alignItems: 'flex-start',
-                    lineHeight: 1.45
-                  }}>
-                    <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>💡</span>
-                    <div>
-                      <strong style={{ color: 'var(--accent-cyan)' }}>Free Plan Limit:</strong> You can upload and evaluate up to <strong>3 screens</strong> at once with complete 11-dimension scoring, Nielsen heuristic checks, and PDF exports.
-                    </div>
+                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.85rem' }}>or click to browse (PNG, JPG, WEBP)</p>
                   </div>
 
                   {files.length > 0 && (
