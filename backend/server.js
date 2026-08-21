@@ -26,6 +26,24 @@ if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 app.use('/screenshots', express.static(screenshotsDir));
 
+// Helper for browser launch (supporting local Dev & Vercel serverless)
+const launchBrowser = async () => {
+  if (process.env.VERCEL) {
+    const chromium = (await import('@sparticuz/chromium')).default;
+    const puppeteerCore = (await import('puppeteer-core')).default;
+    return await puppeteerCore.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    });
+  }
+  return await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
+  });
+};
+
 // ─── Data Storage Helpers ───────────────────────────────────────────────────
 const EVALUATIONS_FILE = path.join(dataDir, 'evaluations.json');
 const CONTACTS_FILE = path.join(dataDir, 'contacts.json');
@@ -312,11 +330,7 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
       send('total', { total: 1 });
       send('progress', { current: 1, total: 1, screenName: 'Figma Design', url });
 
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security',
-               '--disable-features=IsolateOrigins,site-per-process']
-      });
+      browser = await launchBrowser();
       const page = await browser.newPage();
       await page.setViewport({ width: 1440, height: 900 });
 
@@ -373,7 +387,7 @@ app.post('/api/evaluate', upload.array('images', 20), async (req, res) => {
     // ── PATH C: Regular URL ─────────────────────────────────────────────────
     else {
       send('status', { message: 'Launching browser...' });
-      browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+      browser = await launchBrowser();
       const page = await browser.newPage();
       await page.setViewport({ width: 1440, height: 900 });
 
@@ -521,6 +535,11 @@ app.delete('/api/admin/contacts/:id', authAdmin, (req, res) => {
   res.json({ success: true, message: 'Contact deleted' });
 });
 
-app.listen(port, () => {
-  console.log(`AI UX Expert backend running at http://localhost:${port}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`AI UX Expert backend running at http://localhost:${port}`);
+  });
+}
+
+export default app;
+
