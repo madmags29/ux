@@ -1569,5 +1569,19 @@ textarea.input-field {
   .hero { min-height: 75vh; padding: 3rem 1.5rem; }
   .hero__title { font-size: 2.2rem; }
   .page-hero { padding: 3rem 0 2rem; }
+
+  /* Hide animated background in mobile view */
+  .particle-canvas,
+  .hero canvas,
+  .hero__orb,
+  .hero__orb--cyan,
+  .hero__orb--violet,
+  .hero__orb--magenta {
+    display: none !important;
+    animation: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 

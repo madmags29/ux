@@ -24,11 +24,18 @@ export default function ParticleCanvas() {
     const MOUSE_RADIUS = 180;
 
     const resize = () => {
+      if (window.innerWidth <= 768) {
+        if (animRef.current) cancelAnimationFrame(animRef.current);
+        return;
+      }
       canvas.width = canvas.offsetWidth * window.devicePixelRatio;
       canvas.height = canvas.offsetHeight * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      if (!animRef.current) animate();
     };
-    resize();
+    if (window.innerWidth > 768) {
+      resize();
+    }
     window.addEventListener('resize', resize);
 
     class Particle {
@@ -198,6 +205,7 @@ export default function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
+      className="particle-canvas"
       style={{
         position: 'absolute',
         inset: 0,
