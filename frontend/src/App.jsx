@@ -574,13 +574,20 @@ function Footer() {
         <div className="site-footer__links">
           <div>
             <p className="site-footer__heading">Product</p>
-            <Link to="/">Evaluator</Link>
-            <Link to="/plans">Pricing</Link>
+            <Link to="/">AI Evaluator</Link>
+            <Link to="/plans">Pricing &amp; Plans</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </div>
           <div>
             <p className="site-footer__heading">Resources</p>
-            <Link to="/blog">Blog &amp; Insights</Link>
-            <Link to="/about">About UX Auditing</Link>
+            <Link to="/blog">UX Blog &amp; Insights</Link>
+            <Link to="/blog/how-to-conduct-ai-ux-audit-in-2026">AI Audit Guide</Link>
+            <Link to="/blog/jakob-nielsen-10-heuristics-modern-web-examples">Nielsen Heuristics</Link>
+            <Link to="/blog/wcag-2-2-accessibility-checklist-for-designers">WCAG 2.2 Checklist</Link>
+          </div>
+          <div>
+            <p className="site-footer__heading">Company</p>
+            <Link to="/about">About Us</Link>
             <Link to="/contact">Contact Support</Link>
           </div>
         </div>
