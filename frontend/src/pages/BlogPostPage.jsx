@@ -13,15 +13,16 @@ export default function BlogPostPage() {
     return BLOG_POSTS.find((p) => p.slug === slug);
   }, [slug]);
 
-  if (!post) {
-    return <Navigate to="/blog" replace />;
-  }
-
   const relatedPosts = useMemo(() => {
+    if (!post) return [];
     return BLOG_POSTS.filter(
       (p) => p.slug !== post.slug && (p.category === post.category || p.author.name === post.author.name)
     ).slice(0, 3);
   }, [post]);
+
+  if (!post) {
+    return <Navigate to="/blog" replace />;
+  }
 
   const articleSchema = {
     '@context': 'https://schema.org',
