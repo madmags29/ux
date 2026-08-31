@@ -10,6 +10,8 @@ import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 import AuthModal from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
@@ -576,9 +578,10 @@ function Footer() {
             <Link to="/plans">Pricing</Link>
           </div>
           <div>
-            <p className="site-footer__heading">Company</p>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            <p className="site-footer__heading">Resources</p>
+            <Link to="/blog">Blog &amp; Insights</Link>
+            <Link to="/about">About UX Auditing</Link>
+            <Link to="/contact">Contact Support</Link>
           </div>
         </div>
       </div>
@@ -604,6 +607,8 @@ function App() {
           <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
         </Routes>
       </main>

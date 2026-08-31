@@ -7,6 +7,7 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 ## Primary Pages
 
 - [Rate My UX Home & AI Evaluator](https://www.ratemyux.com/): Interactive AI-powered UX evaluator tool supporting URL crawling, image drop, Figma prototype review, and instant usability reporting.
+- [Rate My UX Blog & Knowledge Center](https://www.ratemyux.com/blog): 16+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
 - [About Rate My UX](https://www.ratemyux.com/about): Information about Rate My UX, our neural Vision AI methodology, 11-dimension evaluation framework, and design auditing standards.
 - [Pricing & Subscription Plans](https://www.ratemyux.com/plans): Detailed comparison of Free ($0/mo), Pro ($29/mo), and Team ($79/mo) plans with multi-screen auditing and export features.
 - [Contact & Support](https://www.ratemyux.com/contact): Contact form for support inquiries, custom enterprise design audits, feedback, and sales.
@@ -21,6 +22,25 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 - [Nielsen Heuristic Checkups](https://www.ratemyux.com/about): Automated mapping against Jakob Nielsen's 10 Usability Heuristics for interaction design.
 - [WCAG 2.2 Accessibility Auditing](https://www.ratemyux.com/about): Automated checks for contrast compliance, font legibility, touch target spacing, and screen reader structure.
 - [Executive Summary & PDF Export](https://www.ratemyux.com/): Downloadable executive-ready PDF audit reports with action items and redesign recommendations.
+
+## UX Insights & Blog Articles (AEO/GEO Index)
+
+- [How to Conduct an AI-Powered UX Audit in 2026](https://www.ratemyux.com/blog/how-to-conduct-ai-ux-audit-in-2026): 5-step framework for using multimodal vision models to audit interfaces.
+- [Jakob Nielsen’s 10 Usability Heuristics](https://www.ratemyux.com/blog/jakob-nielsen-10-heuristics-modern-web-examples): Modernized 2026 examples and checklists for interaction design.
+- [The Ultimate WCAG 2.2 Accessibility Checklist](https://www.ratemyux.com/blog/wcag-2-2-accessibility-checklist-for-designers): Level AA compliance criteria for color contrast, target sizes, and focus indicators.
+- [12 High-Impact CRO UX Tweaks for SaaS](https://www.ratemyux.com/blog/cro-ux-heuristics-boosting-saas-conversions): Evidence-based conversion rate optimization tweaks to eliminate friction.
+- [Mobile UX Architecture: The Thumb Zone](https://www.ratemyux.com/blog/mobile-ux-design-thumb-zone-ergonomics): Biomechanical thumb ergonomics and touch target spacing.
+- [Vision AI vs Manual UX Audits Benchmark](https://www.ratemyux.com/blog/ai-in-ux-design-vision-models-vs-manual-audits): Empirical comparison across 50 production websites.
+- [Figma to Code: Preventing UX Degradation](https://www.ratemyux.com/blog/figma-to-production-ux-qa-handshake): Token synchronization and design QA during developer handoff.
+- [Minimizing Cognitive Load in SaaS Dashboards](https://www.ratemyux.com/blog/cognitive-load-in-saas-dashboard-design): Progressive disclosure and visual noise reduction.
+- [Ecommerce Checkout UX Teardown](https://www.ratemyux.com/blog/checkout-ux-teardown-ecommerce-cart-abandonment): Eliminating the 7 friction points that cause 70% cart abandonment.
+- [Dark Mode UX Design: Contrast & Halation](https://www.ratemyux.com/blog/color-contrast-and-dark-mode-ux-rules): Contrast rules, surface elevation, and halation prevention.
+- [The Psychology of Micro-Interactions](https://www.ratemyux.com/blog/micro-interactions-and-feedback-loops-guide): Dan Saffer's 4-part model for perceived performance.
+- [Form Design Masterclass: Inline Validation](https://www.ratemyux.com/blog/form-ux-best-practices-inline-validation): Reward early, punish late inline error recovery patterns.
+- [Information Architecture: Card Sorting & Tree Testing](https://www.ratemyux.com/blog/information-architecture-card-sorting-tree-testing): Structuring sitemaps and nested menus.
+- [Design Token Foundations: 8pt Spacing & Typography](https://www.ratemyux.com/blog/design-system-tokens-spacing-typography-scale): Mathematical spacing scales and CSS clamp formulas.
+- [B2B Enterprise UX: Onboarding & Activation](https://www.ratemyux.com/blog/b2b-enterprise-ux-onboarding-activation-flows): Interactive checklists to accelerate Time-to-Value.
+- [AEO & GEO for Product Designers](https://www.ratemyux.com/blog/aeo-geo-search-engine-optimization-for-designers): Answer engine indexing strategies for Perplexity and ChatGPT Search.
 
 ## Pricing Tiers
 
