@@ -1,5 +1,5 @@
 // Comprehensive, authoritative UX blog articles with AEO, GEO & SEO structured content
-export const BLOG_CATEGORIES = [
+var BLOG_CATEGORIES = [
   'All',
   'AI & UX',
   'Heuristics',
@@ -12,7 +12,7 @@ export const BLOG_CATEGORIES = [
   'Research & IA'
 ];
 
-export const BLOG_POSTS = [
+var BLOG_POSTS = [
   {
     id: 1,
     slug: 'how-to-conduct-ai-ux-audit-in-2026',
@@ -953,3 +953,6 @@ export const BLOG_POSTS = [
     ]
   }
 ];
+
+// Named exports (avoids Rolldown/esbuild TDZ minification bug with large export const)
+export { BLOG_CATEGORIES, BLOG_POSTS };
