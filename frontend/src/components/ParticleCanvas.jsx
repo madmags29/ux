@@ -23,7 +23,7 @@ export default function ParticleCanvas() {
     const CONNECTION_DIST = 140;
     const MOUSE_RADIUS = 180;
 
-    const resize = () => {
+    function resize() {
       if (window.innerWidth <= 768) {
         if (animRef.current) cancelAnimationFrame(animRef.current);
         return;
@@ -32,7 +32,7 @@ export default function ParticleCanvas() {
       canvas.height = canvas.offsetHeight * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
       if (!animRef.current) animate();
-    };
+    }
     if (window.innerWidth > 768) {
       resize();
     }
@@ -128,7 +128,7 @@ export default function ParticleCanvas() {
 
     let radarAngle = 0;
 
-    const animate = () => {
+    function animate() {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
 
@@ -182,14 +182,14 @@ export default function ParticleCanvas() {
       }
 
       animRef.current = requestAnimationFrame(animate);
-    };
+    }
     animate();
 
-    const handleMouse = (e) => {
+    function handleMouse(e) {
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top, active: true };
-    };
-    const handleLeave = () => { mouseRef.current.active = false; };
+    }
+    function handleLeave() { mouseRef.current.active = false; }
 
     canvas.addEventListener('mousemove', handleMouse);
     canvas.addEventListener('mouseleave', handleLeave);
