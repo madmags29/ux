@@ -22,6 +22,16 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
+      workbox: {
+        // Clean up stale caches from old deployments immediately
+        cleanupOutdatedCaches: true,
+        // Skip waiting so new SW activates immediately without requiring tab close
+        skipWaiting: true,
+        clientsClaim: true,
+        // Don't cache API routes
+        navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^\/api\//],
+      },
       manifest: {
         name: 'Rate My UX — AI UX Evaluator',
         short_name: 'Rate My UX',
