@@ -23,8 +23,12 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const sortedPosts = useMemo(() => {
+    return [...BLOG_POSTS].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, []);
+
   const filteredPosts = useMemo(() => {
-    return BLOG_POSTS.filter((post) => {
+    return sortedPosts.filter((post) => {
       const matchesCategory =
         selectedCategory === 'All' || post.category === selectedCategory;
       const q = searchQuery.toLowerCase().trim();
@@ -36,9 +40,9 @@ export default function BlogPage() {
         post.author.name.toLowerCase().includes(q);
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [sortedPosts, selectedCategory, searchQuery]);
 
-  const featuredPost = BLOG_POSTS[0];
+  const featuredPost = sortedPosts[0] || BLOG_POSTS[0];
 
   return (
     <div className="blog-page">
