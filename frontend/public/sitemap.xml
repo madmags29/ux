@@ -46,7 +46,7 @@
     <priority>0.60</priority>
   </url>
 
-  <!-- 16 UX Blog & Insights Articles (AEO/GEO/SEO) -->
+  <!-- 26 UX Blog & Insights Articles (AEO/GEO/SEO) -->
   <url>
     <loc>https://www.ratemyux.com/blog/how-to-conduct-ai-ux-audit-in-2026</loc>
     <lastmod>2026-08-28</lastmod>
@@ -140,6 +140,66 @@
   <url>
     <loc>https://www.ratemyux.com/blog/aeo-geo-search-engine-optimization-for-designers</loc>
     <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/ai-agentic-ux-designing-interfaces-for-autonomous-llms</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/enterprise-data-table-ux-dense-information-patterns</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/empty-states-and-error-boundaries-ux-best-practices</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/pricing-page-ux-psychology-decoy-effect-anchoring</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/multimodal-ux-design-voice-haptics-vision</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/apca-vs-wcag2-accessible-perceptual-contrast-algorithms</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/product-gamification-ux-retention-progress-mechanics</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/mobile-gesture-navigation-swipe-physics-ux</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/how-many-users-usability-testing-math-nielsen</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ratemyux.com/blog/design-system-governance-versioning-token-deprecation</loc>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>

@@ -44,7 +44,7 @@ export default function BlogPage() {
     <div className="blog-page">
       <SEO
         title="UX Design & AI Usability Blog | Rate My UX Insights"
-        description="Explore 16+ expert UX guides, Nielsen heuristic deep dives, WCAG 2.2 accessibility checklists, CRO playbooks, and Vision AI design engineering case studies."
+        description="Explore 26+ expert UX guides, Nielsen heuristic deep dives, WCAG 2.2 accessibility checklists, CRO playbooks, and Vision AI design engineering case studies."
         canonicalPath="/blog"
         keywords="UX Design Blog, AI UX Audits, Usability Research, Jakob Nielsen Heuristics, WCAG 2.2 Checklist, Conversion Rate Optimization, Mobile UX, Design Tokens"
         schema={BLOG_SCHEMA}

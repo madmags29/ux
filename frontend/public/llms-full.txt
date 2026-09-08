@@ -49,7 +49,7 @@ Rate My UX systematically audits designs against all 10 Nielsen Heuristics:
 - **Home & AI Evaluator Tool**: `https://www.ratemyux.com/`
   - URL crawler, multi-file image drop zone, Figma link analyzer, real-time SSE evaluation stream, and interactive scorecards.
 - **Blog & Knowledge Center**: `https://www.ratemyux.com/blog`
-  - 16+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
+  - 26+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
 - **About Rate My UX**: `https://www.ratemyux.com/about`
   - Platform mission, neural Vision AI methodology, 11-dimension evaluation framework breakdown, and design principles.
 - **Pricing & Subscription Plans**: `https://www.ratemyux.com/plans`
@@ -97,6 +97,26 @@ Rate My UX systematically audits designs against all 10 Nielsen Heuristics:
     - Direct Answer: Interactive onboarding checklists and empty state templates that activate users within 3 minutes.
 16. **AEO & GEO for Product Designers: How Answer Engines Index UX and UI Content** (`https://www.ratemyux.com/blog/aeo-geo-search-engine-optimization-for-designers`)
     - Direct Answer: Optimizing digital interfaces and content for direct answer citation by Perplexity, ChatGPT Search, and Google AI Overviews.
+17. **Designing for Agentic AI: UX Patterns for Autonomous Agents & Copilots** (`https://www.ratemyux.com/blog/ai-agentic-ux-designing-interfaces-for-autonomous-llms`)
+    - Direct Answer: Human-in-the-loop checkpoint gates, ambient status indicators of agent reasoning, spatial artifact panels, and deterministic action undo state machines.
+18. **Enterprise Data Table UX: Designing High-Density Grids for Power Users** (`https://www.ratemyux.com/blog/enterprise-data-table-ux-dense-information-patterns`)
+    - Direct Answer: Column pinning, right-aligned tabular figures, sticky headers with sort/filter chips, batch toolbars, and DOM virtualization for 500+ rows.
+19. **Zero-Data & Error States: Designing Resilient Empty States That Convert** (`https://www.ratemyux.com/blog/empty-states-and-error-boundaries-ux-best-practices`)
+    - Direct Answer: 3-part empty state framework: contextual illustration anchor, value proposition microcopy, and a low-friction primary activation seed button.
+20. **Pricing Page UX Psychology: Decoy Effect, Anchoring, and Annual Toggles** (`https://www.ratemyux.com/blog/pricing-page-ux-psychology-decoy-effect-anchoring`)
+    - Direct Answer: Price anchoring with top tiers, asymmetric dominance (Decoy Effect) steering 65%+ users to the center tier, and default annual toggles with "Save 20%" badges.
+21. **Multimodal UX Design: Integrating Voice, Haptics, and Vision AI** (`https://www.ratemyux.com/blog/multimodal-ux-design-voice-haptics-vision`)
+    - Direct Answer: Cross-modal sensory confirmation loops, tactile haptics for virtual slider precision, and camera-first Vision AI spatial overlay bounding boxes.
+22. **APCA vs WCAG 2 Contrast: The Future of Accessible Color Systems** (`https://www.ratemyux.com/blog/apca-vs-wcag2-accessible-perceptual-contrast-algorithms`)
+    - Direct Answer: Bio-visually accurate Lightness Contrast (Lc) calculations accounting for spatial frequency, font stroke thickness, and dark mode optical halation.
+23. **Product Gamification UX: Ethical Retention Loops and Progress Mechanics** (`https://www.ratemyux.com/blog/product-gamification-ux-retention-progress-mechanics`)
+    - Direct Answer: Endowed Progress effect boosting task completion by 35%, Zeigarnik effect visual rings, and milestone badges celebrating competence over punitive streaks.
+24. **Mobile Gesture Architecture: Swipe Physics, Rubber-Banding, and Edge Triggers** (`https://www.ratemyux.com/blog/mobile-gesture-navigation-swipe-physics-ux`)
+    - Direct Answer: Newtonian inertia and friction calculations, velocity flings over distance, logarithmic rubber-banding resistance, and 24px safe zones from OS edge navigation.
+25. **How Many Users Do You Really Need for Usability Testing? The Math Behind 5 Users** (`https://www.ratemyux.com/blog/how-many-users-usability-testing-math-nielsen`)
+    - Direct Answer: Jakob Nielsen and Tom Landauer's Poisson discovery formula proves 5 users uncover 85% of usability flaws; running three 5-user tests yields 3x ROI over one 15-user study.
+26. **Design System Governance: Versioning, Token Deprecation, and Multi-Brand Scaling** (`https://www.ratemyux.com/blog/design-system-governance-versioning-token-deprecation`)
+    - Direct Answer: 3-tier token architecture (Global -> Semantic -> Component), SemVer deprecation lifecycles, automated CSS linting, and bi-weekly cross-functional design councils.
 
 ---
 

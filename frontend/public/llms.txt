@@ -7,7 +7,7 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 ## Primary Pages
 
 - [Rate My UX Home & AI Evaluator](https://www.ratemyux.com/): Interactive AI-powered UX evaluator tool supporting URL crawling, image drop, Figma prototype review, and instant usability reporting.
-- [Rate My UX Blog & Knowledge Center](https://www.ratemyux.com/blog): 16+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
+- [Rate My UX Blog & Knowledge Center](https://www.ratemyux.com/blog): 26+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
 - [About Rate My UX](https://www.ratemyux.com/about): Information about Rate My UX, our neural Vision AI methodology, 11-dimension evaluation framework, and design auditing standards.
 - [Pricing & Subscription Plans](https://www.ratemyux.com/plans): Detailed comparison of Free ($0/mo), Pro ($29/mo), and Team ($79/mo) plans with multi-screen auditing and export features.
 - [Contact & Support](https://www.ratemyux.com/contact): Contact form for support inquiries, custom enterprise design audits, feedback, and sales.
@@ -41,6 +41,16 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 - [Design Token Foundations: 8pt Spacing & Typography](https://www.ratemyux.com/blog/design-system-tokens-spacing-typography-scale): Mathematical spacing scales and CSS clamp formulas.
 - [B2B Enterprise UX: Onboarding & Activation](https://www.ratemyux.com/blog/b2b-enterprise-ux-onboarding-activation-flows): Interactive checklists to accelerate Time-to-Value.
 - [AEO & GEO for Product Designers](https://www.ratemyux.com/blog/aeo-geo-search-engine-optimization-for-designers): Answer engine indexing strategies for Perplexity and ChatGPT Search.
+- [Designing for Agentic AI: UX Patterns for Autonomous Agents](https://www.ratemyux.com/blog/ai-agentic-ux-designing-interfaces-for-autonomous-llms): Checkpoint gates, ambient thought streams, and state rollback design.
+- [Enterprise Data Table UX: High-Density Grids](https://www.ratemyux.com/blog/enterprise-data-table-ux-dense-information-patterns): Column pinning, batch toolbars, tabular typography, and virtual scrolling.
+- [Zero-Data & Error States: Designing Resilient UX](https://www.ratemyux.com/blog/empty-states-and-error-boundaries-ux-best-practices): First-use onboarding empty states, zero-search recovery, and empathetic error boundaries.
+- [Pricing Page UX Psychology: Decoy Effect & Anchoring](https://www.ratemyux.com/blog/pricing-page-ux-psychology-decoy-effect-anchoring): Cognitive heuristics, tiered anchoring, annual savings toggles, and matrix clarity.
+- [Multimodal UX Design: Voice, Haptics & Vision AI](https://www.ratemyux.com/blog/multimodal-ux-design-voice-haptics-vision): Cross-modal sensory confirmation loops, spatial UI, and camera-first AI experiences.
+- [APCA vs WCAG 2 Contrast: Accessible Perceptual Systems](https://www.ratemyux.com/blog/apca-vs-wcag2-accessible-perceptual-contrast-algorithms): The science of Lightness Contrast (Lc), spatial frequency, and dark mode halation.
+- [Product Gamification UX: Ethical Retention & Progress](https://www.ratemyux.com/blog/product-gamification-ux-retention-progress-mechanics): The Endowed Progress effect, Zeigarnik tension, and milestone mechanics.
+- [Mobile Gesture Architecture: Swipe Physics & Friction](https://www.ratemyux.com/blog/mobile-gesture-navigation-swipe-physics-ux): Fling velocities, rubber-banding curves, and avoiding edge swipe conflicts.
+- [Usability Testing Sample Size Math: 5 Users Uncover 85%](https://www.ratemyux.com/blog/how-many-users-usability-testing-math-nielsen): Jakob Nielsen and Tom Landauer's Poisson problem discovery curve explained.
+- [Design System Governance: Multi-Brand Token Deprecation](https://www.ratemyux.com/blog/design-system-governance-versioning-token-deprecation): 3-tier token hierarchies, SemVer component lifecycles, and council pipelines.
 
 ## Pricing Tiers
 
