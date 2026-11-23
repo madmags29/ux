@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import SEO from '../components/SEO';
+import AdBanner from '../components/AdBanner';
 import { BLOG_POSTS, BLOG_CATEGORIES } from '../data/blogData';
 
 const BLOG_SCHEMA = {
@@ -359,6 +360,11 @@ export default function BlogPage() {
           </div>
         </AnimatedSection>
       )}
+
+      {/* Sponsored Ad Placement */}
+      <div className="container" style={{ paddingTop: '1rem' }}>
+        <AdBanner slot="blog-feed" label="Sponsored Resource" />
+      </div>
 
       {/* Main Articles Grid */}
       <section className="container" style={{ paddingBottom: '4rem' }}>
