@@ -18,7 +18,7 @@ var BLOG_POSTS = [
     "slug": "ai-agentic-ux-designing-interfaces-for-autonomous-llms",
     "title": "Designing for Agentic AI: UX Patterns for Autonomous Agents & Copilots",
     "excerpt": "Explore cutting-edge design patterns for agentic workflows: ambient reasoning indicators, human-in-the-loop checkpoint gates, confidence thresholds, and undoable state machines.",
-    "date": "2026-09-07",
+    "date": "2026-11-20",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -121,7 +121,7 @@ var BLOG_POSTS = [
     "slug": "enterprise-data-table-ux-dense-information-patterns",
     "title": "Enterprise Data Table UX: Designing High-Density Grids for Power Users",
     "excerpt": "Master the interaction design of enterprise data grids: column pinning, inline cell editing, multi-sort logic, virtualized DOM scrolling, and contextual batch action bars.",
-    "date": "2026-09-05",
+    "date": "2026-11-14",
     "readTime": "10 min read",
     "author": {
       "name": "Sarah Chen",
@@ -230,7 +230,7 @@ var BLOG_POSTS = [
     "slug": "empty-states-and-error-boundaries-ux-best-practices",
     "title": "Zero-Data & Error States: Designing Resilient Empty States That Convert",
     "excerpt": "Turn dead ends into activation engines. How to design first-use empty states, zero-search fallbacks, permission gates, and empathetic React error boundaries.",
-    "date": "2026-09-02",
+    "date": "2026-11-08",
     "readTime": "8 min read",
     "author": {
       "name": "Alex Rivera",
@@ -305,7 +305,7 @@ var BLOG_POSTS = [
     "slug": "how-to-conduct-ai-ux-audit-in-2026",
     "title": "How to Conduct an AI-Powered UX Audit in 2026: Complete Step-by-Step Guide",
     "excerpt": "Discover how modern product teams use multimodal neural Vision AI models to audit usability, catch Jakob Nielsen heuristic violations, and accelerate redesign cycles by 10x.",
-    "date": "2026-08-28",
+    "date": "2026-11-02",
     "readTime": "8 min read",
     "author": {
       "name": "Majid Khan",
@@ -449,7 +449,7 @@ var BLOG_POSTS = [
     "slug": "pricing-page-ux-psychology-decoy-effect-anchoring",
     "title": "Pricing Page UX Psychology: Decoy Effect, Anchoring, and Annual Toggles",
     "excerpt": "The behavioral economics of high-converting SaaS pricing tables: framing effects, cognitive heuristics, decoy tiers, feature comparison tables, and frictionless checkout CTAs.",
-    "date": "2026-08-26",
+    "date": "2026-10-27",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -542,7 +542,7 @@ var BLOG_POSTS = [
     "slug": "jakob-nielsen-10-heuristics-modern-web-examples",
     "title": "Jakob Nielsen’s 10 Usability Heuristics: Practical 2026 Examples & Checklists",
     "excerpt": "A comprehensive, modernized breakdown of the 10 golden rules of interaction design with real-world SaaS, AI, and mobile app implementations.",
-    "date": "2026-08-22",
+    "date": "2026-10-21",
     "readTime": "10 min read",
     "author": {
       "name": "Sarah Chen",
@@ -679,7 +679,7 @@ var BLOG_POSTS = [
     "slug": "multimodal-ux-design-voice-haptics-vision",
     "title": "Multimodal UX Design: Integrating Voice, Haptics, and Vision AI",
     "excerpt": "How to architect seamless sensory interaction loops across speech recognition, physical device haptics, spatial computing, and camera-first computer vision.",
-    "date": "2026-08-19",
+    "date": "2026-10-15",
     "readTime": "8 min read",
     "author": {
       "name": "Alex Rivera",
@@ -743,7 +743,7 @@ var BLOG_POSTS = [
     "slug": "wcag-2-2-accessibility-checklist-for-designers",
     "title": "The Ultimate WCAG 2.2 Accessibility Checklist for UX/UI Designers",
     "excerpt": "Step-by-step guide to achieving Level AA compliance under WCAG 2.2, covering focus appearance, target sizes, color contrast, and cognitive accessibility.",
-    "date": "2026-08-16",
+    "date": "2026-10-09",
     "readTime": "7 min read",
     "author": {
       "name": "Elena Rostova",
@@ -822,7 +822,7 @@ var BLOG_POSTS = [
     "slug": "apca-vs-wcag2-accessible-perceptual-contrast-algorithms",
     "title": "APCA vs WCAG 2 Contrast: The Future of Accessible Color Systems",
     "excerpt": "Deep dive into the Advanced Perceptual Contrast Algorithm (APCA): why the 4.5:1 ratio fails in dark mode, spatial frequency calculations, and migrating design tokens to WCAG 3 standards.",
-    "date": "2026-08-12",
+    "date": "2026-10-03",
     "readTime": "9 min read",
     "author": {
       "name": "Elena Rostova",
@@ -923,7 +923,7 @@ var BLOG_POSTS = [
     "slug": "cro-ux-heuristics-boosting-saas-conversions",
     "title": "12 High-Impact CRO UX Tweaks That Boost SaaS Conversion Rates by 40%",
     "excerpt": "Practical conversion rate optimization heuristics that eliminate checkout friction, clarify value propositions, and turn visitors into paying customers.",
-    "date": "2026-08-10",
+    "date": "2026-09-27",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -1001,7 +1001,7 @@ var BLOG_POSTS = [
     "slug": "product-gamification-ux-retention-progress-mechanics",
     "title": "Product Gamification UX: Ethical Retention Loops and Progress Mechanics",
     "excerpt": "How to utilize behavioral psychology, the Zeigarnik effect, and milestone celebrations to build sticky SaaS experiences without relying on toxic dark patterns.",
-    "date": "2026-08-05",
+    "date": "2026-09-21",
     "readTime": "8 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1072,7 +1072,7 @@ var BLOG_POSTS = [
     "slug": "mobile-ux-design-thumb-zone-ergonomics",
     "title": "Mobile UX Architecture: Mastering the Thumb Zone & Touch Target Ergonomics",
     "excerpt": "How to design mobile web applications and native apps tailored for one-handed thumb interaction and natural physical ergonomics.",
-    "date": "2026-08-04",
+    "date": "2026-09-15",
     "readTime": "6 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1139,7 +1139,7 @@ var BLOG_POSTS = [
     "slug": "ai-in-ux-design-vision-models-vs-manual-audits",
     "title": "Vision AI vs Manual UX Audits: Accuracy, Speed, and Cost Benchmark",
     "excerpt": "An in-depth empirical comparison of AI vision design auditing tools against senior human UX consultants across 50 production websites.",
-    "date": "2026-07-29",
+    "date": "2026-09-09",
     "readTime": "8 min read",
     "author": {
       "name": "Majid Khan",
@@ -1222,7 +1222,7 @@ var BLOG_POSTS = [
     "slug": "mobile-gesture-navigation-swipe-physics-ux",
     "title": "Mobile Gesture Architecture: Swipe Physics, Rubber-Banding, and Edge Triggers",
     "excerpt": "Architecting tactile mobile gestures: momentum curves, velocity-based sheet snapping, collision prevention with OS edge navigations, and haptic feedback maps.",
-    "date": "2026-07-27",
+    "date": "2026-09-03",
     "readTime": "9 min read",
     "author": {
       "name": "Alex Rivera",
@@ -1286,7 +1286,7 @@ var BLOG_POSTS = [
     "slug": "figma-to-production-ux-qa-handshake",
     "title": "Figma to Code: Preventing UX Degradation During Engineering Handoff",
     "excerpt": "Best practices for design systems, token synchronization, and automated QA audits to ensure production code matches the intended Figma experience.",
-    "date": "2026-07-22",
+    "date": "2026-08-28",
     "readTime": "7 min read",
     "author": {
       "name": "Elena Rostova",
@@ -1340,7 +1340,7 @@ var BLOG_POSTS = [
     "slug": "how-many-users-usability-testing-math-nielsen",
     "title": "How Many Users Do You Really Need for Usability Testing? The Math Behind 5 Users",
     "excerpt": "Deconstructing Jakob Nielsen and Tom Landauer’s Poisson discovery curve: why 5 users catch 85% of usability bugs, diminishing returns, and testing multi-persona products.",
-    "date": "2026-07-16",
+    "date": "2026-08-22",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -1409,7 +1409,7 @@ var BLOG_POSTS = [
     "slug": "cognitive-load-in-saas-dashboard-design",
     "title": "Minimizing Cognitive Load: How to Design High-Density SaaS Dashboards",
     "excerpt": "Architecting complex data visualizations, metric tables, and filtering systems without overwhelming B2B power users.",
-    "date": "2026-07-15",
+    "date": "2026-08-16",
     "readTime": "8 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1463,7 +1463,7 @@ var BLOG_POSTS = [
     "slug": "checkout-ux-teardown-ecommerce-cart-abandonment",
     "title": "Ecommerce Checkout UX Teardown: 7 Friction Points Killing Your Cart Conversions",
     "excerpt": "Analysis of high-abandonment checkout funnels and how top brands like Shopify, Stripe, and Apple eliminate friction to achieve 85%+ completion rates.",
-    "date": "2026-07-08",
+    "date": "2026-08-10",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -1517,7 +1517,7 @@ var BLOG_POSTS = [
     "slug": "design-system-governance-versioning-token-deprecation",
     "title": "Design System Governance: Versioning, Token Deprecation, and Multi-Brand Scaling",
     "excerpt": "Architecting design system longevity: 3-tier token hierarchies (Global, Semantic, Component), automated deprecation linters, breaking change workflows, and cross-functional design councils.",
-    "date": "2026-07-02",
+    "date": "2026-08-04",
     "readTime": "10 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1598,7 +1598,7 @@ var BLOG_POSTS = [
     "slug": "color-contrast-and-dark-mode-ux-rules",
     "title": "Dark Mode UX Design: Contrast Ratios, Halation Prevention, and OLED Best Practices",
     "excerpt": "How to build high-end dark interfaces that reduce eye strain, conserve mobile battery life, and comply with WCAG accessibility guidelines.",
-    "date": "2026-06-30",
+    "date": "2026-07-29",
     "readTime": "6 min read",
     "author": {
       "name": "Elena Rostova",
@@ -1652,7 +1652,7 @@ var BLOG_POSTS = [
     "slug": "micro-interactions-and-feedback-loops-guide",
     "title": "The Psychology of Micro-Interactions: Enhancing Perceived Performance & Delight",
     "excerpt": "How subtle animations, button states, and sound cues reduce perceived latency and guide users through complex flows.",
-    "date": "2026-06-21",
+    "date": "2026-07-23",
     "readTime": "7 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1695,7 +1695,7 @@ var BLOG_POSTS = [
     "slug": "form-ux-best-practices-inline-validation",
     "title": "Form Design Masterclass: Inline Validation, Autocomplete, and Error Recovery",
     "excerpt": "Eliminate form abandonment by designing intuitive inputs with realtime inline feedback, smart masks, and clear error recovery microcopy.",
-    "date": "2026-06-12",
+    "date": "2026-07-17",
     "readTime": "8 min read",
     "author": {
       "name": "Majid Khan",
@@ -1739,7 +1739,7 @@ var BLOG_POSTS = [
     "slug": "information-architecture-card-sorting-tree-testing",
     "title": "Information Architecture 101: How to Organize Complex Navigation with Tree Testing",
     "excerpt": "A practical guide to structuring intuitive sitemaps, nested menus, and product categories using quantitative card sorting and tree testing.",
-    "date": "2026-05-28",
+    "date": "2026-07-11",
     "readTime": "7 min read",
     "author": {
       "name": "Sarah Chen",
@@ -1783,7 +1783,7 @@ var BLOG_POSTS = [
     "slug": "design-system-tokens-spacing-typography-scale",
     "title": "Design Token Foundations: Building an 8pt Spacing and Modular Typography Grid",
     "excerpt": "Step-by-step instructions for establishing mathematical spacing scales, fluid typography clamp functions, and scalable component tokens.",
-    "date": "2026-05-18",
+    "date": "2026-07-05",
     "readTime": "8 min read",
     "author": {
       "name": "Elena Rostova",
@@ -1827,7 +1827,7 @@ var BLOG_POSTS = [
     "slug": "b2b-enterprise-ux-onboarding-activation-flows",
     "title": "B2B Enterprise UX: Designing Product Onboarding That Accelerates Time-to-Value",
     "excerpt": "How to move beyond generic product tours and design interactive activation checklists that get enterprise teams to their \"Aha!\" moment on day one.",
-    "date": "2026-05-05",
+    "date": "2026-06-29",
     "readTime": "9 min read",
     "author": {
       "name": "Majid Khan",
@@ -1871,7 +1871,7 @@ var BLOG_POSTS = [
     "slug": "aeo-geo-search-engine-optimization-for-designers",
     "title": "AEO & GEO for Product Designers: How Answer Engines Index UX and UI Content",
     "excerpt": "A comprehensive primer on optimizing digital products for Answer Engine Optimization (Perplexity, ChatGPT Search) and Generative Engine Optimization (Google AI Overviews).",
-    "date": "2026-04-20",
+    "date": "2026-06-23",
     "readTime": "10 min read",
     "author": {
       "name": "Majid Khan",
