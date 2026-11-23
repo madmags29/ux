@@ -120,51 +120,271 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
 
   return (
     <div
+      className="auth-modal-overlay"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        backdropFilter: 'blur(8px)',
         zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '1rem',
-        animation: 'fadeIn 0.2s ease',
       }}
       onClick={onClose}
     >
       <style>{`
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .auth-modal-card { animation: slideUp 0.25s ease; }
-        .auth-input { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.25); color: var(--text-primary, #fff); font-size: 0.9rem; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
-        .auth-input:focus { border-color: var(--accent-purple, #6c5ce7); }
-        .auth-input::placeholder { color: rgba(255,255,255,0.3); }
+        
+        .auth-modal-overlay {
+          background-color: rgba(0, 0, 0, 0.75);
+          backdrop-filter: blur(8px);
+          animation: fadeIn 0.2s ease;
+        }
+        [data-theme="light"] .auth-modal-overlay {
+          background-color: rgba(15, 23, 42, 0.5);
+        }
+
+        .auth-modal-card {
+          animation: slideUp 0.25s ease;
+          background: linear-gradient(135deg, #0f1120 0%, #1a1035 100%);
+          border: 1px solid rgba(108, 92, 231, 0.25);
+          border-radius: 20px;
+          width: 100%;
+          max-width: 440px;
+          padding: 2rem;
+          box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+          position: relative;
+          color: #ffffff;
+          transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        [data-theme="light"] .auth-modal-card {
+          background: #ffffff;
+          border: 1px solid rgba(99, 102, 241, 0.2);
+          box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(99, 102, 241, 0.08);
+          color: #0f172a;
+        }
+
+        .auth-modal-close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 1.5rem;
+          cursor: pointer;
+          line-height: 1;
+          padding: 0.25rem 0.5rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+        }
+        .auth-modal-close:hover {
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.1);
+        }
+        [data-theme="light"] .auth-modal-close {
+          color: #64748b;
+        }
+        [data-theme="light"] .auth-modal-close:hover {
+          color: #0f172a;
+          background: rgba(0, 0, 0, 0.05);
+        }
+
+        .auth-modal-title {
+          font-size: 1.5rem;
+          font-weight: 800;
+          margin: 0;
+          color: #ffffff !important;
+        }
+        [data-theme="light"] .auth-modal-title {
+          color: #0f172a !important;
+        }
+
+        .auth-modal-subtitle {
+          font-size: 0.85rem;
+          margin: 0.4rem 0 0;
+          color: rgba(255, 255, 255, 0.6);
+        }
+        [data-theme="light"] .auth-modal-subtitle {
+          color: #64748b;
+        }
+
+        .auth-tabs-wrap {
+          display: flex;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          padding: 4px;
+          border-radius: 12px;
+          margin-bottom: 1.5rem;
+          gap: 4px;
+        }
+        [data-theme="light"] .auth-tabs-wrap {
+          background: #f1f5f9;
+          border-color: #e2e8f0;
+        }
+
+        .auth-tab-btn {
+          flex: 1;
+          padding: 0.55rem;
+          border-radius: 9px;
+          border: none;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 700;
+          cursor: pointer;
+          font-size: 0.88rem;
+          transition: all 0.25s ease;
+        }
+        [data-theme="light"] .auth-tab-btn {
+          color: #64748b;
+        }
+        .auth-tab-btn.active {
+          background: linear-gradient(135deg, #6c5ce7, #a855f7) !important;
+          color: #ffffff !important;
+          box-shadow: 0 2px 12px rgba(108, 92, 231, 0.4);
+        }
+
+        .auth-divider-line {
+          flex: 1;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.1);
+        }
+        [data-theme="light"] .auth-divider-line {
+          background: #e2e8f0;
+        }
+
+        .auth-divider-text {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.4);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        [data-theme="light"] .auth-divider-text {
+          color: #94a3b8;
+        }
+
+        .auth-label {
+          display: block;
+          font-size: 0.82rem;
+          font-weight: 600;
+          margin-bottom: 0.4rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+        [data-theme="light"] .auth-label {
+          color: #334155;
+        }
+
+        .auth-input {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: rgba(0, 0, 0, 0.25);
+          color: #ffffff;
+          font-size: 0.9rem;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+          box-sizing: border-box;
+        }
+        .auth-input::placeholder {
+          color: rgba(255, 255, 255, 0.35);
+        }
+        .auth-input:focus {
+          border-color: #a855f7;
+          box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+        }
+        [data-theme="light"] .auth-input {
+          background: #f8fafc;
+          border: 1px solid #cbd5e1;
+          color: #0f172a;
+        }
+        [data-theme="light"] .auth-input::placeholder {
+          color: #94a3b8;
+        }
+        [data-theme="light"] .auth-input:focus {
+          background: #ffffff;
+          border-color: #6c5ce7;
+          box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+        }
+
+        .auth-eye-btn {
+          position: absolute;
+          right: 0.75rem;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.5);
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        [data-theme="light"] .auth-eye-btn {
+          color: #64748b;
+        }
+
+        .auth-fallback-google-btn {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.08);
+          color: #ffffff;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .auth-fallback-google-btn:hover {
+          background: rgba(255, 255, 255, 0.14);
+        }
+        [data-theme="light"] .auth-fallback-google-btn {
+          border-color: #cbd5e1;
+          background: #f8fafc;
+          color: #1e293b;
+        }
+        [data-theme="light"] .auth-fallback-google-btn:hover {
+          background: #f1f5f9;
+        }
+
+        .auth-footer-text {
+          text-align: center;
+          margin-top: 1.25rem;
+          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme="light"] .auth-footer-text {
+          color: #64748b;
+        }
+        .auth-footer-link {
+          color: var(--accent-cyan, #00cec9);
+          text-decoration: none;
+          font-weight: 600;
+        }
+        [data-theme="light"] .auth-footer-link {
+          color: #6c5ce7;
+        }
       `}</style>
 
       <div
         className="auth-modal-card"
-        style={{
-          background: 'linear-gradient(135deg, #0f1120 0%, #1a1035 100%)',
-          border: '1px solid rgba(108, 92, 231, 0.25)',
-          borderRadius: '20px',
-          width: '100%',
-          maxWidth: '440px',
-          padding: '2rem',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
-          position: 'relative',
-          color: '#fff',
-        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.5rem', cursor: 'pointer', lineHeight: 1, padding: '0.25rem', borderRadius: '4px' }}
+          className="auth-modal-close"
+          aria-label="Close"
         >
           ×
         </button>
@@ -172,27 +392,21 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>👋</div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>
+          <h2 className="auth-modal-title">
             {tab === 'login' ? 'Welcome Back' : 'Create Your Account'}
           </h2>
-          <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', margin: '0.4rem 0 0' }}>
+          <p className="auth-modal-subtitle">
             {tab === 'login' ? 'Sign in to view your UX audit history' : 'Register to save and track all your evaluations'}
           </p>
         </div>
 
         {/* Tab Switcher */}
-        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '12px', marginBottom: '1.5rem', gap: '4px' }}>
+        <div className="auth-tabs-wrap">
           {['login', 'register'].map((t) => (
             <button
               key={t}
               onClick={() => { setTab(t); setError(''); }}
-              style={{
-                flex: 1, padding: '0.55rem', borderRadius: '9px', border: 'none',
-                background: tab === t ? 'linear-gradient(135deg, #6c5ce7, #a855f7)' : 'transparent',
-                color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem',
-                transition: 'all 0.25s ease',
-                boxShadow: tab === t ? '0 2px 12px rgba(108, 92, 231, 0.4)' : 'none',
-              }}
+              className={`auth-tab-btn ${tab === t ? 'active' : ''}`}
             >
               {t === 'login' ? 'Sign In' : 'Register'}
             </button>
@@ -240,12 +454,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
                   .finally(() => setGoogleLoading(false));
               }}
               disabled={googleLoading}
-              style={{
-                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                gap: '0.75rem', padding: '0.75rem', borderRadius: '10px',
-                border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.08)',
-                color: '#fff', fontWeight: 600, cursor: 'pointer',
-              }}
+              className="auth-fallback-google-btn"
             >
               <GoogleIcon /> {googleLoading ? 'Signing in...' : 'Continue with Google'}
             </button>
@@ -254,11 +463,11 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
 
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', margin: '1.25rem 0', gap: '0.75rem' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
-          <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div className="auth-divider-line" />
+          <span className="auth-divider-text">
             or with email
           </span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+          <div className="auth-divider-line" />
         </div>
 
         {/* Error Message */}
@@ -276,7 +485,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {tab === 'register' && (
             <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'rgba(255,255,255,0.7)' }}>
+              <label className="auth-label">
                 Full Name
               </label>
               <input
@@ -291,7 +500,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
           )}
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'rgba(255,255,255,0.7)' }}>
+            <label className="auth-label">
               Email Address
             </label>
             <input
@@ -305,7 +514,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.4rem', color: 'rgba(255,255,255,0.7)' }}>
+            <label className="auth-label">
               Password
             </label>
             <div style={{ position: 'relative' }}>
@@ -321,7 +530,8 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
               <button
                 type="button"
                 onClick={() => setShowPass(v => !v)}
-                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', color: 'rgba(255,255,255,0.4)' }}
+                className="auth-eye-btn"
+                aria-label="Toggle password visibility"
               >
                 {showPass ? '🙈' : '👁️'}
               </button>
@@ -346,9 +556,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)' }}>
+        <p className="auth-footer-text">
           By continuing, you agree to our{' '}
-          <a href="/plans" style={{ color: 'var(--accent-cyan, #00cec9)', textDecoration: 'none' }}>Terms of Service</a>
+          <a href="/plans" className="auth-footer-link">Terms of Service</a>
         </p>
       </div>
     </div>
