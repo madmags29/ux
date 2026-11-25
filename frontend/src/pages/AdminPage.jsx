@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect, useMemo } from 'react';
 import MultiReport from '../components/MultiReport';
 import AnimatedSection from '../components/AnimatedSection';
-import { generatePDF } from '../utils/generatePDF';
 
 export default function AdminPage() {
   const [token, setToken] = useState(() => localStorage.getItem('adminToken') || '');
@@ -151,6 +150,7 @@ export default function AdminPage() {
     if (!item || !item.screens) return;
     setPdfLoadingId(item.id);
     try {
+      const { generatePDF } = await import('../utils/generatePDF');
       await generatePDF(item.screens, item.aggregate || {}, item.targetUrl || 'UX_Evaluation');
       showToast('PDF Report generated');
     } catch (err) {

@@ -1,25 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, lazy, Suspense } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import MultiReport from './components/MultiReport';
-import { generatePDF } from './utils/generatePDF';
 import Navbar from './components/Navbar';
 import ParticleCanvas from './components/ParticleCanvas';
-import AboutPage from './pages/AboutPage';
-import PlansPage from './pages/PlansPage';
-import ContactPage from './pages/ContactPage';
-import AdminPage from './pages/AdminPage';
-import DashboardPage from './pages/DashboardPage';
-import ProfilePage from './pages/ProfilePage';
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from './pages/BlogPostPage';
-import TermsPage from './pages/TermsPage';
-import PrivacyPage from './pages/PrivacyPage';
-import UxLawsPage from './pages/UxLawsPage';
-import AuthModal from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
 import SEO from './components/SEO';
 import './index.css';
+
+const MultiReport = lazy(() => import('./components/MultiReport'));
+const AuthModal = lazy(() => import('./components/AuthModal'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const PlansPage = lazy(() => import('./pages/PlansPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const UxLawsPage = lazy(() => import('./pages/UxLawsPage'));
 
 
 const HOME_FAQS = [
@@ -233,7 +233,10 @@ function EvaluatorPage() {
       return;
     }
     setPdfLoading(true);
-    try { await generatePDF(screens, aggregate); }
+    try {
+      const { generatePDF } = await import('./utils/generatePDF');
+      await generatePDF(screens, aggregate);
+    }
     catch (err) { alert('PDF generation failed: ' + err.message); }
     finally { setPdfLoading(false); }
   };
@@ -251,12 +254,14 @@ function EvaluatorPage() {
 
       {/* Auth Gate */}
       {showAuthGate && (
-        <AuthModal
-          isOpen={true}
-          onClose={() => { setShowAuthGate(false); setPendingSubmit(false); }}
-          onSuccess={handleAuthSuccess}
-          gateReason={authGateReason}
-        />
+        <Suspense fallback={null}>
+          <AuthModal
+            isOpen={true}
+            onClose={() => { setShowAuthGate(false); setPendingSubmit(false); }}
+            onSuccess={handleAuthSuccess}
+            gateReason={authGateReason}
+          />
+        </Suspense>
       )}
 
       {/* ─── MULTI-SCREEN PLAN LIMIT MODAL (When > 3 screens submitted) ─── */}
@@ -677,7 +682,9 @@ function EvaluatorPage() {
               </div>
             )}
 
-            <MultiReport screens={screens} aggregate={aggregate} loading={loading} />
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading report...</div>}>
+              <MultiReport screens={screens} aggregate={aggregate} loading={loading} />
+            </Suspense>
           </div>
         )}
       </div>
@@ -735,20 +742,22 @@ function App() {
     <AuthProvider>
       <Navbar />
       <main id="main-content">
-        <Routes>
-          <Route path="/" element={<EvaluatorPage />} />
-          <Route path="/about" element={<div className="container"><AboutPage /></div>} />
-          <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
-          <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/ux-laws" element={<div className="container"><UxLawsPage /></div>} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/terms" element={<div className="container"><TermsPage /></div>} />
-          <Route path="/privacy" element={<div className="container"><PrivacyPage /></div>} />
-          <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
-        </Routes>
+        <Suspense fallback={<div style={{ minHeight: '65vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<EvaluatorPage />} />
+            <Route path="/about" element={<div className="container"><AboutPage /></div>} />
+            <Route path="/plans" element={<div className="container"><PlansPage /></div>} />
+            <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/ux-laws" element={<div className="container"><UxLawsPage /></div>} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/terms" element={<div className="container"><TermsPage /></div>} />
+            <Route path="/privacy" element={<div className="container"><PrivacyPage /></div>} />
+            <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </AuthProvider>

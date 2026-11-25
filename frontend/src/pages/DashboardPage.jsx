@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 import MultiReport from '../components/MultiReport';
-import { generatePDF } from '../utils/generatePDF';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -43,6 +42,7 @@ export default function DashboardPage() {
     if (!item || !item.screens) return;
     setPdfLoadingId(item.id);
     try {
+      const { generatePDF } = await import('../utils/generatePDF');
       await generatePDF(item.screens, item.aggregate || {}, item.targetUrl || 'UX_Evaluation');
     } catch (err) {
       console.error('PDF export error:', err);

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import { useAuth } from '../context/AuthContext';
-import AuthModal from './AuthModal';
+
+const AuthModal = lazy(() => import('./AuthModal'));
 
 const BASE_NAV_LINKS = [
   { to: '/', label: 'Evaluator' },
@@ -216,11 +217,15 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        initialTab={authModalTab}
-      />
+      {authModalOpen && (
+        <Suspense fallback={null}>
+          <AuthModal
+            isOpen={authModalOpen}
+            onClose={() => setAuthModalOpen(false)}
+            initialTab={authModalTab}
+          />
+        </Suspense>
+      )}
       <div className="navbar__spacer" />
     </>
   );
