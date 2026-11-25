@@ -39,7 +39,9 @@ export default function BlogPostPage() {
       '@type': 'Person',
       name: post.author.name,
       jobTitle: post.author.role,
-      image: post.author.avatar,
+      image: post.author.avatar.startsWith('http')
+        ? post.author.avatar
+        : `https://www.ratemyux.com${post.author.avatar}`,
     },
     publisher: {
       '@type': 'Organization',
@@ -210,6 +212,9 @@ export default function BlogPostPage() {
                 <img
                   src={post.author.avatar}
                   alt={post.author.name}
+                  onError={(e) => {
+                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name)}&background=6c5ce7&color=fff`;
+                  }}
                   style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }}
                 />
                 <div>

@@ -253,6 +253,9 @@ export default function BlogPage() {
                     <img
                       src={featuredPost.author.avatar}
                       alt={featuredPost.author.name}
+                      onError={(e) => {
+                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(featuredPost.author.name)}&background=6c5ce7&color=fff`;
+                      }}
                       style={{
                         width: '38px',
                         height: '38px',
@@ -542,6 +545,9 @@ export default function BlogPage() {
                       <img
                         src={post.author.avatar}
                         alt={post.author.name}
+                        onError={(e) => {
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name)}&background=6c5ce7&color=fff`;
+                        }}
                         style={{
                           width: '28px',
                           height: '28px',

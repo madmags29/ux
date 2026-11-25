@@ -23,7 +23,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "AI & UX",
     "tags": [
@@ -126,7 +126,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "SaaS UX",
     "tags": [
@@ -235,7 +235,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Alex Rivera",
       "role": "Lead Product Designer",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/alex-rivera.jpg"
     },
     "category": "Interaction Design",
     "tags": [
@@ -310,7 +310,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "AI & UX",
     "tags": [
@@ -454,7 +454,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "Conversion & CRO",
     "tags": [
@@ -547,7 +547,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "Heuristics",
     "tags": [
@@ -684,7 +684,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Alex Rivera",
       "role": "Lead Product Designer",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/alex-rivera.jpg"
     },
     "category": "AI & UX",
     "tags": [
@@ -748,7 +748,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Elena Rostova",
       "role": "Accessibility Specialist",
-      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/elena-rostova.jpg"
     },
     "category": "Accessibility & WCAG",
     "tags": [
@@ -827,7 +827,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Elena Rostova",
       "role": "Accessibility Specialist",
-      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/elena-rostova.jpg"
     },
     "category": "Accessibility & WCAG",
     "tags": [
@@ -928,7 +928,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "Conversion & CRO",
     "tags": [
@@ -1006,7 +1006,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "SaaS UX",
     "tags": [
@@ -1077,7 +1077,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "Mobile UX",
     "tags": [
@@ -1144,7 +1144,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "AI & UX",
     "tags": [
@@ -1227,7 +1227,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Alex Rivera",
       "role": "Lead Product Designer",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/alex-rivera.jpg"
     },
     "category": "Mobile UX",
     "tags": [
@@ -1291,7 +1291,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Elena Rostova",
       "role": "Accessibility Specialist",
-      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/elena-rostova.jpg"
     },
     "category": "Design Systems",
     "tags": [
@@ -1345,7 +1345,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "Research & IA",
     "tags": [
@@ -1414,7 +1414,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "SaaS UX",
     "tags": [
@@ -1468,7 +1468,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "Conversion & CRO",
     "tags": [
@@ -1522,7 +1522,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "Design Systems",
     "tags": [
@@ -1603,7 +1603,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Elena Rostova",
       "role": "Accessibility Specialist",
-      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/elena-rostova.jpg"
     },
     "category": "Accessibility & WCAG",
     "tags": [
@@ -1657,7 +1657,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "Interaction Design",
     "tags": [
@@ -1700,7 +1700,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "Conversion & CRO",
     "tags": [
@@ -1744,7 +1744,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Sarah Chen",
       "role": "Principal UX Architect",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/sarah-chen.jpg"
     },
     "category": "Research & IA",
     "tags": [
@@ -1788,7 +1788,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Elena Rostova",
       "role": "Accessibility Specialist",
-      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/elena-rostova.jpg"
     },
     "category": "Design Systems",
     "tags": [
@@ -1832,7 +1832,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "SaaS UX",
     "tags": [
@@ -1876,7 +1876,7 @@ var BLOG_POSTS = [
     "author": {
       "name": "Majid Khan",
       "role": "Head of Product & Design",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+      "avatar": "/authors/majid-khan.jpg"
     },
     "category": "AI & UX",
     "tags": [
