@@ -1061,13 +1061,16 @@ app.get(['/api/admin/evaluations', '/admin/evaluations'], authAdmin, async (req,
   try {
     const db = await connectDB();
     if (db) {
-      const evaluations = await Evaluation.find().sort({ createdAt: -1 }).lean();
+      const evaluations = await Evaluation.find({}, { 'screens.screenshotBase64': 0 }).sort({ createdAt: -1 }).lean();
       return res.json({ success: true, count: evaluations.length, evaluations });
     }
   } catch (err) {
     console.error('MongoDB evaluations fetch error:', err);
   }
-  const evaluations = loadJSON(EVALUATIONS_FILE);
+  const evaluations = loadJSON(EVALUATIONS_FILE).map(e => ({
+    ...e,
+    screens: Array.isArray(e.screens) ? e.screens.map(s => ({ ...s, screenshotBase64: undefined })) : [],
+  }));
   res.json({ success: true, count: evaluations.length, evaluations });
 });
 

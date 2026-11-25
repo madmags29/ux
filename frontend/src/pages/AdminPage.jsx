@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { Fragment, useState, useEffect, useMemo } from 'react';
 import MultiReport from '../components/MultiReport';
 import AnimatedSection from '../components/AnimatedSection';
 import { generatePDF } from '../utils/generatePDF';
@@ -18,6 +18,8 @@ export default function AdminPage() {
   const [toast, setToast] = useState('');
   const [pdfLoadingId, setPdfLoadingId] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -269,6 +271,108 @@ export default function AdminPage() {
     ? Math.round(evaluations.reduce((acc, curr) => acc + (curr.overallScore || 0), 0) / evaluations.length)
     : 0;
 
+  const currentList = activeTab === 'evaluations' ? filteredEvals : activeTab === 'users' ? filteredUsers : filteredContacts;
+  const totalPages = Math.max(1, Math.ceil(currentList.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIdx = (safePage - 1) * pageSize;
+  const paginatedEvals = filteredEvals.slice(startIdx, startIdx + pageSize);
+  const paginatedUsers = filteredUsers.slice(startIdx, startIdx + pageSize);
+  const paginatedContacts = filteredContacts.slice(startIdx, startIdx + pageSize);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+    setInspectItem(null);
+  };
+
+  const renderPagination = (totalItems) => {
+    if (totalItems === 0) return null;
+    const endIdx = Math.min(startIdx + pageSize, totalItems);
+    const pages = [];
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === 1 || p === totalPages || Math.abs(p - safePage) <= 1) {
+        pages.push(p);
+      } else if (pages[pages.length - 1] !== '...') {
+        pages.push('...');
+      }
+    }
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          padding: '1rem 1.25rem',
+          borderTop: '1px solid var(--glass-border)',
+          fontSize: '0.84rem',
+          color: 'var(--text-secondary)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <span>
+            Showing <strong style={{ color: 'var(--text-primary)' }}>{startIdx + 1}–{endIdx}</strong> of{' '}
+            <strong style={{ color: 'var(--text-primary)' }}>{totalItems}</strong>
+          </span>
+          <select
+            value={pageSize}
+            onChange={(e) => { setPageSize(Number(e.target.value)); setCurrentPage(1); }}
+            style={{
+              padding: '0.3rem 0.55rem',
+              borderRadius: '6px',
+              border: '1px solid var(--glass-border)',
+              background: 'var(--glass-bg)',
+              color: 'var(--text-primary)',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+            }}
+          >
+            {[10, 25, 50].map((sz) => (
+              <option key={sz} value={sz} style={{ background: '#0f1120', color: '#fff' }}>
+                {sz} / page
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={safePage <= 1}
+            className="btn btn-secondary"
+            style={{ padding: '0.35rem 0.7rem', fontSize: '0.8rem', opacity: safePage <= 1 ? 0.45 : 1 }}
+          >
+            ← Prev
+          </button>
+          {pages.map((p, idx) =>
+            p === '...' ? (
+              <span key={`el-${idx}`} style={{ padding: '0 0.35rem', color: 'var(--text-tertiary)' }}>…</span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => setCurrentPage(p)}
+                className={`btn ${safePage === p ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ padding: '0.35rem 0.65rem', fontSize: '0.8rem', minWidth: '32px', justifyContent: 'center' }}
+              >
+                {p}
+              </button>
+            )
+          )}
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={safePage >= totalPages}
+            className="btn btn-secondary"
+            style={{ padding: '0.35rem 0.7rem', fontSize: '0.8rem', opacity: safePage >= totalPages ? 0.45 : 1 }}
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (!token) {
     return (
       <div style={{ maxWidth: 420, margin: '4rem auto', padding: '0 1rem' }}>
@@ -431,21 +535,21 @@ export default function AdminPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--glass-bg)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--glass-border)', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setActiveTab('evaluations')}
+              onClick={() => handleTabChange('evaluations')}
               className={`tab-btn ${activeTab === 'evaluations' ? 'active' : ''}`}
               style={{ padding: '0.6rem 1.25rem', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem' }}
             >
               📊 Saved Audits ({evaluations.length})
             </button>
             <button
-              onClick={() => setActiveTab('users')}
+              onClick={() => handleTabChange('users')}
               className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
               style={{ padding: '0.6rem 1.25rem', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem' }}
             >
               👥 Registered Users ({users.length})
             </button>
             <button
-              onClick={() => setActiveTab('contacts')}
+              onClick={() => handleTabChange('contacts')}
               className={`tab-btn ${activeTab === 'contacts' ? 'active' : ''}`}
               style={{ padding: '0.6rem 1.25rem', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem' }}
             >
@@ -457,7 +561,7 @@ export default function AdminPage() {
             {activeTab === 'evaluations' && (
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
                 className="input-field"
                 style={{ padding: '0.55rem 0.75rem', fontSize: '0.85rem', width: 'auto', background: 'var(--glass-bg)' }}
               >
@@ -473,7 +577,7 @@ export default function AdminPage() {
                 type="text"
                 placeholder={`Search ${activeTab}...`}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
                 className="input-field"
                 style={{ minWidth: 220, fontSize: '0.85rem', padding: '0.55rem 2rem 0.55rem 1rem' }}
               />
@@ -515,295 +619,323 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* ─── EVALUATIONS TAB ─── */}
+      {/* ─── EVALUATIONS TAB (TABLE) ─── */}
       {!loading && activeTab === 'evaluations' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className="glass-panel" style={{ overflow: 'hidden' }}>
           {filteredEvals.length === 0 ? (
-            <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
-              No audits found matching &quot;{search}&quot;.
+            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+              No audits found{search ? ` matching "${search}"` : ''}.
             </div>
           ) : (
-            filteredEvals.map((item) => {
-              const isInspecting = inspectItem?.id === item.id;
-              const formattedDate = new Date(item.createdAt || item.timestamp).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              });
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                <thead>
+                  <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--glass-border)', color: 'var(--text-tertiary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '0.9rem 1rem' }}>Product / URL</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Score</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Screens</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>User</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Date</th>
+                    <th style={{ padding: '0.9rem 1rem', textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedEvals.map((item) => {
+                    const isInspecting = inspectItem?.id === item.id;
+                    const formattedDate = new Date(item.createdAt || item.timestamp).toLocaleString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    });
+                    const score = item.overallScore || 0;
+                    const scoreColor = score >= 80 ? '#22c55e' : score >= 60 ? '#eab308' : '#ef4444';
+                    const scoreBg = score >= 80 ? 'rgba(34, 197, 94, 0.15)' : score >= 60 ? 'rgba(234, 179, 8, 0.15)' : 'rgba(239, 68, 68, 0.15)';
 
-              return (
-                <div
-                  key={item.id}
-                  className="glass-panel"
-                  style={{
-                    padding: '1.25rem 1.5rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem',
-                    border: isInspecting ? '1px solid var(--accent-cyan)' : '1px solid var(--glass-border)',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                    <div style={{ flex: '1 1 300px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.35rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
-                          {item.productName || item.targetUrl}
-                        </span>
-                        <span style={{
-                          padding: '0.2rem 0.55rem',
-                          borderRadius: '12px',
-                          fontSize: '0.78rem',
-                          fontWeight: 700,
-                          background: (item.overallScore || 0) >= 80 ? 'rgba(34, 197, 94, 0.15)' : ((item.overallScore || 0) >= 60 ? 'rgba(234, 179, 8, 0.15)' : 'rgba(239, 68, 68, 0.15)'),
-                          color: (item.overallScore || 0) >= 80 ? '#22c55e' : ((item.overallScore || 0) >= 60 ? '#eab308' : '#ef4444'),
-                        }}>
-                          Score: {item.overallScore || 0}/100
-                        </span>
-                        {item.screens && (
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', background: 'rgba(255,255,255,0.05)', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>
-                            📸 {item.screens.length} {item.screens.length === 1 ? 'screen' : 'screens'}
-                          </span>
-                        )}
-                        {item.userId && (
-                          <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', background: 'rgba(0, 240, 255, 0.08)', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>
-                            👤 User Linked
-                          </span>
-                        )}
-                      </div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                        <span>📅 {formattedDate}</span>
-                        {item.targetUrl && (
-                          <a
-                            href={item.targetUrl.startsWith('http') ? item.targetUrl : `https://${item.targetUrl}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: 'var(--accent-cyan)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '3px' }}
-                            title="Open URL in new tab"
-                          >
-                            <span>🔗 {item.targetUrl}</span> ↗
-                          </a>
-                        )}
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                      <button
-                        onClick={() => handleDownloadPDF(item)}
-                        disabled={pdfLoadingId === item.id}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
-                        title="Download PDF report for this audit"
-                      >
-                        {pdfLoadingId === item.id ? '⏳ PDF...' : '📄 PDF'}
-                      </button>
-                      <button
-                        onClick={() => setInspectItem(isInspecting ? null : item)}
-                        className={`btn ${isInspecting ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
-                      >
-                        {isInspecting ? '✕ Close Report' : '🔍 Inspect'}
-                      </button>
-                      <button
-                        onClick={() => deleteEval(item.id)}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem', color: '#ef4444' }}
-                        title="Delete this evaluation record"
-                      >
-                        🗑️ Delete
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Inspected Audit Report Accordion */}
-                  {isInspecting && (
-                    <div style={{ marginTop: '0.5rem', paddingTop: '1.25rem', borderTop: '1px solid var(--glass-border)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', background: 'rgba(0, 240, 255, 0.05)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
-                        <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--accent-cyan)' }}>
-                          Viewing Full Multi-Screen Audit Report: {item.productName || item.targetUrl}
-                        </span>
-                        <button
-                          onClick={() => setInspectItem(null)}
-                          className="btn btn-secondary"
-                          style={{ padding: '0.3rem 0.65rem', fontSize: '0.75rem' }}
+                    return (
+                      <Fragment key={item.id}>
+                        <tr
+                          style={{
+                            borderBottom: '1px solid var(--glass-border)',
+                            background: isInspecting ? 'rgba(0, 240, 255, 0.04)' : 'transparent',
+                            transition: 'background 0.2s ease',
+                          }}
                         >
-                          ✕ Close Report
-                        </button>
-                      </div>
-                      <MultiReport screens={item.screens || []} aggregate={item.aggregate || {}} />
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          )}
-        </div>
-      )}
-
-      {/* ─── REGISTERED USERS TAB ─── */}
-      {!loading && activeTab === 'users' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {filteredUsers.length === 0 ? (
-            <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
-              No registered users found matching &quot;{search}&quot;.
-            </div>
-          ) : (
-            filteredUsers.map((u) => {
-              const joinedDate = new Date(u.createdAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              });
-
-              return (
-                <div
-                  key={u.id}
-                  className="glass-panel"
-                  style={{
-                    padding: '1.25rem 1.5rem',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: '1 1 300px' }}>
-                    <img
-                      src={u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || 'User')}&background=6c5ce7&color=fff`}
-                      alt={u.name}
-                      style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>{u.name}</span>
-                        {u.role === 'admin' && (
-                          <span style={{ fontSize: '0.72rem', background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', padding: '0.15rem 0.5rem', borderRadius: '10px', fontWeight: 700 }}>
-                            🛡️ Admin
-                          </span>
+                          <td style={{ padding: '0.9rem 1rem', maxWidth: '280px' }}>
+                            <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
+                              {item.productName || 'Evaluated Product'}
+                            </div>
+                            {item.targetUrl && (
+                              <a
+                                href={item.targetUrl.startsWith('http') ? item.targetUrl : `https://${item.targetUrl}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'var(--accent-cyan)', textDecoration: 'none', fontSize: '0.78rem', display: 'inline-block', maxWidth: '260px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                title={item.targetUrl}
+                              >
+                                🔗 {item.targetUrl}
+                              </a>
+                            )}
+                          </td>
+                          <td style={{ padding: '0.9rem 1rem', whiteSpace: 'nowrap' }}>
+                            <span style={{ padding: '0.25rem 0.6rem', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700, background: scoreBg, color: scoreColor }}>
+                              {score}/100
+                            </span>
+                          </td>
+                          <td style={{ padding: '0.9rem 1rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+                            📸 {item.screenCount || item.screens?.length || 0}
+                          </td>
+                          <td style={{ padding: '0.9rem 1rem', whiteSpace: 'nowrap' }}>
+                            {item.userEmail ? (
+                              <span style={{ fontSize: '0.78rem', color: 'var(--accent-cyan)' }}>{item.userEmail}</span>
+                            ) : item.userId ? (
+                              <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)' }}>👤 Linked</span>
+                            ) : (
+                              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Guest</span>
+                            )}
+                          </td>
+                          <td style={{ padding: '0.9rem 1rem', color: 'var(--text-tertiary)', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                            {formattedDate}
+                          </td>
+                          <td style={{ padding: '0.9rem 1rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                            <div style={{ display: 'inline-flex', gap: '0.4rem' }}>
+                              <button
+                                onClick={() => handleDownloadPDF(item)}
+                                disabled={pdfLoadingId === item.id}
+                                className="btn btn-secondary"
+                                style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
+                                title="Download PDF report"
+                              >
+                                {pdfLoadingId === item.id ? '⏳' : '📄 PDF'}
+                              </button>
+                              <button
+                                onClick={() => setInspectItem(isInspecting ? null : item)}
+                                className={`btn ${isInspecting ? 'btn-primary' : 'btn-secondary'}`}
+                                style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
+                              >
+                                {isInspecting ? '✕ Close' : '🔍 Inspect'}
+                              </button>
+                              <button
+                                onClick={() => deleteEval(item.id)}
+                                className="btn btn-secondary"
+                                style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem', color: '#ef4444' }}
+                                title="Delete evaluation"
+                              >
+                                🗑️
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {isInspecting && (
+                          <tr key={`${item.id}-inspect`}>
+                            <td colSpan={6} style={{ padding: '1.25rem', background: 'rgba(0, 0, 0, 0.15)', borderBottom: '1px solid var(--glass-border)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', background: 'rgba(0, 240, 255, 0.05)', padding: '0.75rem 1rem', borderRadius: '8px' }}>
+                                <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--accent-cyan)' }}>
+                                  Full Multi-Screen Audit Report: {item.productName || item.targetUrl}
+                                </span>
+                                <button
+                                  onClick={() => setInspectItem(null)}
+                                  className="btn btn-secondary"
+                                  style={{ padding: '0.3rem 0.65rem', fontSize: '0.75rem' }}
+                                >
+                                  ✕ Close Report
+                                </button>
+                              </div>
+                              <MultiReport screens={item.screens || []} aggregate={item.aggregate || {}} />
+                            </td>
+                          </tr>
                         )}
-                        <span style={{ fontSize: '0.72rem', background: 'rgba(0, 240, 255, 0.08)', color: 'var(--accent-cyan)', padding: '0.15rem 0.5rem', borderRadius: '10px', textTransform: 'capitalize' }}>
-                          {u.provider || 'email'}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        <a href={`mailto:${u.email}`} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} title="Send email">
-                          ✉️ {u.email}
-                        </a>
-                        <span>&bull;</span>
-                        <span>Joined: {joinedDate}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                    <span style={{ padding: '0.35rem 0.75rem', borderRadius: '20px', background: 'rgba(255, 255, 255, 0.05)', fontSize: '0.85rem', fontWeight: 600 }}>
-                      ⚡ Audits Run: {u.evalCount || 0}
-                    </span>
-                    <button
-                      onClick={() => copyToClipboard(u.email, 'User email')}
-                      className="btn btn-secondary"
-                      style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
-                      title="Copy user email to clipboard"
-                    >
-                      📋 Copy Email
-                    </button>
-                    {u.role !== 'admin' && (
-                      <button
-                        onClick={() => deleteUser(u.id)}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem', color: '#ef4444' }}
-                        title="Delete user account"
-                      >
-                        🗑️ Delete
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })
+                      </Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
+          {renderPagination(filteredEvals.length)}
         </div>
       )}
 
-      {/* ─── CONTACT INQUIRIES TAB ─── */}
-      {!loading && activeTab === 'contacts' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {filteredContacts.length === 0 ? (
-            <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
-              No contact inquiries found matching &quot;{search}&quot;.
+      {/* ─── REGISTERED USERS TAB (TABLE) ─── */}
+      {!loading && activeTab === 'users' && (
+        <div className="glass-panel" style={{ overflow: 'hidden' }}>
+          {filteredUsers.length === 0 ? (
+            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+              No registered users found{search ? ` matching "${search}"` : ''}.
             </div>
           ) : (
-            filteredContacts.map((c) => {
-              const submissionDate = new Date(c.createdAt || c.timestamp).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              });
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                <thead>
+                  <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--glass-border)', color: 'var(--text-tertiary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '0.9rem 1rem' }}>User</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Email</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Provider</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Audits Run</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Joined</th>
+                    <th style={{ padding: '0.9rem 1rem', textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedUsers.map((u) => {
+                    const joinedDate = new Date(u.createdAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    });
 
-              return (
-                <div key={c.id} className="glass-panel" style={{ padding: '1.25rem 1.5rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '0.75rem' }}>
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>{c.name}</span>
-                        <a href={`mailto:${c.email}`} style={{ color: 'var(--accent-cyan)', fontSize: '0.88rem', textDecoration: 'none' }}>
-                          &lt;{c.email}&gt;
-                        </a>
-                      </div>
-                      <div style={{ fontSize: '0.82rem', color: 'var(--text-tertiary)' }}>
-                        📅 Received: {submissionDate}
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                      <a
-                        href={`mailto:${c.email}?subject=Re: ${encodeURIComponent(c.subject || 'Rate My UX Inquiry')}`}
-                        className="btn btn-primary"
-                        style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
-                        title="Reply via your email client"
-                      >
-                        ✉️ Reply
-                      </a>
-                      <button
-                        onClick={() => copyToClipboard(c.email, 'Sender email')}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
-                        title="Copy sender email"
-                      >
-                        📋 Copy
-                      </button>
-                      <button
-                        onClick={() => deleteContact(c.id)}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem', color: '#ef4444' }}
-                        title="Delete inquiry"
-                      >
-                        🗑️ Delete
-                      </button>
-                    </div>
-                  </div>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem', marginBottom: '0.5rem', color: 'var(--accent-cyan)' }}>
-                    Subject: {c.subject}
-                  </div>
-                  <div style={{
-                    fontSize: '0.88rem',
-                    color: 'var(--text-secondary)',
-                    whiteSpace: 'pre-wrap',
-                    background: 'rgba(255,255,255,0.02)',
-                    padding: '0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255,255,255,0.04)',
-                    lineHeight: 1.6,
-                  }}>
-                    {c.message}
-                  </div>
-                </div>
-              );
-            })
+                    return (
+                      <tr key={u.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
+                        <td style={{ padding: '0.85rem 1rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <img
+                              src={u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || 'User')}&background=6c5ce7&color=fff`}
+                              alt={u.name}
+                              style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                            />
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{u.name}</span>
+                              {u.role === 'admin' && (
+                                <span style={{ fontSize: '0.7rem', background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', padding: '0.12rem 0.45rem', borderRadius: '10px', fontWeight: 700 }}>
+                                  🛡️ Admin
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem' }}>
+                          <a href={`mailto:${u.email}`} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
+                            {u.email}
+                          </a>
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem' }}>
+                          <span style={{ fontSize: '0.75rem', background: 'rgba(0, 240, 255, 0.08)', color: 'var(--accent-cyan)', padding: '0.18rem 0.55rem', borderRadius: '10px', textTransform: 'capitalize' }}>
+                            {u.provider || 'email'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                          ⚡ {u.evalCount || 0}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', color: 'var(--text-tertiary)', fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+                          {joinedDate}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                          <div style={{ display: 'inline-flex', gap: '0.4rem' }}>
+                            <button
+                              onClick={() => copyToClipboard(u.email, 'User email')}
+                              className="btn btn-secondary"
+                              style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
+                              title="Copy email"
+                            >
+                              📋 Copy
+                            </button>
+                            {u.role !== 'admin' && (
+                              <button
+                                onClick={() => deleteUser(u.id)}
+                                className="btn btn-secondary"
+                                style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem', color: '#ef4444' }}
+                                title="Delete user"
+                              >
+                                🗑️
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
+          {renderPagination(filteredUsers.length)}
+        </div>
+      )}
+
+      {/* ─── CONTACT INQUIRIES TAB (TABLE) ─── */}
+      {!loading && activeTab === 'contacts' && (
+        <div className="glass-panel" style={{ overflow: 'hidden' }}>
+          {filteredContacts.length === 0 ? (
+            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+              No contact inquiries found{search ? ` matching "${search}"` : ''}.
+            </div>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                <thead>
+                  <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--glass-border)', color: 'var(--text-tertiary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ padding: '0.9rem 1rem' }}>Sender</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Subject &amp; Message</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>Received</th>
+                    <th style={{ padding: '0.9rem 1rem', textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedContacts.map((c) => {
+                    const submissionDate = new Date(c.createdAt || c.timestamp).toLocaleString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    });
+
+                    return (
+                      <tr key={c.id} style={{ borderBottom: '1px solid var(--glass-border)', verticalAlign: 'top' }}>
+                        <td style={{ padding: '0.9rem 1rem', minWidth: '180px' }}>
+                          <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{c.name}</div>
+                          <a href={`mailto:${c.email}`} style={{ color: 'var(--accent-cyan)', fontSize: '0.8rem', textDecoration: 'none' }}>
+                            {c.email}
+                          </a>
+                        </td>
+                        <td style={{ padding: '0.9rem 1rem', maxWidth: '420px' }}>
+                          <div style={{ fontWeight: 600, color: 'var(--accent-cyan)', marginBottom: '0.25rem' }}>
+                            {c.subject}
+                          </div>
+                          <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
+                            {c.message}
+                          </div>
+                        </td>
+                        <td style={{ padding: '0.9rem 1rem', color: 'var(--text-tertiary)', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                          {submissionDate}
+                        </td>
+                        <td style={{ padding: '0.9rem 1rem', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                          <div style={{ display: 'inline-flex', gap: '0.4rem' }}>
+                            <a
+                              href={`mailto:${c.email}?subject=Re: ${encodeURIComponent(c.subject || 'Rate My UX Inquiry')}`}
+                              className="btn btn-primary"
+                              style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
+                              title="Reply"
+                            >
+                              ✉️ Reply
+                            </a>
+                            <button
+                              onClick={() => copyToClipboard(c.email, 'Sender email')}
+                              className="btn btn-secondary"
+                              style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem' }}
+                              title="Copy email"
+                            >
+                              📋
+                            </button>
+                            <button
+                              onClick={() => deleteContact(c.id)}
+                              className="btn btn-secondary"
+                              style={{ padding: '0.35rem 0.65rem', fontSize: '0.78rem', color: '#ef4444' }}
+                              title="Delete inquiry"
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {renderPagination(filteredContacts.length)}
         </div>
       )}
     </div>
