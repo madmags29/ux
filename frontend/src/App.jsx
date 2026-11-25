@@ -63,7 +63,7 @@ function EvaluatorPage() {
   const [showLimitModal, setShowLimitModal] = useState(false);
 
   const runEvaluation = async (authToken, overrideFiles = null) => {
-    const tkn = authToken || token;
+    const tkn = authToken || token || localStorage.getItem('userToken') || '';
     const activeFiles = overrideFiles || files;
     resetEvaluationState();
     setLoading(true);
@@ -113,12 +113,31 @@ function EvaluatorPage() {
   };
 
   // Called when user successfully signs in via the auth gate
-  const handleAuthSuccess = () => {
+  const handleAuthSuccess = async () => {
     setShowAuthGate(false);
+    const freshToken = localStorage.getItem('userToken') || '';
     if (pendingSubmit) {
       setPendingSubmit(false);
-      // Small delay to let token state update in context
-      setTimeout(() => runEvaluation(), 300);
+      setTimeout(() => runEvaluation(freshToken), 150);
+    } else if (done && screens.length > 0 && freshToken) {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        await fetch(`${API_URL}/api/user/evaluations/save`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${freshToken}`,
+          },
+          body: JSON.stringify({
+            targetUrl: url || 'Uploaded Screenshots',
+            mode,
+            screens,
+            aggregate,
+          }),
+        });
+      } catch (err) {
+        console.error('Failed to save report after sign-in:', err);
+      }
     }
   };
 

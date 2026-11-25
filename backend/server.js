@@ -397,18 +397,62 @@ app.get(['/api/user/evaluations', '/user/evaluations'], authUser, async (req, re
     try {
       const db = await connectDB();
       if (db) {
-        const evaluations = await Evaluation.find({ $or: queryConditions }).sort({ createdAt: -1, timestamp: -1 }).lean();
+        const evaluations = await Evaluation.find({ $or: queryConditions }, { 'screens.screenshotBase64': 0 })
+          .sort({ createdAt: -1, timestamp: -1 })
+          .lean();
         return res.json({ success: true, count: evaluations.length, evaluations });
       }
     } catch (e) {
       console.warn('MongoDB evaluation find error, using local fallback:', e.message);
     }
     const evaluations = loadJSON(EVALUATIONS_FILE);
-    const userEvals = evaluations.filter(e => e.userId === req.userId || (req.userEmail && e.userEmail === req.userEmail));
+    const userEvals = evaluations
+      .filter(e => e.userId === req.userId || (req.userEmail && e.userEmail === req.userEmail))
+      .map(e => ({
+        ...e,
+        screens: Array.isArray(e.screens) ? e.screens.map(s => ({ ...s, screenshotBase64: undefined })) : [],
+      }));
     return res.json({ success: true, count: userEvals.length, evaluations: userEvals });
   } catch (err) {
     console.error('User Evaluations Error:', err);
     return res.status(500).json({ error: 'Server error fetching user evaluations' });
+  }
+});
+
+app.post(['/api/user/evaluations/save', '/user/evaluations/save'], authUser, async (req, res) => {
+  try {
+    const { targetUrl, mode, screens, aggregate } = req.body;
+    if (!Array.isArray(screens) || screens.length === 0) {
+      return res.status(400).json({ error: 'No evaluation screens provided' });
+    }
+    const sanitizedScreens = screens.map(s => ({ ...s, screenshotBase64: undefined }));
+    const evalRecord = {
+      id: 'eval_' + Date.now(),
+      userId: req.userId,
+      userEmail: req.userEmail,
+      timestamp: new Date().toISOString(),
+      targetUrl: targetUrl || 'Uploaded Screenshots',
+      mode: mode || 'url',
+      screenCount: sanitizedScreens.length,
+      overallScore: aggregate?.overallScore || sanitizedScreens[0]?.evaluation?.overallScore || 0,
+      finalVerdict: aggregate?.finalVerdict || 'Good',
+      productName: aggregate?.productName || 'Evaluated Product',
+      productCategory: aggregate?.productCategory || 'General Web App',
+      screens: sanitizedScreens,
+      aggregate: aggregate || null,
+    };
+    const db = await connectDB();
+    if (db) {
+      await Evaluation.create(evalRecord);
+    } else {
+      const evaluations = loadJSON(EVALUATIONS_FILE);
+      evaluations.unshift(evalRecord);
+      saveJSON(EVALUATIONS_FILE, evaluations);
+    }
+    return res.json({ success: true, evaluation: evalRecord });
+  } catch (err) {
+    console.error('Save User Evaluation Error:', err);
+    return res.status(500).json({ error: 'Failed to save evaluation' });
   }
 });
 
@@ -942,6 +986,9 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
         screens: screensData,
         aggregate: finalAggregate,
       };
+      if (Buffer.byteLength(JSON.stringify(evalRecord), 'utf8') > 4 * 1024 * 1024) {
+        evalRecord.screens = screensData.map(s => ({ ...s, screenshotBase64: undefined }));
+      }
 
       const db = await connectDB();
       if (db) {
