@@ -432,10 +432,34 @@ export async function generatePDF(screens = [], aggregate = null) {
   renderAuditChecklist("Jakob Nielsen's Usability Heuristics Audit", aggregate?.heuristicsCheck, 'heuristic');
   renderAuditChecklist('Laws of UX Cognitive & Ergonomic Audit', aggregate?.uxLawsCheck, 'law');
 
-  // Final page number
+  // Final page number, footer & Rate My UX watermark
   const totalPages = pdf.getNumberOfPages();
   for (let pg = 1; pg <= totalPages; pg++) {
     pdf.setPage(pg);
+
+    // Subtle diagonal watermark across every evaluated PDF page
+    if (typeof pdf.saveGraphicsState === 'function' && typeof pdf.GState === 'function') {
+      pdf.saveGraphicsState();
+      pdf.setGState(new pdf.GState({ opacity: 0.06 }));
+      setFont(42, 'bold', C.purple);
+      pdf.text('RATE MY UX', pageW / 2, pageH / 2, {
+        align: 'center',
+        angle: 45,
+      });
+      setFont(12, 'bold', C.grey);
+      pdf.text('ratemyux.com', pageW / 2 + 10, pageH / 2 + 12, {
+        align: 'center',
+        angle: 45,
+      });
+      pdf.restoreGraphicsState();
+    } else {
+      setFont(38, 'bold', [238, 240, 248]);
+      pdf.text('RATE MY UX', pageW / 2, pageH / 2, {
+        align: 'center',
+        angle: 45,
+      });
+    }
+
     setFont(7, 'normal', C.darkgrey);
     text(`${pg} / ${totalPages}`, pageW / 2, pageH - 8, { align: 'center' });
     // Footer line

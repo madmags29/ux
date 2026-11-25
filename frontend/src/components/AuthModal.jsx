@@ -374,6 +374,24 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
         [data-theme="light"] .auth-footer-link {
           color: #6c5ce7;
         }
+
+        .auth-google-note {
+          margin: 0.6rem 0 0;
+          font-size: 0.74rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.55);
+          line-height: 1.4;
+        }
+        .auth-google-note strong {
+          color: rgba(255, 255, 255, 0.85);
+          font-weight: 600;
+        }
+        [data-theme="light"] .auth-google-note {
+          color: #64748b;
+        }
+        [data-theme="light"] .auth-google-note strong {
+          color: #334155;
+        }
       `}</style>
 
       <div
@@ -459,6 +477,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
               <GoogleIcon /> {googleLoading ? 'Signing in...' : 'Continue with Google'}
             </button>
           )}
+          <p className="auth-google-note">
+            ℹ️ Note: Google Sign-In logs in on behalf of <strong>Weekend Travellers</strong>.
+          </p>
         </div>
 
         {/* Divider */}
