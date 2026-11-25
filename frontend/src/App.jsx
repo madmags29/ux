@@ -270,7 +270,7 @@ function EvaluatorPage() {
             </h1>
             <p className="hero__subtitle">
               Upload any prototype or paste a URL — our Vision AI dissects every screen,
-              scores 11 dimensions, and delivers an actionable UX roadmap in seconds.
+              scores 11 dimensions &amp; 10 Laws of UX, and delivers an actionable UX roadmap in seconds.
             </p>
 
             {/* Mode Tabs */}
