@@ -6,6 +6,7 @@ import AuthModal from './AuthModal';
 
 const BASE_NAV_LINKS = [
   { to: '/', label: 'Evaluator' },
+  { to: '/ux-laws', label: 'UX Laws' },
   { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
   { to: '/plans', label: 'Plans' },

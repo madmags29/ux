@@ -71,7 +71,8 @@ export default function AboutPage() {
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link to="/" className="btn btn-primary">⚡ Try the Evaluator</Link>
-            <Link to="/plans" className="btn btn-secondary">View Pricing</Link>
+            <Link to="/ux-laws" className="btn btn-secondary">🧠 Explore 10 Laws of UX</Link>
+            <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">🎨 DevDesigns.net →</a>
           </div>
         </section>
       </AnimatedSection>

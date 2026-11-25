@@ -14,6 +14,7 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
+import UxLawsPage from './pages/UxLawsPage';
 import AuthModal from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
@@ -543,16 +544,29 @@ function EvaluatorPage() {
                     Want Us to Redesign & Fix These UX Issues For You?
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                    Don&apos;t let usability flaws cost you customers. Our senior design team can fix all identified issues with a transparent, minimal fee.
+                    Don&apos;t let usability flaws cost you customers. Our senior design team at{' '}
+                    <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none', fontWeight: 600 }}>Dev Designs</a>{' '}
+                    can fix all identified issues with a transparent, minimal fee.
                   </p>
                 </div>
-                <Link
-                  to="/contact"
-                  className="btn btn-primary"
-                  style={{ padding: '0.85rem 1.75rem', fontSize: '0.95rem', whiteSpace: 'nowrap' }}
-                >
-                  💬 Get UX Help Now →
-                </Link>
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <a
+                    href="https://devdesigns.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                    style={{ padding: '0.85rem 1.75rem', fontSize: '0.95rem', whiteSpace: 'nowrap' }}
+                  >
+                    🚀 Hire DevDesigns.net →
+                  </a>
+                  <Link
+                    to="/contact"
+                    className="btn btn-secondary"
+                    style={{ padding: '0.85rem 1.4rem', fontSize: '0.95rem', whiteSpace: 'nowrap' }}
+                  >
+                    💬 Contact Support
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -583,6 +597,7 @@ function Footer() {
           </div>
           <div>
             <p className="site-footer__heading">Resources</p>
+            <Link to="/ux-laws">10 Laws of UX</Link>
             <Link to="/blog">UX Blog &amp; Insights</Link>
             <Link to="/blog/how-to-conduct-ai-ux-audit-in-2026">AI Audit Guide</Link>
             <Link to="/blog/jakob-nielsen-10-heuristics-modern-web-examples">Nielsen Heuristics</Link>
@@ -591,6 +606,7 @@ function Footer() {
           <div>
             <p className="site-footer__heading">Company</p>
             <Link to="/about">About Us</Link>
+            <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer">Dev Designs Studio</a>
             <Link to="/contact">Contact Support</Link>
             <Link to="/terms">Terms &amp; Conditions</Link>
             <Link to="/privacy">Privacy Policy</Link>
@@ -619,6 +635,7 @@ function App() {
           <Route path="/contact" element={<div className="container"><ContactPage /></div>} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/ux-laws" element={<div className="container"><UxLawsPage /></div>} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/terms" element={<div className="container"><TermsPage /></div>} />

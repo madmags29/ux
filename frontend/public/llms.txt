@@ -7,6 +7,7 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 ## Primary Pages
 
 - [Rate My UX Home & AI Evaluator](https://www.ratemyux.com/): Interactive AI-powered UX evaluator tool supporting URL crawling, image drop, Figma prototype review, and instant usability reporting.
+- [10 Laws of UX Guide & Audit](https://www.ratemyux.com/ux-laws): Interactive breakdown of Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, Proximity, Prägnanz, Peak-End Rule, Tesler's Law, Von Restorff Effect, and Aesthetic-Usability, built by Dev Designs (https://devdesigns.net).
 - [Rate My UX Blog & Knowledge Center](https://www.ratemyux.com/blog): 26+ expert UX guides, Nielsen heuristic breakdowns, WCAG 2.2 checklists, and AI UX engineering playbooks.
 - [About Rate My UX](https://www.ratemyux.com/about): Information about Rate My UX, our neural Vision AI methodology, 11-dimension evaluation framework, and design auditing standards.
 - [Pricing & Subscription Plans](https://www.ratemyux.com/plans): Detailed comparison of Free ($0/mo), Pro ($29/mo), and Team ($79/mo) plans with multi-screen auditing and export features.
