@@ -12,6 +12,8 @@ import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
 import AuthModal from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Logo from './components/Logo';
@@ -590,6 +592,8 @@ function Footer() {
             <p className="site-footer__heading">Company</p>
             <Link to="/about">About Us</Link>
             <Link to="/contact">Contact Support</Link>
+            <Link to="/terms">Terms &amp; Conditions</Link>
+            <Link to="/privacy">Privacy Policy</Link>
           </div>
         </div>
       </div>
@@ -617,6 +621,8 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/terms" element={<div className="container"><TermsPage /></div>} />
+          <Route path="/privacy" element={<div className="container"><PrivacyPage /></div>} />
           <Route path="/admin" element={<div className="container"><AdminPage /></div>} />
         </Routes>
       </main>

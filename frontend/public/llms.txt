@@ -11,6 +11,8 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 - [About Rate My UX](https://www.ratemyux.com/about): Information about Rate My UX, our neural Vision AI methodology, 11-dimension evaluation framework, and design auditing standards.
 - [Pricing & Subscription Plans](https://www.ratemyux.com/plans): Detailed comparison of Free ($0/mo), Pro ($29/mo), and Team ($79/mo) plans with multi-screen auditing and export features.
 - [Contact & Support](https://www.ratemyux.com/contact): Contact form for support inquiries, custom enterprise design audits, feedback, and sales.
+- [Terms & Conditions](https://www.ratemyux.com/terms): Terms of service, acceptable use, intellectual property ownership, and AI evaluation disclaimers.
+- [Privacy Policy](https://www.ratemyux.com/privacy): Data protection, prototype confidentiality, Google AdSense cookie disclosures, and GDPR/CCPA rights.
 - [User Dashboard](https://www.ratemyux.com/dashboard): View complete past audit history, track usability scores over time, and export executive PDF reports.
 - [Profile & Security](https://www.ratemyux.com/profile): Manage user credentials, Google OAuth integration, and strong password generation.
 

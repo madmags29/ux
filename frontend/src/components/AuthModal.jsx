@@ -558,7 +558,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess, initialTab = 'lo
 
         <p className="auth-footer-text">
           By continuing, you agree to our{' '}
-          <a href="/plans" className="auth-footer-link">Terms of Service</a>
+          <a href="/terms" className="auth-footer-link">Terms &amp; Conditions</a>
+          {' '}and{' '}
+          <a href="/privacy" className="auth-footer-link">Privacy Policy</a>.
         </p>
       </div>
     </div>
