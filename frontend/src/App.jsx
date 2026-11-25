@@ -22,6 +22,39 @@ import SEO from './components/SEO';
 import './index.css';
 
 
+const HOME_FAQS = [
+  {
+    q: 'What is Rate My UX and how does the AI audit work?',
+    a: 'Rate My UX is an AI-powered UX evaluation platform built by Dev Designs. Paste any website URL, public Figma prototype link, or upload screenshots, and our Vision AI evaluates every screen across 11 usability dimensions, Jakob Nielsen’s 10 Heuristics, 10 Laws of UX, Color Psychology, and WCAG 2.2 accessibility standards in under 60 seconds.',
+  },
+  {
+    q: 'Does Rate My UX evaluate Laws of UX and Color Psychology?',
+    a: 'Yes. Every audit scores 10 foundational Laws of UX (including Hick’s Law, Fitts’s Law, Jakob’s Law, Miller’s Law, Law of Proximity, and Von Restorff Effect) plus a dedicated Color Psychology & Emotional Alignment score analyzing brand trust and CTA contrast.',
+  },
+  {
+    q: 'Is Rate My UX free to use?',
+    a: 'Yes! Our Free Starter tier lets you evaluate up to 3 screens per evaluation with full 11-dimension scores, Nielsen heuristics, Laws of UX, Color Psychology, saved audit history, and watermarked executive PDF exports.',
+  },
+  {
+    q: 'Can I audit Figma prototypes as well as live websites?',
+    a: 'Yes. You can paste a public Figma design or prototype URL, enter any live website URL, or drag and drop PNG, JPG, or WebP screenshots directly into the evaluator.',
+  },
+  {
+    q: 'Who can help fix the UX issues discovered in my report?',
+    a: 'You can share the prioritized effort-vs-impact roadmap PDF with your internal team or partner with Dev Designs (devdesigns.net), the UI/UX design and engineering studio behind Rate My UX, for fast, conversion-focused redesigns.',
+  },
+];
+
+const HOME_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: HOME_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 function EvaluatorPage() {
   const { token, user } = useAuth();
   const [mode, setMode] = useState('url');
@@ -61,6 +94,7 @@ function EvaluatorPage() {
   };
 
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [openHomeFaq, setOpenHomeFaq] = useState(null);
 
   const runEvaluation = async (authToken, overrideFiles = null) => {
     const tkn = authToken || token || localStorage.getItem('userToken') || '';
@@ -212,6 +246,7 @@ function EvaluatorPage() {
         title="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool"
         description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Jakob Nielsen heuristic checks, 10 Laws of UX & Color Psychology audits, WCAG accessibility reports, and prioritized design roadmaps instantly."
         canonicalPath="/"
+        schema={HOME_SCHEMA}
       />
 
       {/* Auth Gate */}
@@ -452,6 +487,59 @@ function EvaluatorPage() {
               <span className="hero-trust-badge">♿ WCAG 2.2 Accessibility</span>
               <span className="hero-trust-badge">📄 Executive PDF Export</span>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ─── HOME AEO / FAQ SECTION (Matches HOME_SCHEMA cleanly) ─── */}
+      {!hasResults && !loading && (
+        <section className="container" style={{ maxWidth: '860px', margin: '0 auto 4rem', padding: '0 1rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', marginBottom: '0.5rem' }}>
+              Frequently Asked <span className="text-gradient">Questions</span>
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
+              Everything you need to know about AI UX evaluations, Laws of UX, Color Psychology, and PDF reports.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {HOME_FAQS.map((faq, idx) => {
+              const isOpen = openHomeFaq === idx;
+              return (
+                <div
+                  key={faq.q}
+                  className="glass-panel"
+                  style={{ borderRadius: 'var(--radius-sm)', border: '1px solid var(--glass-border)', overflow: 'hidden' }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenHomeFaq(isOpen ? null : idx)}
+                    style={{
+                      width: '100%',
+                      textAlign: 'left',
+                      background: 'transparent',
+                      border: 'none',
+                      padding: '1rem 1.25rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.95rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    <span>{faq.q}</span>
+                    <span style={{ fontSize: '1.2rem', color: 'var(--accent-cyan)' }}>{isOpen ? '−' : '+'}</span>
+                  </button>
+                  {isOpen && (
+                    <div style={{ padding: '0 1.25rem 1rem', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
