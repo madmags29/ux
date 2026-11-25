@@ -50,7 +50,7 @@ const PLANS = [
       '3 evaluations per month',
       'Up to 3 screens per evaluation',
       'All 11 evaluation dimensions',
-      '10 Nielsen heuristics & 10 Laws of UX',
+      '10 Nielsen heuristics, Laws of UX & Color Psychology',
       'WCAG 2.2 accessibility score',
       'Downloadable PDF audit report',
       'Audit history saved in dashboard',

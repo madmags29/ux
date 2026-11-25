@@ -474,7 +474,7 @@ Evaluate this single screen/page screenshot and return a JSON object with exactl
   "overallScore": 0-100
 }
 
-Be brutally honest. Evidence-based. Reference specific UI elements visible in the screenshot, and evaluate against core Laws of UX (Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, Law of Proximity, Von Restorff Effect).
+Be brutally honest. Evidence-based. Reference specific UI elements visible in the screenshot, and evaluate against core Laws of UX (Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, Law of Proximity, Von Restorff Effect) and Color Psychology (emotional mood, brand trust, CTA color urgency, and semantic color clarity).
 `;
 
 const AGGREGATE_PROMPT = `
@@ -513,6 +513,13 @@ Based on the per-screen evaluations provided, write an aggregate executive summa
     { "law": "Von Restorff Effect (Visual Distinction)", "passed": boolean, "notes": "string" },
     { "law": "Aesthetic-Usability Effect (Visual Polish)", "passed": boolean, "notes": "string" }
   ],
+  "colorPsychology": {
+    "score": 0-100,
+    "dominantMood": "string",
+    "emotionalAlignment": "string — how well the color palette aligns with the product category and target audience",
+    "ctaContrastNotes": "string — psychological impact of primary CTA, accent, and semantic status colors",
+    "recommendations": ["string"]
+  },
   "crossScreenIssues": ["string"],
   "consistencyNotes": "string",
   "prioritizedRoadmap": {

@@ -243,6 +243,59 @@ const AggregatePanel = ({ aggregate }) => {
         </div>
       )}
 
+      {/* Color Psychology & Emotional Alignment */}
+      {aggregate.colorPsychology && (
+        <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem' }}>
+            <h3 style={{ margin: 0 }}>🎨 Color Psychology &amp; Emotional Alignment</h3>
+            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              {aggregate.colorPsychology.dominantMood && (
+                <span className="badge" style={{ background: 'rgba(139,92,246,0.15)', color: '#c4b5fd', borderColor: 'rgba(139,92,246,0.3)' }}>
+                  Mood: {aggregate.colorPsychology.dominantMood}
+                </span>
+              )}
+              {typeof aggregate.colorPsychology.score === 'number' && (
+                <span className="badge" style={{ color: scoreToColor(aggregate.colorPsychology.score), borderColor: scoreToColor(aggregate.colorPsychology.score) }}>
+                  Score: {aggregate.colorPsychology.score}/100
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginBottom: aggregate.colorPsychology.recommendations?.length ? '1.25rem' : 0 }}>
+            <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                Brand &amp; Audience Alignment
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                {aggregate.colorPsychology.emotionalAlignment}
+              </p>
+            </div>
+            <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--accent-violet)', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                CTA &amp; Semantic Color Impact
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                {aggregate.colorPsychology.ctaContrastNotes}
+              </p>
+            </div>
+          </div>
+
+          {aggregate.colorPsychology.recommendations?.length > 0 && (
+            <div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                Color Psychology Recommendations
+              </div>
+              <ul className="feature-list">
+                {aggregate.colorPsychology.recommendations.map((rec, idx) => (
+                  <li key={idx}>{rec}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Usability Heuristics & Laws of UX Checklists */}
       {[
         { title: "Jakob Nielsen's Usability Heuristics Audit", items: aggregate.heuristicsCheck, labelKey: 'heuristic' },

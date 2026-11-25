@@ -191,7 +191,7 @@ function EvaluatorPage() {
     <>
       <SEO
         title="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool"
-        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Jakob Nielsen heuristic checks, 10 Laws of UX audits, WCAG accessibility reports, and prioritized design roadmaps instantly."
+        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Jakob Nielsen heuristic checks, 10 Laws of UX & Color Psychology audits, WCAG accessibility reports, and prioritized design roadmaps instantly."
         canonicalPath="/"
       />
 
@@ -270,7 +270,7 @@ function EvaluatorPage() {
             </h1>
             <p className="hero__subtitle">
               Upload any prototype or paste a URL — our Vision AI dissects every screen,
-              scores 11 dimensions &amp; 10 Laws of UX, and delivers an actionable UX roadmap in seconds.
+              scores 11 dimensions, 10 Laws of UX &amp; Color Psychology, and delivers an actionable UX roadmap in seconds.
             </p>
 
             {/* Mode Tabs */}
@@ -429,8 +429,8 @@ function EvaluatorPage() {
             <div className="hero-trust-bar">
               <span className="hero-trust-badge">⚡ 10 Nielsen Heuristics</span>
               <span className="hero-trust-badge">🧠 10 Laws of UX</span>
+              <span className="hero-trust-badge">🎨 Color Psychology</span>
               <span className="hero-trust-badge">♿ WCAG 2.2 Accessibility</span>
-              <span className="hero-trust-badge">🎨 Figma Canvas Native</span>
               <span className="hero-trust-badge">📄 Executive PDF Export</span>
             </div>
           </div>

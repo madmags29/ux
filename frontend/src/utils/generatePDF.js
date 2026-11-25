@@ -432,6 +432,35 @@ export async function generatePDF(screens = [], aggregate = null) {
   renderAuditChecklist("Jakob Nielsen's Usability Heuristics Audit", aggregate?.heuristicsCheck, 'heuristic');
   renderAuditChecklist('Laws of UX Cognitive & Ergonomic Audit', aggregate?.uxLawsCheck, 'law');
 
+  // ─── Color Psychology Section ─────────────────────────────────────────────────
+  if (aggregate?.colorPsychology) {
+    const cp = aggregate.colorPsychology;
+    checkY(55);
+    sectionTitle(`Color Psychology & Emotional Alignment${typeof cp.score === 'number' ? ` (${cp.score}/100)` : ''}`, C.purple);
+    if (cp.dominantMood) {
+      setFont(8.5, 'bold', C.blue);
+      text(`Dominant Mood: ${cp.dominantMood}`, marginL + 3, y);
+      y += 6;
+    }
+    if (cp.emotionalAlignment) {
+      setFont(8.5, 'normal', C.grey);
+      const alignLines = pdf.splitTextToSize(`Audience Alignment: ${cp.emotionalAlignment}`, contentW - 6);
+      pdf.text(alignLines, marginL + 3, y);
+      y += alignLines.length * 4.5 + 3;
+    }
+    if (cp.ctaContrastNotes) {
+      checkY(20);
+      setFont(8.5, 'normal', C.grey);
+      const ctaLines = pdf.splitTextToSize(`CTA & Semantic Colors: ${cp.ctaContrastNotes}`, contentW - 6);
+      pdf.text(ctaLines, marginL + 3, y);
+      y += ctaLines.length * 4.5 + 4;
+    }
+    if (cp.recommendations?.length) {
+      y = bulletList(cp.recommendations, marginL + 3, y, C.purple);
+    }
+    y += 4;
+  }
+
   // Final page number, footer & Rate My UX watermark
   const totalPages = pdf.getNumberOfPages();
   for (let pg = 1; pg <= totalPages; pg++) {

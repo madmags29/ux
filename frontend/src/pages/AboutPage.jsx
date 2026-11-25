@@ -25,7 +25,7 @@ const ABOUT_SCHEMA = {
 export default function AboutPage() {
   const dimensions = [
     { num: '01', title: 'First Impression & Visual Hierarchy', desc: 'Evaluates 3-second emotional appeal, hero clarity, focal points, and cognitive scanability.' },
-    { num: '02', title: 'UI Design & Spacing System', desc: 'Audits typography scales, 8pt grid consistency, whitespace balance, and component alignment.' },
+    { num: '02', title: 'UI Design, Spacing & Color Psychology', desc: 'Audits typography scales, 8pt grid consistency, whitespace balance, and emotional color alignment.' },
     { num: '03', title: 'UX & Interaction Flow', desc: 'Checks journey progression, form ergonomics, intuitive next-steps, and friction reduction.' },
     { num: '04', title: 'WCAG 2.2 Accessibility', desc: 'Validates contrast ratios, minimum 48px touch targets, legibility, and inclusive structure.' },
     { num: '05', title: 'Content & Microcopy', desc: 'Scrutinizes headline persuasiveness, CTA action verbs, clarity, and cognitive overload.' },

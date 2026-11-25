@@ -88,6 +88,15 @@ const UX_LAWS = [
 
 const CATEGORIES = ['All', 'Cognitive Load', 'Ergonomics & Interaction', 'Visual & Gestalt', 'Behavioral Psychology'];
 
+const COLOR_PSYCHOLOGY = [
+  { color: '#2563eb', name: 'Blue — Trust & Reliability', use: 'Ideal for FinTech, B2B SaaS, healthcare, and security flows where user confidence is critical.' },
+  { color: '#8b5cf6', name: 'Violet — AI & Innovation', use: 'Signals cutting-edge intelligence, creativity, and premium vision-powered product experiences.' },
+  { color: '#10b981', name: 'Green — Growth & Confirmation', use: 'Communicates positive progress, completed states, financial gains, and low-friction success.' },
+  { color: '#f59e0b', name: 'Amber — Caution & Attention', use: 'Draws immediate focal notice to warnings, trial expirations, and high-priority indicators.' },
+  { color: '#ef4444', name: 'Red — Urgency & Destructive Actions', use: 'Reserves attention for validation errors, critical alerts, and irreversible delete actions.' },
+  { color: '#0f172a', name: 'Dark Slate — Focus & Luxury', use: 'Creates visual depth, reduces eye glare in developer tools, and frames high-contrast CTAs.' },
+];
+
 const FAQS = [
   {
     q: 'How does Rate My UX audit my product against the 10 Laws of UX?',
@@ -239,6 +248,27 @@ export default function UxLawsPage() {
         </div>
       </section>
 
+      {/* Color Psychology in UX Section */}
+      <AnimatedSection delay={80}>
+        <section className="page-section">
+          <div className="section-header">
+            <h2>Color <span className="text-gradient">Psychology</span> in UX Audits</h2>
+            <p>Our Vision AI also evaluates how your color palette shapes brand trust, emotional mood, and CTA conversion.</p>
+          </div>
+          <div className="features-grid">
+            {COLOR_PSYCHOLOGY.map((cp) => (
+              <div key={cp.name} className="feature-card glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: cp.color, border: '2px solid rgba(255,255,255,0.2)', flexShrink: 0 }} />
+                  <h3 style={{ margin: 0, fontSize: '1.05rem' }}>{cp.name}</h3>
+                </div>
+                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>{cp.use}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </AnimatedSection>
+
       {/* Dev Designs Agency Promotion Banner */}
       <AnimatedSection delay={100}>
         <section className="page-section">
@@ -346,3 +376,4 @@ export default function UxLawsPage() {
     </div>
   );
 }
+
