@@ -400,33 +400,37 @@ export async function generatePDF(screens = [], aggregate = null) {
     y += 6;
   }
 
-  // ─── Usability Heuristics Check Page ──────────────────────────────────────────
-  if (aggregate?.heuristicsCheck?.length) {
+  // ─── Usability Heuristics & Laws of UX Check Pages ────────────────────────────
+  const renderAuditChecklist = (title, items, labelKey) => {
+    if (!items?.length) return;
     addNewPage();
     setFont(14, 'bold', C.white);
-    text("Jakob Nielsen's Usability Heuristics Audit", marginL, y);
+    text(title, marginL, y);
     y += 10;
 
-    for (const hc of aggregate.heuristicsCheck) {
+    for (const item of items) {
       checkY(20);
-      const icon = hc.passed ? "✓  " : "×  ";
-      const color = hc.passed ? C.green : C.red;
+      const icon = item.passed ? '✓  ' : '×  ';
+      const color = item.passed ? C.green : C.red;
 
       rect(marginL, contentW, y, 12, C.surface);
       setFill(color);
       pdf.rect(marginL, y, 2.5, 12, 'F');
 
       setFont(8, 'bold', color);
-      text(icon + hc.heuristic, marginL + 5, y + 7.5);
+      text(icon + (item[labelKey] || ''), marginL + 5, y + 7.5);
 
       const yNotes = y + 16;
       setFont(7.5, 'normal', C.grey);
-      const noteLines = pdf.splitTextToSize(hc.notes || '', contentW - 10);
+      const noteLines = pdf.splitTextToSize(item.notes || '', contentW - 10);
       pdf.text(noteLines, marginL + 5, yNotes);
 
       y += 18 + (noteLines.length * 4.5);
     }
-  }
+  };
+
+  renderAuditChecklist("Jakob Nielsen's Usability Heuristics Audit", aggregate?.heuristicsCheck, 'heuristic');
+  renderAuditChecklist('Laws of UX Cognitive & Ergonomic Audit', aggregate?.uxLawsCheck, 'law');
 
   // Final page number
   const totalPages = pdf.getNumberOfPages();

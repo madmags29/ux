@@ -188,7 +188,7 @@ function EvaluatorPage() {
     <>
       <SEO
         title="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool"
-        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG accessibility reports, and prioritized design roadmaps instantly."
+        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Jakob Nielsen heuristic checks, 10 Laws of UX audits, WCAG accessibility reports, and prioritized design roadmaps instantly."
         canonicalPath="/"
       />
 
@@ -413,7 +413,7 @@ function EvaluatorPage() {
               <div className="hero-stat-card glass-panel">
                 <span className="hero-stat-card__value">11</span>
                 <div className="hero-stat-card__label">UX Dimensions</div>
-                <div className="hero-stat-card__subtext">Nielsen &amp; WCAG 2.2</div>
+                <div className="hero-stat-card__subtext">Nielsen, UX Laws &amp; WCAG</div>
               </div>
               <div className="hero-stat-card glass-panel">
                 <span className="hero-stat-card__value">4.9 / 5</span>
@@ -425,6 +425,7 @@ function EvaluatorPage() {
             {/* Trust Badges */}
             <div className="hero-trust-bar">
               <span className="hero-trust-badge">⚡ 10 Nielsen Heuristics</span>
+              <span className="hero-trust-badge">🧠 10 Laws of UX</span>
               <span className="hero-trust-badge">♿ WCAG 2.2 Accessibility</span>
               <span className="hero-trust-badge">🎨 Figma Canvas Native</span>
               <span className="hero-trust-badge">📄 Executive PDF Export</span>

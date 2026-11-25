@@ -243,33 +243,36 @@ const AggregatePanel = ({ aggregate }) => {
         </div>
       )}
 
-      {/* Usability Heuristics Checklist */}
-      {aggregate.heuristicsCheck?.length > 0 && (
-        <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
-          <h3 style={{ marginBottom: '1.25rem' }}> Jakob Nielsen's Usability Heuristics Audit</h3>
+      {/* Usability Heuristics & Laws of UX Checklists */}
+      {[
+        { title: "Jakob Nielsen's Usability Heuristics Audit", items: aggregate.heuristicsCheck, labelKey: 'heuristic' },
+        { title: 'Laws of UX Cognitive & Ergonomic Audit', items: aggregate.uxLawsCheck, labelKey: 'law' },
+      ].map(({ title, items, labelKey }) => items?.length > 0 && (
+        <div key={title} className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
+          <h3 style={{ marginBottom: '1.25rem' }}>{title}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
-            {aggregate.heuristicsCheck.map((hc, idx) => (
+            {items.map((item, idx) => (
               <div key={idx} style={{ padding: '0.875rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{
                     fontSize: '1rem',
-                    color: hc.passed ? '#10b981' : '#ef4444',
+                    color: item.passed ? '#10b981' : '#ef4444',
                     fontWeight: 'bold'
                   }}>
-                    {hc.passed ? '✓' : '×'}
+                    {item.passed ? '✓' : '×'}
                   </span>
-                  <span style={{ fontWeight: 600, fontSize: '0.85rem', color: hc.passed ? 'var(--text-primary)' : '#f87171' }}>
-                    {hc.heuristic}
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem', color: item.passed ? 'var(--text-primary)' : '#f87171' }}>
+                    {item[labelKey]}
                   </span>
                 </div>
                 <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: '1.25rem', lineHeight: 1.4 }}>
-                  {hc.notes}
+                  {item.notes}
                 </p>
               </div>
             ))}
           </div>
         </div>
-      )}
+      ))}
 
       {/* Roadmap */}
       {aggregate.prioritizedRoadmap && (

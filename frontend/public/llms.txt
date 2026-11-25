@@ -1,6 +1,6 @@
 # Rate My UX
 
-> Rate My UX (https://www.ratemyux.com) is an AI-powered UX evaluation and design auditing platform. Powered by neural Vision AI models, it analyzes website URLs, mobile screenshots, and Figma prototypes across 11 usability dimensions—delivering Nielsen heuristic audits, WCAG 2.2 accessibility checks, conversion rate optimization insights, and prioritized redesign roadmaps in seconds.
+> Rate My UX (https://www.ratemyux.com) is an AI-powered UX evaluation and design auditing platform. Powered by neural Vision AI models, it analyzes website URLs, mobile screenshots, and Figma prototypes across 11 usability dimensions—delivering Nielsen heuristic audits, 10 Laws of UX evaluations, WCAG 2.2 accessibility checks, conversion rate optimization insights, and prioritized redesign roadmaps in seconds.
 
 Rate My UX helps product managers, UI/UX designers, developers, and founders instantly discover UX friction, usability defects, visual layout issues, and accessibility bottlenecks before shipping to production.
 
@@ -19,7 +19,7 @@ Rate My UX helps product managers, UI/UX designers, developers, and founders ins
 - [Live URL Crawling & Multi-Screen Audit](https://www.ratemyux.com/): Crawls live web applications, captures full-page viewport screenshots, and evaluates user flows across key user journeys.
 - [Figma Prototype & Image Upload](https://www.ratemyux.com/): Drag-and-drop support for PNG, JPG, WebP screenshots and Figma design frames for instant pre-launch usability audits.
 - [11-Dimension Vision AI Analysis](https://www.ratemyux.com/about): Comprehensive scoring engine evaluating layout, typography, contrast, visual hierarchy, mobile touch targets, and CRO friction points.
-- [Nielsen Heuristic Checkups](https://www.ratemyux.com/about): Automated mapping against Jakob Nielsen's 10 Usability Heuristics for interaction design.
+- [Nielsen Heuristic & Laws of UX Checkups](https://www.ratemyux.com/about): Automated mapping against Jakob Nielsen's 10 Usability Heuristics and 10 Laws of UX (Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, Proximity, Prägnanz, Peak-End Rule, Tesler's Law, Von Restorff Effect, Aesthetic-Usability Effect).
 - [WCAG 2.2 Accessibility Auditing](https://www.ratemyux.com/about): Automated checks for contrast compliance, font legibility, touch target spacing, and screen reader structure.
 - [Executive Summary & PDF Export](https://www.ratemyux.com/): Downloadable executive-ready PDF audit reports with action items and redesign recommendations.
 

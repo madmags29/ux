@@ -474,7 +474,7 @@ Evaluate this single screen/page screenshot and return a JSON object with exactl
   "overallScore": 0-100
 }
 
-Be brutally honest. Evidence-based. Reference specific UI elements visible in the screenshot.
+Be brutally honest. Evidence-based. Reference specific UI elements visible in the screenshot, and evaluate against core Laws of UX (Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, Law of Proximity, Von Restorff Effect).
 `;
 
 const AGGREGATE_PROMPT = `
@@ -500,6 +500,18 @@ Based on the per-screen evaluations provided, write an aggregate executive summa
     { "heuristic": "Aesthetic and minimalist design", "passed": boolean, "notes": "string" },
     { "heuristic": "Help users recognize, diagnose, and recover from errors", "passed": boolean, "notes": "string" },
     { "heuristic": "Help and documentation", "passed": boolean, "notes": "string" }
+  ],
+  "uxLawsCheck": [
+    { "law": "Hick's Law (Choice Complexity)", "passed": boolean, "notes": "string" },
+    { "law": "Fitts's Law (Target Size & Distance)", "passed": boolean, "notes": "string" },
+    { "law": "Jakob's Law (Familiar Conventions)", "passed": boolean, "notes": "string" },
+    { "law": "Miller's Law (Information Chunking)", "passed": boolean, "notes": "string" },
+    { "law": "Law of Proximity (Visual Grouping)", "passed": boolean, "notes": "string" },
+    { "law": "Law of Prägnanz (Simplicity & Clarity)", "passed": boolean, "notes": "string" },
+    { "law": "Peak-End Rule (Key Moments & Feedback)", "passed": boolean, "notes": "string" },
+    { "law": "Tesler's Law (Complexity Management)", "passed": boolean, "notes": "string" },
+    { "law": "Von Restorff Effect (Visual Distinction)", "passed": boolean, "notes": "string" },
+    { "law": "Aesthetic-Usability Effect (Visual Polish)", "passed": boolean, "notes": "string" }
   ],
   "crossScreenIssues": ["string"],
   "consistencyNotes": "string",

@@ -8,7 +8,7 @@ const ABOUT_SCHEMA = {
   '@id': 'https://www.ratemyux.com/about#webpage',
   url: 'https://www.ratemyux.com/about',
   name: 'About Rate My UX — AI Vision Methodology & Usability Standards',
-  description: 'Discover how Rate My UX evaluates websites and Figma prototypes using neural Vision AI models, Jakob Nielsen\'s 10 Heuristics, and WCAG 2.2 accessibility guidelines.',
+  description: 'Discover how Rate My UX evaluates websites and Figma prototypes using neural Vision AI models, Jakob Nielsen\'s 10 Heuristics, 10 Laws of UX, and WCAG 2.2 accessibility guidelines.',
   mainEntity: {
     '@type': 'Organization',
     name: 'Rate My UX',
@@ -37,13 +37,26 @@ export default function AboutPage() {
     { num: '11', title: 'AI Redesign Wireframes', desc: 'Generates concrete layout recommendations and CSS/HTML implementation guidance for developers.' }
   ];
 
+  const uxLaws = [
+    { num: '01', title: "Hick's Law", desc: 'Measures decision time vs. number of choices, navigation clutter, and CTA overload.' },
+    { num: '02', title: "Fitts's Law", desc: 'Evaluates touch target dimensions, button spacing, and cursor/thumb travel distance.' },
+    { num: '03', title: "Jakob's Law", desc: 'Checks adherence to familiar web conventions so users immediately understand layouts.' },
+    { num: '04', title: "Miller's Law", desc: 'Audits information chunking and working-memory limits (7 ± 2 items per group).' },
+    { num: '05', title: 'Law of Proximity', desc: 'Verifies Gestalt spatial grouping of related labels, inputs, cards, and actions.' },
+    { num: '06', title: 'Law of Prägnanz', desc: 'Ensures complex layouts resolve into simple, scannable visual structures.' },
+    { num: '07', title: 'Peak-End Rule', desc: 'Audits high-emotion interaction peaks, onboarding flows, and confirmation states.' },
+    { num: '08', title: "Tesler's Law", desc: 'Checks whether the system absorbs inherent complexity instead of burdening users.' },
+    { num: '09', title: 'Von Restorff Effect', desc: 'Evaluates visual isolation and contrast of primary CTAs and key pricing tiers.' },
+    { num: '10', title: 'Aesthetic-Usability Effect', desc: 'Assesses visual polish, typography harmony, and perceived interface trustworthiness.' },
+  ];
+
   return (
     <div>
       <SEO
         title="About Rate My UX | Neural AI Vision Methodology &amp; UX Standards"
-        description="Learn how Rate My UX uses neural Vision AI models, Nielsen's 10 Usability Heuristics, and WCAG 2.2 accessibility standards to deliver automated UX evaluations for web apps and Figma prototypes."
+        description="Learn how Rate My UX uses neural Vision AI models, Nielsen's 10 Usability Heuristics, 10 Laws of UX, and WCAG 2.2 accessibility standards to deliver automated UX evaluations."
         canonicalPath="/about"
-        keywords="About Rate My UX, AI UX Methodology, Nielsen Heuristic Audit, WCAG 2.2 Accessibility Check, AI Design Critique Framework, Usability Standards"
+        keywords="About Rate My UX, AI UX Methodology, Nielsen Heuristic Audit, Laws of UX Audit, WCAG 2.2 Accessibility Check, AI Design Critique Framework, Usability Standards"
         schema={ABOUT_SCHEMA}
       />
 
@@ -75,17 +88,17 @@ export default function AboutPage() {
                 feedback before launching to real users.
               </p>
               <p style={{ marginTop: '1rem' }}>
-                We combine the analytical power of Jakob Nielsen's 10 Usability Heuristics, W3C WCAG 2.2 accessibility
-                criteria, and conversion rate optimization (CRO) frameworks with multimodal neural Vision AI models —
-                empowering teams to catch usability defects before they harm revenue.
+                We combine the analytical power of Jakob Nielsen's 10 Usability Heuristics, 10 foundational Laws of UX,
+                W3C WCAG 2.2 accessibility criteria, and conversion rate optimization (CRO) frameworks with multimodal
+                neural Vision AI models — empowering teams to catch usability defects before they harm revenue.
               </p>
             </div>
             <div className="about-mission__stat-grid">
               {[
                 { value: '11', label: 'Evaluation Dimensions' },
                 { value: '10', label: 'Nielsen Heuristics' },
+                { value: '10', label: 'Laws of UX' },
                 { value: 'WCAG 2.2', label: 'Accessibility Standard' },
-                { value: '100%', label: 'Automated & Instant' },
               ].map(({ value, label }) => (
                 <div key={label} className="about-stat glass-panel">
                   <div className="about-stat__value text-gradient">{value}</div>
@@ -111,6 +124,29 @@ export default function AboutPage() {
               <div className="feature-card glass-panel">
                 <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '0.5rem', fontFamily: 'monospace' }}>
                   DIMENSION {num}
+                </div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
+      </section>
+
+      {/* The 10 Laws of UX */}
+      <section className="page-section">
+        <AnimatedSection>
+          <div className="section-header">
+            <h2>The 10 <span className="text-gradient">Laws of UX</span> We Audit</h2>
+            <p>Every evaluation also scores cognitive and behavioral psychology principles across your interface.</p>
+          </div>
+        </AnimatedSection>
+        <div className="features-grid">
+          {uxLaws.map(({ num, title, desc }, i) => (
+            <AnimatedSection key={title} delay={i * 40}>
+              <div className="feature-card glass-panel">
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-violet)', marginBottom: '0.5rem', fontFamily: 'monospace' }}>
+                  LAW {num}
                 </div>
                 <h3>{title}</h3>
                 <p>{desc}</p>

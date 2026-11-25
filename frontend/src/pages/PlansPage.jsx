@@ -50,7 +50,7 @@ const PLANS = [
       '3 evaluations per month',
       'Up to 3 screens per evaluation',
       'All 11 evaluation dimensions',
-      'Jakob Nielsen heuristic checks',
+      '10 Nielsen heuristics & 10 Laws of UX',
       'WCAG 2.2 accessibility score',
       'Downloadable PDF audit report',
       'Audit history saved in dashboard',
@@ -114,8 +114,8 @@ const FAQ = [
     a: 'Rate My UX supports live website URLs, SaaS applications, eCommerce stores, public Figma prototype links, Framer sites, Webflow builds, and direct PNG/JPG/WebP screenshot uploads.'
   },
   {
-    q: 'How does Rate My UX evaluate Jakob Nielsen’s 10 Heuristics?',
-    a: 'The Vision engine systematically evaluates each screen against all 10 heuristics: 1) System status visibility, 2) Match between system and real world, 3) User control & freedom, 4) Consistency & standards, 5) Error prevention, 6) Recognition over recall, 7) Flexibility & efficiency, 8) Aesthetic & minimalist design, 9) Error recovery, and 10) Help & documentation.'
+    q: 'How does Rate My UX evaluate Jakob Nielsen’s 10 Heuristics & Laws of UX?',
+    a: 'The Vision engine systematically evaluates each screen against all 10 Nielsen heuristics (visibility, consistency, error prevention, recognition over recall, minimalist design, etc.) and 10 cognitive & ergonomic Laws of UX (Hick’s Law, Fitts’s Law, Jakob’s Law, Miller’s Law, Law of Proximity, Prägnanz, Peak-End Rule, Tesler’s Law, Von Restorff Effect, and Aesthetic-Usability Effect).'
   },
   {
     q: 'Is my prototype data confidential and secure?',

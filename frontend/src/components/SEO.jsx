@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const DEFAULT_TITLE = 'Rate My UX | Free AI-Powered UX Evaluation & Design Auditing Tool';
-const DEFAULT_DESC = 'Rate My UX is an industry-leading AI UX evaluator that audits websites, Figma prototypes, and mobile apps using Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, WCAG 2.2 accessibility reports, and prioritized design roadmaps.';
-const DEFAULT_KEYWORDS = 'Rate My UX, AI UX Audit, UX Evaluation Tool, Usability Testing AI, Figma Prototype UX Review, AI Design Critique, Jakob Nielsen 10 Heuristics, WCAG 2.2 Accessibility Checker, Conversion Rate Optimization CRO, UX Score Calculator';
+const DEFAULT_DESC = 'Rate My UX is an industry-leading AI UX evaluator that audits websites, Figma prototypes, and mobile apps using Vision AI. Get 11-dimension usability scores, Nielsen heuristic checks, 10 Laws of UX audits, WCAG 2.2 accessibility reports, and prioritized design roadmaps.';
+const DEFAULT_KEYWORDS = 'Rate My UX, AI UX Audit, UX Evaluation Tool, Usability Testing AI, Figma Prototype UX Review, AI Design Critique, Jakob Nielsen 10 Heuristics, Laws of UX Audit, Hicks Law, Fitts Law, WCAG 2.2 Accessibility Checker, Conversion Rate Optimization CRO, UX Score Calculator';
 const BASE_URL = 'https://www.ratemyux.com';
 const DEFAULT_OG_IMAGE = 'https://www.ratemyux.com/og-image.png';
 
