@@ -971,7 +971,7 @@ app.post(['/api/evaluate', '/evaluate'], upload.array('images', 20), async (req,
 });
 
 // ─── Admin Endpoints ────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Majid5426!@#';
 
 const authAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
