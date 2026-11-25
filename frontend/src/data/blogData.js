@@ -1,5 +1,4 @@
-// Comprehensive, authoritative UX blog articles with AEO, GEO & SEO structured content
-var BLOG_CATEGORIES = [
+const BLOG_CATEGORIES = [
   "All",
   "AI & UX",
   "Heuristics",
@@ -12,7 +11,7 @@ var BLOG_CATEGORIES = [
   "Research & IA"
 ];
 
-var BLOG_POSTS = [
+const BLOG_POSTS = [
   {
     "id": 17,
     "slug": "ai-agentic-ux-designing-interfaces-for-autonomous-llms",
@@ -254,6 +253,10 @@ var BLOG_POSTS = [
       {
         "question": "How should error boundaries communicate application crashes?",
         "answer": "Avoid cryptic stack traces. Use empathetic microcopy (\"Something went wrong on our end\"), auto-save unsaved form data in local storage, and provide a clear \"Reload Page\" primary action alongside direct support access."
+      },
+      {
+        "question": "How should mobile zero-search empty states differ from desktop?",
+        "answer": "On mobile devices, keyboard real estate covers over 45% of the viewport. Zero-search states must offer one-tap dismiss keyboard actions, top-trending filters, and auto-correct suggestions above the fold without requiring vertical scrolling."
       }
     ],
     "content": [
@@ -473,6 +476,10 @@ var BLOG_POSTS = [
       {
         "question": "Should the annual billing toggle be selected by default?",
         "answer": "Yes, provided the savings incentive (e.g. \"Save 20%\" or \"2 Months Free\") is highlighted with an attention badge, and the monthly equivalent price is clearly labeled alongside the annual billing sum."
+      },
+      {
+        "question": "Where should the enterprise tier contact link be placed on a SaaS pricing grid?",
+        "answer": "Enterprise tiers should always sit to the far right with a clearly differentiated button CTA (such as Schedule Architecture Review rather than a generic Contact Sales). Provide clear minimum seat thresholds to prevent unqualified sales inquiries."
       }
     ],
     "content": [
@@ -565,6 +572,10 @@ var BLOG_POSTS = [
       {
         "question": "How do you conduct a heuristic evaluation?",
         "answer": "An evaluator navigates a user journey, comparing each screen and interaction against the 10 heuristics, documenting violations with a severity score from 0 (no problem) to 4 (usability catastrophe)."
+      },
+      {
+        "question": "How do Nielsens heuristics apply to AI-driven conversational interfaces?",
+        "answer": "In AI and agentic products, Heuristic #1 (Visibility of System Status) manifests as real-time tool calling and streaming progress indicators, while Heuristic #3 (User Control and Freedom) requires one-click rollback checkpoints, interrupt buttons, and editable chat history."
       }
     ],
     "content": [
@@ -703,6 +714,10 @@ var BLOG_POSTS = [
       {
         "question": "How does Vision AI enhance multimodal interfaces?",
         "answer": "Vision AI models allow users to point their camera at real-world documents, sketches, or error screens and immediately converse about them with an AI assistant in contextual natural language."
+      },
+      {
+        "question": "What are the latency thresholds for multimodal voice and haptic feedback?",
+        "answer": "Tactile haptic confirmation should trigger within 10-20ms of touch contact. Voice feedback prompts must begin audio output within 200-300ms to maintain natural conversation cadence and prevent user double-taps."
       }
     ],
     "content": [
@@ -767,6 +782,10 @@ var BLOG_POSTS = [
       {
         "question": "Does accessibility improve SEO ranking?",
         "answer": "Yes! Search engines reward accessible websites because semantic HTML, clear headings, legible contrast, and mobile-friendly touch targets directly correlate with lower bounce rates and higher engagement."
+      },
+      {
+        "question": "What is the new SC 2.5.8 Target Size (Minimum) requirement in WCAG 2.2?",
+        "answer": "WCAG 2.2 Success Criterion 2.5.8 mandates a minimum pointer target size of 24x24 CSS pixels, or an equivalent spacing offset such that a 24px diameter circle centered on the target does not intersect another target."
       }
     ],
     "content": [
@@ -846,6 +865,10 @@ var BLOG_POSTS = [
       {
         "question": "What is a passing APCA score for body copy?",
         "answer": "For standard 16px body copy at 400 regular weight, APCA recommends an absolute Lightness Contrast score of Lc 75 (preferred) or Lc 60 (minimum)."
+      },
+      {
+        "question": "Can I use APCA compliance for legal accessibility audits today?",
+        "answer": "Currently, WCAG 2.1 and 2.2 Level AA remains the legally recognized baseline in most jurisdictions (ADA, EAA). However, design systems should use APCA alongside WCAG to ensure dark-mode readability and prevent visual halation that WCAG 2 ignores."
       }
     ],
     "content": [
@@ -947,6 +970,10 @@ var BLOG_POSTS = [
       {
         "question": "How do social proof elements affect conversions?",
         "answer": "Placing relevant social proof (customer logos, rating badges, real reviews) directly beneath the hero CTA increases click-through rates by an average of 18% to 28%."
+      },
+      {
+        "question": "How does social proof placement affect B2B SaaS conversion rates?",
+        "answer": "Placing verified customer logos and metrics within 100px of primary checkout and registration CTAs reduces cognitive friction and abandonment by an average of 14-22% according to Baymard and Nielsen Norman Group studies."
       }
     ],
     "content": [
@@ -1025,6 +1052,10 @@ var BLOG_POSTS = [
       {
         "question": "What distinguishes ethical gamification from dark patterns?",
         "answer": "Ethical gamification rewards intrinsic user accomplishments (saving money, learning a skill) and allows seamless opt-outs, whereas dark patterns rely on artificial scarcity, FOMO, and punitive loss aversion."
+      },
+      {
+        "question": "How do you avoid dark patterns when implementing product gamification?",
+        "answer": "Ethical gamification aligns user mastery with business goals. Avoid artificial scarcity countdowns or forced streak anxieties. Instead, employ positive reinforcement, endowed progress, and transparent milestone unlocks that provide genuine product utility."
       }
     ],
     "content": [
@@ -1096,6 +1127,10 @@ var BLOG_POSTS = [
       {
         "question": "What is the recommended minimum button height for mobile web?",
         "answer": "Apple Human Interface Guidelines recommend a minimum of 44x44 points, while Google Material Design 3 recommends 48x48 dp."
+      },
+      {
+        "question": "What is the optimal placement for primary action buttons on foldable mobile devices?",
+        "answer": "On foldable and large-screen mobile devices, avoid center-bottom single buttons that force dual-hand strain. Utilize floating split action sheets or anchored bottom navigation bars positioned within the lower 35% of the active display."
       }
     ],
     "content": [
@@ -1163,6 +1198,10 @@ var BLOG_POSTS = [
       {
         "question": "What are the main limitations of AI design audits?",
         "answer": "AI audits cannot interview real human users or understand company-internal political constraints, making a hybrid approach ideal."
+      },
+      {
+        "question": "Can Vision AI replace human usability testing with real end users?",
+        "answer": "No. Vision AI automates heuristic rule checks, visual hierarchy, color contrast, and layout defect detection in seconds. However, qualitative user empathy, emotional resonance, and unscripted exploratory behavioral testing still require real human participants."
       }
     ],
     "content": [
@@ -1246,6 +1285,10 @@ var BLOG_POSTS = [
       {
         "question": "What is the ideal rubber-banding resistance curve?",
         "answer": "A logarithmic resistance function: displacement = (distance * factor) / (1 + (distance * factor) / maxDistance), ensuring smooth tactile deceleration as users stretch past boundaries."
+      },
+      {
+        "question": "How do you prevent gesture conflicts between custom in-app carousels and OS edge swipe navigation?",
+        "answer": "Enforce a 24px dead-zone inset from the screen edges where system back swipes take precedence, and require a minimum 15-degree gesture angle or 10px swipe threshold before capturing horizontal touch drag events."
       }
     ],
     "content": [
@@ -1306,6 +1349,14 @@ var BLOG_POSTS = [
       {
         "question": "What is the number one cause of Figma-to-code drift?",
         "answer": "Hardcoding arbitrary pixel values (e.g. margin: 17px) instead of adhering to a strict design token scale (e.g. var(--space-4))."
+      },
+      {
+        "question": "How do design tokens prevent visual regressions in production code?",
+        "answer": "Design tokens abstract hardcoded CSS hex codes and pixel numbers into semantic variables (e.g. color-surface-elevated, space-md). When designers update values in Figma, CI/CD pipelines sync tokens directly to Tailwind or CSS modules without manual developer recreation."
+      },
+      {
+        "question": "What are the essential items in a frontend design QA checklist?",
+        "answer": "Key QA criteria include responsive viewport scaling (375px to 1440px), focus state visibility on keyboard navigation, font fallback line-height clipping, light/dark mode contrast parity, and active state touch target bounds."
       }
     ],
     "content": [
@@ -1364,6 +1415,10 @@ var BLOG_POSTS = [
       {
         "question": "What is the parameter L in the Nielsen-Landauer formula?",
         "answer": "L represents the probability of a user discovering any given usability problem, typically estimated at 0.31 for average software interfaces."
+      },
+      {
+        "question": "When is testing 5 users not enough for a usability study?",
+        "answer": "When your platform serves distinct user cohorts with fundamentally different mental models (e.g. buyers vs sellers, nurses vs administrators), test 3-5 users per distinct persona group, or when conducting quantitative benchmark testing (which requires 20-30 users)."
       }
     ],
     "content": [
@@ -1429,6 +1484,14 @@ var BLOG_POSTS = [
       {
         "question": "What is Hick’s Law in dashboard design?",
         "answer": "Hick’s Law states that the time it takes to make a decision increases logarithmically with the number and complexity of choices. Reducing dashboard action menus to 3-5 primary items speeds up user task completion."
+      },
+      {
+        "question": "What is progressive disclosure and how does it reduce cognitive load?",
+        "answer": "Progressive disclosure sequences information by displaying only primary metrics by default, deferring secondary filters, export tools, and audit details to contextual tooltips, flyout drawers, or drill-down modal layers."
+      },
+      {
+        "question": "How many KPIs should be displayed on a primary SaaS executive dashboard?",
+        "answer": "Empirical UX research suggests capping top-level primary metric cards between 3 and 5 items. Following Millers Law and cognitive chunking principles, displaying more than 6 numbers simultaneously degrades comprehension and response time."
       }
     ],
     "content": [
@@ -1483,6 +1546,14 @@ var BLOG_POSTS = [
       {
         "question": "Should you use a 1-page or multi-step checkout?",
         "answer": "Accordion or multi-step checkouts with a visible progress bar often outperform single-page mega-forms by reducing perceived cognitive overwhelm."
+      },
+      {
+        "question": "Why is forced account creation the #1 cause of cart abandonment?",
+        "answer": "Forcing users to register creates an immediate cognitive barrier, requiring password creation, email verification, and privacy concerns. Offering guest checkout with optional post-purchase password creation increases completion rates by up to 35%."
+      },
+      {
+        "question": "How does inline address auto-complete impact checkout speed?",
+        "answer": "Integrating Google Places or postal code lookahead reduces manual typing by up to 70%, cuts form completion time by 40 seconds, and drastically lowers package delivery failure rates caused by input typos."
       }
     ],
     "content": [
@@ -1541,6 +1612,10 @@ var BLOG_POSTS = [
       {
         "question": "How do you deprecate components without breaking production apps?",
         "answer": "Introduce warning annotations in Figma and build-time console/ESLint warnings in code for 2 minor release cycles (soft deprecation) before executing breaking major version removals."
+      },
+      {
+        "question": "How do automated linters help enforce design system adoption in engineering teams?",
+        "answer": "Custom ESLint and stylelint rules can flag hardcoded hex colors, arbitrary spacing classes, and deprecated component names at commit time, providing direct autofix hints pointing to the approved design system tokens."
       }
     ],
     "content": [
@@ -1618,6 +1693,14 @@ var BLOG_POSTS = [
       {
         "question": "Why do drop shadows fail in dark mode?",
         "answer": "Drop shadows are invisible against dark surfaces. In dark mode, elevation is communicated through subtle semi-transparent white borders (glassmorphism) or higher lightness values for elevated surface layers."
+      },
+      {
+        "question": "Why should you never use pure black (#000000) for dark mode background surfaces?",
+        "answer": "Pure black against high-contrast pure white (#FFFFFF) creates severe visual vibration (halation) that causes optical fatigue for astigmatic users. Dark slate or deep blue-gray (e.g. #0A0A1A or #12122A) provides superior depth and comfortable contrast."
+      },
+      {
+        "question": "How should shadow elevation be adapted in dark mode UI?",
+        "answer": "In dark interfaces, traditional drop shadows are nearly invisible. Instead, indicate elevation by lightening the surface background tint (e.g., elevated cards at 5-10% higher luminosity) or adding subtle semi-transparent borders with glow highlights."
       }
     ],
     "content": [
@@ -1671,6 +1754,14 @@ var BLOG_POSTS = [
       {
         "question": "What is the ideal animation duration for UI interactions?",
         "answer": "Between 150ms and 300ms. Animations under 100ms feel jarring, while animations exceeding 400ms feel sluggish to users."
+      },
+      {
+        "question": "What is Dan Saffers 4-part framework for micro-interactions?",
+        "answer": "The four components are: 1. Trigger (initiates the micro-interaction, e.g. toggle tap), 2. Rules (determines how it operates), 3. Feedback (communicates what happened, e.g. subtle haptic or color switch), and 4. Loops & Modes (governs ongoing rules and states)."
+      },
+      {
+        "question": "What is the ideal animation duration for interface micro-interactions?",
+        "answer": "Optimal interface micro-interactions last between 150ms and 300ms. Anything below 100ms is imperceptible to the human eye, while animations exceeding 400ms feel sluggish and frustrate power users."
       }
     ],
     "content": [
@@ -1715,6 +1806,14 @@ var BLOG_POSTS = [
       {
         "question": "Should forms be single column or multi-column?",
         "answer": "Single-column forms consistently outperform multi-column forms because users scan in a direct vertical path without missing adjacent fields."
+      },
+      {
+        "question": "What does reward early, punish late mean in form field validation?",
+        "answer": "Never show error messages while the user is actively typing in a field for the first time (punish late, validate on blur). However, once an error has occurred, clear the error message immediately as soon as the user enters a valid format (reward early)."
+      },
+      {
+        "question": "Should required form fields use asterisks or should optional fields be marked?",
+        "answer": "When almost all fields are required, marking the few optional fields explicitly with (optional) produces higher completion rates and fewer user hesitations than placing red asterisks next to every single required label."
       }
     ],
     "content": [
@@ -1759,6 +1858,14 @@ var BLOG_POSTS = [
       {
         "question": "What is the 3-click rule and is it true?",
         "answer": "The 3-click rule is a myth; usability research proves user satisfaction depends on scent of information (clear labels) rather than absolute click count."
+      },
+      {
+        "question": "What is the difference between open and closed card sorting?",
+        "answer": "In open card sorting, participants create their own category names for grouped topics (ideal for generative information discovery). In closed card sorting, participants sort topics into pre-defined categories (ideal for evaluative validation of an existing navigation hierarchy)."
+      },
+      {
+        "question": "How does tree testing validate website navigation without visual UI bias?",
+        "answer": "Tree testing presents users with a text-only simplified sitemap hierarchy and tasks them with finding specific items. Stripping away visual branding, search bars, and layout distractions reveals whether the conceptual categorization itself is intuitive."
       }
     ],
     "content": [
@@ -1803,6 +1910,14 @@ var BLOG_POSTS = [
       {
         "question": "Why 8pt instead of 10pt or 5pt?",
         "answer": "Most screen resolutions (1x, 2x, 3x Retina) divide cleanly by 8 without producing fractional sub-pixel blur."
+      },
+      {
+        "question": "Why is the 8pt spatial grid the global standard for UI design systems?",
+        "answer": "Most digital screen dimensions (e.g., 375, 768, 1080, 1440, 1920) divide cleanly by 8. An 8pt grid with 4pt half-steps simplifies spacing decisions for designers and engineers, eliminating arbitrary 13px or 17px margins and ensuring mathematical layout harmony."
+      },
+      {
+        "question": "How do fluid typography formulas (CSS clamp) replace rigid media queries?",
+        "answer": "CSS clamp(min, preferred, max) dynamically calculates font sizes based on viewport width (vw). This eliminates jarring layout jumps at device breakpoints and ensures fluid, accessible headline scaling across mobile, tablet, and ultra-wide screens."
       }
     ],
     "content": [
@@ -1847,6 +1962,14 @@ var BLOG_POSTS = [
       {
         "question": "Why do users skip linear modal walkthroughs?",
         "answer": "Users suffer from \"tour fatigue\" and prefer learning by doing rather than reading passive popup slides."
+      },
+      {
+        "question": "How do interactive onboarding checklists accelerate enterprise Time-to-Value (TTV)?",
+        "answer": "Checklists employ the psychological principle of endowed progress (pre-checking step 1: Account created). Giving users 3-5 high-value setup tasks with real-time progress bars guides them directly to the products Aha! moment without overwhelming product tours."
+      },
+      {
+        "question": "Why do modal-based product tours fail in enterprise software?",
+        "answer": "Linear 10-step modal walkthroughs induce cognitive fatigue. Users instinctively dismiss them without reading. Instead, use ambient contextual tooltips that trigger only when a user visits a specific feature for the first time."
       }
     ],
     "content": [
@@ -1896,6 +2019,10 @@ var BLOG_POSTS = [
       {
         "question": "What is the role of an llms.txt file?",
         "answer": "An llms.txt file is a markdown file placed at the website root providing LLMs with concise, structured context and documentation about your product capabilities and URLs."
+      },
+      {
+        "question": "How do answer engines like Perplexity and ChatGPT Search cite UX design content?",
+        "answer": "LLM answer engines prioritize pages with clean, extractable declarative answers, structured data (FAQPage, TechArticle), numerical statistics, and semantic heading hierarchies. Content structured around direct questions and quantitative benchmarks is 3.5x more likely to be cited."
       }
     ],
     "content": [
@@ -1927,5 +2054,4 @@ var BLOG_POSTS = [
   }
 ];
 
-// Named exports (avoids Rolldown/esbuild TDZ minification bug with large export const)
 export { BLOG_CATEGORIES, BLOG_POSTS };

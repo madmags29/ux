@@ -15,6 +15,7 @@ export default function SEO({
   ogType = 'website',
   ogImage = DEFAULT_OG_IMAGE,
   schema = null,
+  articleMeta = null,
 }) {
   const location = useLocation();
   const currentPath = canonicalPath || location.pathname;
@@ -65,7 +66,23 @@ export default function SEO({
     updateMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', canonicalUrl);
     updateMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage);
 
-    // 5. Dynamic Page-Specific Structured Data (JSON-LD)
+    // 5. Article-Specific Meta Tags (SEO + AEO + GEO)
+    if (articleMeta && ogType === 'article') {
+      if (articleMeta.publishedTime) {
+        updateMetaTag('meta[property="article:published_time"]', 'property', 'article:published_time', articleMeta.publishedTime);
+      }
+      if (articleMeta.modifiedTime) {
+        updateMetaTag('meta[property="article:modified_time"]', 'property', 'article:modified_time', articleMeta.modifiedTime);
+      }
+      if (articleMeta.author) {
+        updateMetaTag('meta[property="article:author"]', 'property', 'article:author', articleMeta.author);
+      }
+      if (articleMeta.section) {
+        updateMetaTag('meta[property="article:section"]', 'property', 'article:section', articleMeta.section);
+      }
+    }
+
+    // 6. Dynamic Page-Specific Structured Data (JSON-LD)
     let scriptTag = document.getElementById('dynamic-page-schema');
     if (schema) {
       if (!scriptTag) {
@@ -79,7 +96,7 @@ export default function SEO({
       scriptTag.remove();
     }
 
-  }, [title, description, keywords, canonicalUrl, ogType, ogImage, schema]);
+  }, [title, description, keywords, canonicalUrl, ogType, ogImage, schema, articleMeta]);
 
   return null;
 }

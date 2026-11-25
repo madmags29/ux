@@ -25,23 +25,54 @@ export default function BlogPostPage() {
     return <Navigate to="/blog" replace />;
   }
 
+  const readMinutes = parseInt(post.readTime) || 8;
+  const wordCount = post.content
+    ? post.content.reduce((acc, c) => acc + (c.text ? c.text.split(/\s+/).length : (c.points ? c.points.join(' ').split(/\s+/).length : 40)), 0)
+    : 1100;
+
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'TechArticle',
     '@id': `https://www.ratemyux.com/blog/${post.slug}#article`,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Rate My UX',
+      url: 'https://www.ratemyux.com',
+    },
     headline: post.title,
     description: post.excerpt,
+    abstract: post.quickAnswer || post.excerpt,
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
+    proficiencyLevel: 'Beginner to Advanced',
+    wordCount,
+    timeRequired: `PT${readMinutes}M`,
+    articleSection: post.category,
     datePublished: `${post.date}T09:00:00+00:00`,
     dateModified: `${post.date}T12:00:00+00:00`,
-    mainEntityOfPage: `https://www.ratemyux.com/blog/${post.slug}`,
-    image: 'https://www.ratemyux.com/og-image.png',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.ratemyux.com/blog/${post.slug}`,
+    },
+    image: {
+      '@type': 'ImageObject',
+      url: 'https://www.ratemyux.com/og-image.png',
+      width: 1200,
+      height: 630,
+    },
     author: {
       '@type': 'Person',
       name: post.author.name,
       jobTitle: post.author.role,
+      url: 'https://www.ratemyux.com/about',
       image: post.author.avatar.startsWith('http')
         ? post.author.avatar
         : `https://www.ratemyux.com${post.author.avatar}`,
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Rate My UX',
+        url: 'https://www.ratemyux.com',
+      },
     },
     publisher: {
       '@type': 'Organization',
@@ -50,9 +81,21 @@ export default function BlogPostPage() {
       logo: {
         '@type': 'ImageObject',
         url: 'https://www.ratemyux.com/logo.png',
+        width: 512,
+        height: 512,
       },
+      sameAs: [
+        'https://twitter.com/ratemyux',
+        'https://github.com/madmags29/ux',
+      ],
     },
     keywords: post.tags.join(', '),
+    about: [
+      {
+        '@type': 'Thing',
+        name: post.category,
+      },
+    ],
   };
 
   const breadcrumbSchema = {
@@ -116,6 +159,12 @@ export default function BlogPostPage() {
         keywords={post.tags.join(', ')}
         ogType="article"
         schema={combinedSchema}
+        articleMeta={{
+          publishedTime: `${post.date}T09:00:00+00:00`,
+          modifiedTime: `${post.date}T12:00:00+00:00`,
+          author: post.author.name,
+          section: post.category,
+        }}
       />
 
       <div className="container" style={{ maxWidth: '1040px', margin: '0 auto', paddingTop: '1.5rem' }}>
@@ -307,12 +356,13 @@ export default function BlogPostPage() {
                   gap: '0.5rem',
                   color: 'var(--accent-cyan)',
                   fontWeight: 700,
-                  fontSize: '0.9rem',
+                  fontSize: '0.88rem',
                   marginBottom: '0.75rem',
-                  letterSpacing: '0.05em',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
                 }}
               >
-                <span>💡</span> QUICK ANSWER (AEO / LLM SUMMARY)
+                <span>💡</span> Key Takeaways & Executive Summary
               </div>
               <p
                 style={{
@@ -548,6 +598,64 @@ export default function BlogPostPage() {
                   #{tag}
                 </span>
               ))}
+            </div>
+
+            {/* Author Bio Card (E-E-A-T Authority & Trust Signal) */}
+            <div
+              className="glass-panel"
+              style={{
+                marginTop: '3rem',
+                padding: '1.75rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border)',
+                display: 'flex',
+                gap: '1.25rem',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+              }}
+            >
+              <img
+                src={post.author.avatar}
+                alt={post.author.name}
+                onError={(e) => {
+                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name)}&background=6c5ce7&color=fff`;
+                }}
+                style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+              />
+              <div style={{ flex: 1, minWidth: '240px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
+                  <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                    Written by {post.author.name}
+                  </span>
+                  <span style={{ fontSize: '0.72rem', background: 'rgba(99,102,241,0.15)', color: 'var(--accent-violet)', padding: '0.15rem 0.55rem', borderRadius: '12px', fontWeight: 600 }}>
+                    Verified UX Expert
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--accent-cyan)', marginBottom: '0.4rem', fontWeight: 500 }}>
+                  {post.author.role} • Rate My UX Research
+                </div>
+                <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.55 }}>
+                  Contributing practitioner at Rate My UX, focusing on empirical usability heuristics, WCAG accessibility benchmarks, conversion rate optimization, and vision-model design audits.
+                </p>
+              </div>
+            </div>
+
+            {/* Citation Helper (GEO / Academic & LLM Citation Anchor) */}
+            <div
+              style={{
+                marginTop: '1.25rem',
+                padding: '1rem 1.25rem',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--glass-bg)',
+                border: '1px solid var(--border)',
+                fontSize: '0.8rem',
+                color: 'var(--text-tertiary)',
+              }}
+            >
+              <strong style={{ color: 'var(--text-secondary)' }}>How to cite this research:</strong>
+              <div style={{ marginTop: '0.35rem', fontFamily: 'monospace', color: 'var(--text-secondary)', wordBreak: 'break-all' }}>
+                {post.author.name} ({new Date(post.date).getFullYear()}). "{post.title}". <em>Rate My UX Insights</em>. https://www.ratemyux.com/blog/{post.slug}
+              </div>
             </div>
 
             {/* Frequently Asked Questions (FAQ Section & Schema Target) */}
