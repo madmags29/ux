@@ -149,8 +149,8 @@ export default function UxLawsPage() {
   return (
     <div style={{ paddingBottom: '5rem' }}>
       <SEO
-        title="10 Laws of UX Guide &amp; Automated AI Audit | Rate My UX"
-        description="Learn how the 10 Laws of UX—Hick's Law, Fitts's Law, Jakob's Law, Miller's Law, and more—shape high-converting digital products, and audit your site with Rate My UX."
+        title="The 10 Laws of UX &amp; Color Psychology Guide | Rate My UX"
+        description="Explore the 10 Laws of UX and Color Psychology principles audited by Rate My UX Vision AI—from Hick's Law and Fitts's Law to CTA contrast and visual trust."
         canonicalPath="/ux-laws"
         keywords="Laws of UX, Hicks Law, Fitts Law, Jakobs Law, Millers Law, Law of Proximity, Von Restorff Effect, AI UX Audit, Dev Designs"
         schema={UX_LAWS_SCHEMA}

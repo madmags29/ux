@@ -130,8 +130,8 @@ export default function PlansPage() {
   return (
     <div>
       <SEO
-        title="Pricing &amp; Plans | Rate My UX — Free, Pro &amp; Team Subscription Tiers"
-        description="Choose the right Rate My UX subscription plan for your product. Free tier includes 3 screen audits monthly. Pro plan offers unlimited audits with effort vs impact roadmaps."
+        title="Simple, Predictable Pricing | Rate My UX Plans"
+        description="Start auditing UX for free with 11 usability dimensions, 10 Laws of UX, Color Psychology, and PDF exports. Upgrade to Pro or Team for unlimited audits."
         canonicalPath="/plans"
         keywords="Rate My UX Pricing, AI UX Evaluation Cost, Pro UX Audit Plan, Free Usability Audit Tool, Enterprise UX Review, Design Audit Agency"
         schema={PLANS_SCHEMA}

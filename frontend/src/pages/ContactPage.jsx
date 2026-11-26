@@ -59,8 +59,8 @@ export default function ContactPage() {
   return (
     <div>
       <SEO
-        title="Contact Us & Support | Rate My UX — Get Expert Design Assistance"
-        description="Contact Rate My UX for custom UX design audits, enterprise team plans, prototype evaluation assistance, and technical support. We respond within 24 hours."
+        title="Contact Rate My UX &amp; Dev Designs | Support &amp; Audits"
+        description="Contact Rate My UX and Dev Designs for custom UX audit consultations, Figma prototype reviews, enterprise team plans, and technical evaluator support."
         canonicalPath="/contact"
         keywords="Contact Rate My UX, Custom UX Design Audit, Enterprise UX Evaluation, Rate My UX Support"
         schema={CONTACT_SCHEMA}
@@ -195,6 +195,36 @@ export default function ContactPage() {
                   </button>
                 </form>
               )}
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
+
+      {/* Helpful Context Section (>250 words & clear H2/H3 structure for SEO) */}
+      <AnimatedSection delay={140}>
+        <section className="page-section" style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <div className="section-header">
+            <h2>How Our <span className="text-gradient">UX &amp; Engineering Team</span> Can Help</h2>
+            <p>Whether you need technical support with the evaluator or a full product redesign with Dev Designs, we reply within 24 hours.</p>
+          </div>
+          <div className="features-grid">
+            <div className="feature-card glass-panel">
+              <h3>Custom UX Audits &amp; Redesigns</h3>
+              <p>
+                Partner with our parent studio <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none', fontWeight: 600 }}>DevDesigns.net</a> to fix conversion bottlenecks, accessibility issues, and UX Law violations uncovered in your automated report.
+              </p>
+            </div>
+            <div className="feature-card glass-panel">
+              <h3>Figma &amp; Design System Handshake</h3>
+              <p>
+                Get tailored guidance on 8pt spacing grids, design tokens, Color Psychology alignment, and multi-brand component governance for SaaS and eCommerce teams.
+              </p>
+            </div>
+            <div className="feature-card glass-panel">
+              <h3>Enterprise &amp; Team Onboarding</h3>
+              <p>
+                Need white-label executive PDF exports, custom heuristic rubrics, or dedicated seat management? Ask about our Team and custom Enterprise plans.
+              </p>
             </div>
           </div>
         </section>

@@ -54,7 +54,7 @@ export default function DashboardPage() {
   if (!user) {
     return (
       <div className="container" style={{ padding: '4rem 1rem', textAlign: 'center' }}>
-        <h2>Access Denied</h2>
+        <h1 style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>Dashboard Access</h1>
         <p style={{ color: 'var(--text-secondary)' }}>Please sign in to view your user dashboard and audit history.</p>
       </div>
     );

@@ -246,8 +246,8 @@ function EvaluatorPage() {
   return (
     <>
       <SEO
-        title="Rate My UX | AI-Powered UX Evaluation & Design Auditing Tool"
-        description="Rate My UX is an AI-powered UX evaluation platform that audits your website, app, or Figma prototype using advanced Vision AI. Get 11-dimension usability scores, Jakob Nielsen heuristic checks, 10 Laws of UX & Color Psychology audits, WCAG accessibility reports, and prioritized design roadmaps instantly."
+        title="Rate My UX — Evaluate UX with Neural Precision &amp; AI Audit"
+        description="Evaluate any website, app, or Figma prototype with Vision AI. Score 11 UX dimensions, 10 Laws of UX, Nielsen heuristics, Color Psychology &amp; WCAG 2.2."
         canonicalPath="/"
         schema={HOME_SCHEMA}
       />
@@ -496,9 +496,44 @@ function EvaluatorPage() {
         </section>
       )}
 
-      {/* ─── HOME AEO / FAQ SECTION (Matches HOME_SCHEMA cleanly) ─── */}
+      {/* ─── HOME OVERVIEW & AEO FAQ SECTION (Matches HOME_SCHEMA cleanly) ─── */}
       {!hasResults && !loading && (
-        <section className="container" style={{ maxWidth: '860px', margin: '0 auto 4rem', padding: '0 1rem' }}>
+        <section className="container" style={{ maxWidth: '960px', margin: '0 auto 4rem', padding: '0 1rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', marginBottom: '0.5rem' }}>
+              What Our <span className="text-gradient">Vision AI</span> Evaluates
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '640px', margin: '0 auto' }}>
+              Every live website URL, Figma prototype, and uploaded design screen is audited across usability engineering, cognitive psychology, and visual trust.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '3.5rem' }}>
+            <div className="glass-panel" style={{ padding: '1.5rem', borderRadius: 'var(--radius-md)' }}>
+              <h3 style={{ fontSize: '1.05rem', marginBottom: '0.5rem', color: 'var(--accent-cyan)' }}>
+                11 Usability Dimensions &amp; Heuristics
+              </h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Inspects First Impression, UI Spacing, Interaction Flow, Copywriting Clarity, Mobile Thumb-Zone Ergonomics, Conversion Rate Optimization (CRO), and all 10 Jakob Nielsen Usability Heuristics.
+              </p>
+            </div>
+            <div className="glass-panel" style={{ padding: '1.5rem', borderRadius: 'var(--radius-md)' }}>
+              <h3 style={{ fontSize: '1.05rem', marginBottom: '0.5rem', color: 'var(--accent-violet)' }}>
+                10 Laws of UX &amp; Color Psychology
+              </h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Evaluates Hick’s Law, Fitts’s Law, Jakob’s Law, Miller’s Law, Law of Proximity, Peak-End Rule, and Von Restorff Effect alongside Color Psychology mood and CTA contrast alignment.
+              </p>
+            </div>
+            <div className="glass-panel" style={{ padding: '1.5rem', borderRadius: 'var(--radius-md)' }}>
+              <h3 style={{ fontSize: '1.05rem', marginBottom: '0.5rem', color: 'var(--accent-magenta)' }}>
+                WCAG 2.2 &amp; Executive PDF Roadmaps
+              </h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Checks color contrast, touch target sizing, and visual hierarchy, then compiles a prioritized effort-vs-impact roadmap into a shareable PDF report. Need help fixing issues? Visit <a href="https://devdesigns.net" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none', fontWeight: 600 }}>DevDesigns.net</a>.
+              </p>
+            </div>
+          </div>
+
           <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
             <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', marginBottom: '0.5rem' }}>
               Frequently Asked <span className="text-gradient">Questions</span>

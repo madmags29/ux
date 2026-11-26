@@ -53,8 +53,8 @@ export default function AboutPage() {
   return (
     <div>
       <SEO
-        title="About Rate My UX | Neural AI Vision Methodology &amp; UX Standards"
-        description="Learn how Rate My UX uses neural Vision AI models, Nielsen's 10 Usability Heuristics, 10 Laws of UX, and WCAG 2.2 accessibility standards to deliver automated UX evaluations."
+        title="About Rate My UX | Built for Designers &amp; Product Teams"
+        description="Learn how Rate My UX combines Vision AI, Nielsen's 10 Heuristics, 10 Laws of UX, Color Psychology, and WCAG 2.2 to audit web apps and Figma prototypes."
         canonicalPath="/about"
         keywords="About Rate My UX, AI UX Methodology, Nielsen Heuristic Audit, Laws of UX Audit, WCAG 2.2 Accessibility Check, AI Design Critique Framework, Usability Standards"
         schema={ABOUT_SCHEMA}
